@@ -1,0 +1,99 @@
+.globalContainer{
+  width: 100%;
+  position: relative;
+  background-size: cover;
+  overflow-y: auto; 
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  
+  .seccion-paquete .header,
+  .resumen-pago .header {
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .contenido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px; /* o el alto que necesites */
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    width: 90px;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .info{
+    padding-top: 10px;
+  }
+  
+  .info h6 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .detalle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+  
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  
+    small {
+      font-weight: normal;
+      font-size: 0.75rem;
+      color: gray;
+      display: block;
+    }
+  }
+  
+  .terminos {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 1rem;
+  
+    a {
+      color: #5A3FF1;
+      text-decoration: underline;
+    }
+  }
+  
+  .btn-crear {
+    background-color: #5A3FF1;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }

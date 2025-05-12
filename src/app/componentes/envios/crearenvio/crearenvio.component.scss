@@ -1,0 +1,32 @@
+.globalContainer{
+    background-color: rgb(220, 220, 220);
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-size: cover;
+    overflow-y: auto; 
+  }
+
+  .envios-container {
+    display: flex;
+    gap: 5%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 11%;
+  }
+  
+  .envios-container > app-cotizarenvio {
+    flex: 0 0 20%;
+  }
+  
+  .envios-container > app-seleccionenvio {
+    flex: 0 0 50%;
+  }
+  
+  .envios-container > app-detallesenvio {
+    flex: 0 0 20%;
+  }
+
+  .envios-container > app-confirmacion-envio {
+    flex: 0 0 100%;
+  }

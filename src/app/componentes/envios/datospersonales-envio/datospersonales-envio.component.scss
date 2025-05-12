@@ -1,0 +1,30 @@
+.globalContainer{
+  width: 100%;
+  position: relative;
+  background-size: cover;
+  overflow-y: auto; 
+}
+
+.card {
+  min-height: 550px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+}
+  .form-control {
+  background-color: #e5e5e5;
+  border: none;
+}
+  .section-title {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.btn{
+  background-color: #002a80;
+  color: white;
+  width: 150px;
+}
+
+.btn:hover{
+  background-color: #0039ab;
+}

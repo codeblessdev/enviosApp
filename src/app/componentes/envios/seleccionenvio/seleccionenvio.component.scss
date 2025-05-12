@@ -1,0 +1,79 @@
+.servicios-card table {
+  width: 100%;
+  table-layout: fixed;   
+  border-collapse: separate;
+  border-spacing: 0 8px;
+
+}
+
+.servicios-card thead {
+  display: block;
+  /* Reserva manualmente el espacio del scrollbar */
+  padding-right: 17px;
+}
+
+.servicios-card tbody {
+  display: block;
+}
+
+.servicios-card thead tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.servicios-card tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  background: #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.servicios-card tbody {
+  max-height: 505px;
+  overflow-y: auto;
+}
+
+
+.servicios-card {
+  flex: 1;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,1.1);
+}
+th, td {
+  text-align: center;
+  padding: 8px;
+}
+thead tr th {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+.servicios-card tbody tr.selected {
+  background: #d0e8ff;
+}
+.paqueteria-cell {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  width: 300px;  
+  align-items: center;
+  padding-left: 8%;
+}
+.logo {
+  flex: 0 0 80px; 
+  width: 80px;
+  height: 80px;
+}
+
+.info {
+  flex: 1 1 120px;           
+  width: 120px;             
+  overflow: hidden;          
+  text-overflow: ellipsis;   
+  white-space: nowrap;        
+  text-align: left;
+}

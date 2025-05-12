@@ -1,0 +1,26 @@
+<div class = "globalContainer">
+
+    <div class="envios-container">
+
+      <ng-container *ngIf="pasoActual === 1">
+
+        <app-cotizarenvio (cotizar)="onCotizarRecibido($event)" ></app-cotizarenvio>
+        <app-seleccionenvio [cotizacion]="cotizacionData" (servicioSeleccionado)="onSelectEnvio($event)"></app-seleccionenvio>
+        <app-detallesenvio [envio]="selectedEnvio" (crearEnvio)="onCrearEnvio()"></app-detallesenvio>
+
+      </ng-container>
+
+      <ng-container *ngIf="pasoActual === 3">
+        <app-datospersonales-envio (datosCompletados)="unificarDatos($event)"></app-datospersonales-envio>
+      </ng-container>
+
+      <ng-container *ngIf="pasoActual === 2">
+        <app-confirmacion-envio [envio]="selectedEnvio" (pagoEnvio)="onPagoEnvio($event)"></app-confirmacion-envio>
+      </ng-container>
+
+
+      </div>
+
+</div>
+
+

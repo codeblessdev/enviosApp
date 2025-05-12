@@ -1,0 +1,195 @@
+<div class="globalContainer">
+
+    <div class="" style="padding: 0 30px 0px 30px;">
+
+      <form [formGroup]="formulario" (ngSubmit)="enviarDatos()">
+
+
+          <div class="row justify-content-center">
+            <!-- Remitente -->
+            <div class="col-lg-5 mb-46" style="margin-right: 3.5rem;">
+              <div formGroupName="remitente" class="card p-4 h-100">
+                <h5>Remitente</h5>
+
+                <div style="display: grid; gap: 15px;">
+
+                  <div class="section-title">Datos personales</div>
+                  <div class="row g-2 mb-3">
+                    <div class="col-6"> 
+                      <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre Completo">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.nombre')?.touched && formulario.get('remitente.nombre')?.invalid">
+                        El nombre es requerido.
+                      </div>
+                    </div>
+                    <div class="col-6"><input type="text" class="form-control" formControlName="telefono" placeholder="Teléfono">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.telefono')?.touched && formulario.get('remitente.telefono')?.invalid">
+                        El telefono es requerido.
+                      </div>
+                    </div>
+                    <div class="col-6"><input type="text" class="form-control" formControlName="correo" placeholder="Correo Electrónico">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.correo')?.touched && formulario.get('remitente.correo')?.invalid">
+                        El correo es requerido.
+                      </div></div>
+                    <div class="col-6"><input type="text" class="form-control" formControlName="empresa" placeholder="Empresa">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.empresa')?.touched && formulario.get('remitente.empresa')?.invalid">
+                        La empresa es requerida.
+                      </div></div>
+                    <div class="col-6"><input type="text" class="form-control" formControlName="rfc" placeholder="RFC"></div>
+                    
+                  </div>
+        
+                  <div class="section-title">Dirección</div>
+                  <div class="row g-2 mb-3">
+                    <div class="col-6"><input type="text" class="form-control" formControlName="pais" placeholder="Pais">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.pais')?.touched && formulario.get('remitente.pais')?.invalid">
+                        El pais es requerido.
+                      </div>
+                    </div>
+                    <div class="col-6"><input type="text" class="form-control" formControlName="codigoPostal" placeholder="Codigo Postal">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.codigoPostal')?.touched && formulario.get('remitente.codigoPostal')?.invalid">
+                        El codigoPostal es requerido.
+                      </div>
+                    </div>
+                    <div class="col-4"><input type="text" class="form-control" formControlName="ciudad" placeholder="Ciudad">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.ciudad')?.touched && formulario.get('remitente.ciudad')?.invalid">
+                        La ciudad es requerida.
+                      </div>
+                    </div>
+                    <div class="col-4"><input type="text" class="form-control" formControlName="colonia" placeholder="Colonia">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.colonia')?.touched && formulario.get('remitente.colonia')?.invalid">
+                        La colonia es requerida.
+                      </div>
+                    </div>
+                    <div class="col-4"><input type="text" class="form-control" formControlName="estado" placeholder="Estado">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.estado')?.touched && formulario.get('remitente.estado')?.invalid">
+                        El estado es requerido.
+                      </div>
+                    </div>
+                    <div class="col-8"><input type="text" class="form-control" formControlName="direccion1" placeholder="Dirección 1 (calle)">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.direccion1')?.touched && formulario.get('remitente.direccion1')?.invalid">
+                        El campo es requerido.
+                      </div>
+                    </div>
+                    <div class="col-4"><input type="text" class="form-control" formControlName="numero" placeholder="Num. Ext">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.numero')?.touched && formulario.get('remitente.numero')?.invalid">
+                        El campo es requerido.
+                      </div>
+                    </div>
+                    <div class="col-12"><input type="text" class="form-control" formControlName="direccion2" placeholder="Dirección 2 (entre calles y referencias)">
+                      <div class="text-danger" *ngIf="formulario.get('remitente.direccion2')?.touched && formulario.get('remitente.direccion2')?.invalid">
+                        El campo es requerido.
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="guardarRemitente" formControlName="guardar">
+                    <label class="form-check-label" for="guardarRemitente">
+                      Guardar remitente
+                    </label>
+                  </div>
+
+
+                </div>
+
+              </div>
+            </div>
+      
+            <!-- Destinatario -->
+            <div class="col-lg-5 mb-46" style="margin-left: 3.5rem;">
+              <div formGroupName="destinatario" class="card p-4 h-100">
+                <h5>Destinatario</h5>
+
+                  <div style="display: grid; gap: 15px;">
+            
+                      <div class="section-title">Datos personales</div>
+                      <div class="row g-2 mb-3">
+                        <div class="col-6"> 
+                          <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre Completo">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.nombre')?.touched && formulario.get('destinatario.nombre')?.invalid">
+                            El nombre es requerido.
+                          </div>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" formControlName="telefono" placeholder="Teléfono">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.telefono')?.touched && formulario.get('destinatario.telefono')?.invalid">
+                            El telefono es requerido.
+                          </div>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" formControlName="correo" placeholder="Correo Electrónico">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.correo')?.touched && formulario.get('destinatario.correo')?.invalid">
+                            El correo es requerido.
+                          </div></div>
+                        <div class="col-6"><input type="text" class="form-control" formControlName="empresa" placeholder="Empresa">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.empresa')?.touched && formulario.get('destinatario.empresa')?.invalid">
+                            La empresa es requerida.
+                          </div></div>
+                        <div class="col-6"><input type="text" class="form-control" formControlName="rfc" placeholder="RFC"></div>
+                          
+                      </div>
+              
+                      <div class="section-title">Dirección</div>
+                      <div class="row g-2 mb-3">
+                        <div class="col-6"><input type="text" class="form-control" formControlName="pais" placeholder="Pais">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.pais')?.touched && formulario.get('destinatario.pais')?.invalid">
+                            El pais es requerido.
+                          </div>
+                        </div>
+                        <div class="col-6"><input type="text" class="form-control" formControlName="codigoPostal" placeholder="Codigo Postal">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.codigoPostal')?.touched && formulario.get('destinatario.codigoPostal')?.invalid">
+                            El codigoPostal es requerido.
+                          </div>
+                        </div>
+                        <div class="col-4"><input type="text" class="form-control" formControlName="ciudad" placeholder="Ciudad">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.ciudad')?.touched && formulario.get('destinatario.ciudad')?.invalid">
+                            La ciudad es requerida.
+                          </div>
+                        </div>
+                        <div class="col-4"><input type="text" class="form-control" formControlName="colonia" placeholder="Colonia">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.colonia')?.touched && formulario.get('destinatario.colonia')?.invalid">
+                            La colonia es requerida.
+                          </div>
+                        </div>
+                        <div class="col-4"><input type="text" class="form-control" formControlName="estado" placeholder="Estado">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.estado')?.touched && formulario.get('destinatario.estado')?.invalid">
+                            El estado es requerido.
+                          </div>
+                        </div>
+                        <div class="col-8"><input type="text" class="form-control" formControlName="direccion1" placeholder="Dirección 1 (calle)">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.direccion1')?.touched && formulario.get('destinatario.direccion1')?.invalid">
+                            El campo es requerido.
+                          </div>
+                        </div>
+                        <div class="col-4"><input type="text" class="form-control" formControlName="numero" placeholder="Num. Ext">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.numero')?.touched && formulario.get('destinatario.numero')?.invalid">
+                            El campo es requerido.
+                          </div>
+                        </div>
+                        <div class="col-12"><input type="text" class="form-control" formControlName="direccion2" placeholder="Dirección 2 (entre calles y referencias)">
+                          <div class="text-danger" *ngIf="formulario.get('destinatario.direccion2')?.touched && formulario.get('destinatario.direccion2')?.invalid">
+                            El campo es requerido.
+                          </div>
+                        </div>
+                      </div>
+              
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="guardarDestinatario" formControlName="guardar">
+                          <label class="form-check-label" for="guardarDestinatario">
+                          Guardar destinatario
+                          </label>
+                      </div>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center" style="padding-top: 3%;"> 
+            <button type="submit" class="btn btn-cta">Siguiente</button>
+          </div>
+
+        </form>
+      </div>
+
+</div>
+
+

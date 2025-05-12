@@ -1,0 +1,103 @@
+<div class="card cotizar-card">
+  <h3>Cotizar envío</h3>
+  <form (ngSubmit)="onCotizar()" style="gap: 40px; display: grid;">
+    
+    <div>
+      <label class="field-label">Origen</label>
+      <div class="input-segment">
+        <div class="custom-select">
+          <div
+            class="selected"
+            [class.open]="showMenuOrigen"
+            (click)="showMenuOrigen = !showMenuOrigen"
+          >
+            <img
+              [src]="getFlag(paisOrigen.name)"
+              alt="Bandera {{ paisOrigen }}"
+              class="flag-icon"
+            />
+            <span class="arrow"></span>
+          </div>
+        
+          <div class="options" *ngIf="showMenuOrigen">
+            <div
+              class="option"
+              *ngFor="let c of countries"
+              (click)="seleccionarPaisOrigen(c)"
+            >
+              <img [src]="c.flag" class="flag-icon" />
+              {{ c.name }}
+            </div>
+          </div>
+        </div>
+        <input type="text" class="segment-right" [(ngModel)]="cpOrigen" name="cpOrigen" placeholder="Ciudad / CP"/>
+      </div>
+    </div>
+
+    <div>
+      <label class="field-label">Destino</label>
+      <div class="input-segment">
+        <div class="custom-select">
+          <div
+            class="selected"
+            [class.open]="showMenuDestino"
+            (click)="showMenuDestino = !showMenuDestino"
+          >
+            <img
+              [src]="getFlag(paisDestino.name)"
+              alt="Bandera {{ paisOrigen }}"
+              class="flag-icon"
+            />
+            <span class="arrow"></span>
+          </div>
+        
+          <div class="options" *ngIf="showMenuDestino">
+            <div
+              class="option"
+              *ngFor="let c of countries"
+              (click)="seleccionarPaisDestino(c)"
+            >
+              <img [src]="c.flag" class="flag-icon" />
+              {{ c.name }}
+            </div>
+          </div>
+        </div>
+
+        <input type="text" class="segment-right" [(ngModel)]="cpDestino" name="cpDestino" placeholder="Ciudad / CP"/>
+      </div>
+    </div>
+
+
+    <div>
+      <label class="field-label">Tipo de empaque</label>
+      <input type="text" class="full-input" [(ngModel)]="tipoEmpaque" name="tipoEmpaque" placeholder="Ej: Caja, Sobre"/>
+    </div>
+
+
+    <div>
+
+      <div class="dimensiones">
+        <div class="dim-box"><input type="number" [(ngModel)]="largo" name="largo" placeholder="Largo"/></div>
+        <div class="dim-box"><input type="number" [(ngModel)]="ancho" name="ancho" placeholder="Ancho"/></div>
+        <div class="dim-box"><input type="number" [(ngModel)]="alto" name="alto" placeholder="Alto"/></div>
+        <div class="dim-box"><input type="number" [(ngModel)]="pesoReal" name="pesoReal" placeholder="Peso"/></div>
+      </div>
+
+      <div>
+
+        <div class="peso-volumetrico">
+          <strong>Peso volumétrico:</strong>
+          {{ pesoVolumetrico | number:'1.2-2' }} kg
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+ 
+    <button type="submit" class="btn-cotizar">Cotizar</button>
+  </form>
+</div>

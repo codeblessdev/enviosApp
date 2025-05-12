@@ -1,0 +1,49 @@
+<div class = "globalContainer">
+
+    <div class="card-container">
+
+        <!-- Selección de paquetería -->
+        <div class="card seccion-paquete">
+          <div class="header">
+            <span>📦 Selección de paquetería</span>
+          </div>
+      
+          <div class="contenido">
+            <img [src]="envio?.servicio?.logo" alt="Logo" class="logo" />
+            <div class="info">
+              <h6>{{ envio?.servicio?.name }}</h6>
+              <p>Entrega estimada: {{ envio?.servicio?.entrega }}</p>
+            </div>
+            <div class="precio">
+              <strong>${{ envio?.servicio?.precio }}</strong>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Resumen de pago -->
+        <div class="card resumen-pago">
+          <div class="header">💳 Resumen de pago</div>
+      
+          <div class="detalle">
+            <span>Envío</span>
+            <span>${{ envio?.servicio?.precio }}</span>
+          </div>
+      
+          <div class="total">
+            <strong>Total a pagar:</strong>
+            <strong>${{ envio?.servicio?.precio }} MXN</strong>
+            <small>Incluye IVA</small>
+          </div>
+      
+          <div class="terminos">
+            Al crear el envío confirmo que conozco y acepto los
+            <a href="#">términos</a> y <a href="#">políticas</a>.
+          </div>
+      
+          <button class="btn-crear" (click)="confirmarEnvio()">Pagar Envio</button>
+        </div>
+    
+    </div>
+
+</div>
+

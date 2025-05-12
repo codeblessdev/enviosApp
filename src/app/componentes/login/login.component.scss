@@ -1,0 +1,49 @@
+.globalcontainer{
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-size: cover;
+    overflow-y: auto; 
+}
+.left-side {
+    background: linear-gradient(
+      to bottom,
+      #c14751 0%,
+      #ffffff 100%,
+    );
+
+    position: relative;
+    overflow: hidden;
+    max-height: 100vh;
+  }
+  
+  .hero-img {
+    max-width: 40%;
+    margin-left: -5%;
+  }
+
+  .right-side {
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    max-height: 100vh;
+  }
+  
+  .login-card {
+    border-radius: 0.5rem;
+    padding-top: 6%;
+  }
+  
+  .form-control-lg {
+    padding: 1rem;
+    background-color: #cfcfcf;
+  }
+  
+  .btn-primary {
+    background-color: #002a80;
+    width: 50%;
+  }
+  .btn-primary:hover {
+    background-color: #013aab;
+  }
+

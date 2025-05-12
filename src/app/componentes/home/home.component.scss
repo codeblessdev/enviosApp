@@ -1,0 +1,50 @@
+.globalcontainer{
+    background: linear-gradient(
+        135deg,
+        #c14751 0%,
+        #ffffff 50%,
+        #d47849 100%
+      );
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-size: cover;
+    overflow-y: auto; 
+
+  }
+
+  .container{
+    padding-top: 8%;
+  }
+
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 200;
+    margin-bottom: 2rem;
+    max-width: 480px;
+  }
+
+  .hero-title, .hero-subtitle{
+    color: #002a80;
+  }
+
+  .hero-img-wrapper {
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  .hero-img {
+    width: 500px;
+  }
+
+  .btn{
+    background-color: #002a80;
+    color: white;
+    width: 150px;
+  }

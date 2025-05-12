@@ -1,0 +1,181 @@
+.cotizar-card {
+  width: 100%;
+  padding: 25px 50px 16px 50px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,1.1);
+
+  h3 {
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+ 
+  .input-segment {
+    display: flex;
+    border: 1px solid #a1c4fd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: border-color .2s;
+    overflow: visible;
+
+    &:focus-within {        
+      border-color: #4facfe;
+    }
+
+    input {
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      background: #f0f0f0;
+    }
+
+    .segment-left {
+      width: 23%;
+      padding: 8px;
+      background: #e0e0e0;
+    }
+
+    .segment-right {
+      flex: 1;
+      padding: 8px;
+      background: transparent;
+    }
+  }
+
+
+  .full-input {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    border: 1px solid #a1c4fd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color .2s;
+
+    &:focus {
+      border-color: #4facfe;
+    }
+  }
+
+
+  .dimensiones {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+
+    .dim-box {
+      flex: 1;
+      input {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .flag-icon {
+    width: 24px;
+    height: 16px;
+    object-fit: cover;
+    margin-right: 8px;
+  }
+
+  .custom-select {
+    width: 70px;          
+    position: relative;
+  
+    .selected {
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      border: 2px solid #7277ff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: width .2s;
+      height: 100%;
+  
+      .flag-icon {
+        width: 20px;
+        height: auto;
+        margin-right: 4px;
+      }
+      .selected-text {
+        flex: 1;
+        margin-right: 4px;
+      }
+      .arrow {
+        margin-left: auto;
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        padding: 4px;
+        transform: rotate(45deg);
+        transition: transform .2s;
+      }
+      &.open .arrow {
+        transform: rotate(-135deg);
+      }
+    }
+  
+    .options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 200%;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      max-height: 254px;
+      overflow-y: auto;
+      z-index: 10;
+      margin-top: 4px;
+  
+      .option {
+        display: flex;
+        align-items: center;
+        padding: 6px;
+        cursor: pointer;
+        &:hover { background: #f0f0f0; }
+  
+        .flag-icon {
+          width: 20px;
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+
+  .btn-cotizar {
+    width: 100%;
+    padding: 10px 0;
+    background: #0b0a61;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .2s;
+
+    &:hover {
+      background: #03024c;
+    }
+  }
+
+  .peso-volumetrico {
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+    color: #333;
+    strong { color: #0b0a61; }
+  }
+}
