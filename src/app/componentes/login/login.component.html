@@ -5,32 +5,50 @@
        
         <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center left-side">
     
-                <div class="mb-4" style="padding-top: 10%;">
-                    <img src="assets/logo.png" alt="Enkr Go" width="500">
-                </div>
-            
-                <img src="assets/delivery-man2.png" alt="Mensajero" class="img-fluid hero-img">
+            <div class="logo mb-4" style="padding-top: 10%;">
+                <img src="assets/logo.png" alt="Enkr Go" width="500">
+            </div>
+        
+            <img src="assets/delivery-man2.png" alt="Mensajero" class="img-fluid hero-img">
         </div>
     
        
         <div class="col-12 col-md-6 d-flex align-items-center justify-content-center right-side">
             <div class="login-card w-100" style="max-width: 700px;">
             <h2 class="text-center" style="margin-bottom: 2.5rem;">Inicia sesión</h2>
-            <form>
+            <form [formGroup]="loginForm" (ngSubmit)="Login()">
                 <div class="mb-3">
-                <input type="email" [(ngModel)] = "userMail" name = "userMail" class="form-control form-control-lg" placeholder="Email">
+                    <input
+                    type="email"
+                    class="form-control form-control-lg"
+                    formControlName="email"
+                    placeholder="Email"
+                    />
+                    <div class="text-danger small mt-1" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+                    <span *ngIf="loginForm.get('email')?.errors?.['required']">El email es obligatorio.</span>
+                    <span *ngIf="loginForm.get('email')?.errors?.['email']">Debe ser un email válido.</span>
+                    </div>
                 </div>
+
                 <div class="mb-2">
-                <input type="password" [(ngModel)] = "userPass" name = "userPass" class="form-control form-control-lg" placeholder="Contraseña">
+                    <input
+                    type="password"
+                    class="form-control form-control-lg"
+                    formControlName="password"
+                    placeholder="Contraseña"
+                    />
+                    <div class="text-danger small mt-1" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                    <span>La contraseña es obligatoria.</span>
+                    </div>
                 </div>
+
                 <div class="text-end mb-4">
-                <a href="#" class="small">Olvidé mi contraseña</a>
+                    <a href="#" class="small">Olvidé mi contraseña</a>
                 </div>
 
-                <div class = "w-100 d-flex justify-content-center">
-                    <button type="submit" (click)="Login()" class="btn btn-primary btn-lg ">Inicia sesión</button>
+                <div class="w-100 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Inicia sesión</button>
                 </div>
-
             </form>
             <p class="text-center mt-3 small">
                 ¿No tenés cuenta? <a href="/register">Registrate</a>

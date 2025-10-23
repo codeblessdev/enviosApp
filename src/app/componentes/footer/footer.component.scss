@@ -1,0 +1,42 @@
+.footer-bar {
+    width: 100%;
+    background-image:
+        linear-gradient(#fff, #fff),
+        linear-gradient(to right, #1a5e77, #8ed1f2);
+    color: #ecf0f1;
+    padding: 1rem 2rem;
+    border-top: 1px solid #34495e;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.links {
+    cursor: pointer;
+}
+
+.links a {
+    margin-right: 1.5rem;
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: black;
+}
+
+.links a:last-child {
+    margin-right: 0;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.legal {
+    font-size: 0.8rem;
+    color: black;
+}

@@ -1,6 +1,6 @@
 <div class="card cotizar-card">
   <h3>Cotizar envío</h3>
-  <form (ngSubmit)="onCotizar()" style="gap: 40px; display: grid;">
+  <form (ngSubmit)="onCotizar()" style="gap: 22px; display: grid;">
     
     <div>
       <label class="field-label">Origen</label>
@@ -70,9 +70,79 @@
 
     <div>
       <label class="field-label">Tipo de empaque</label>
-      <input type="text" class="full-input" [(ngModel)]="tipoEmpaque" name="tipoEmpaque" placeholder="Ej: Caja, Sobre"/>
+      <div class="empaque-search-container">
+        <input 
+          type="text" 
+          class="full-input" 
+          [(ngModel)]="tipoEmpaque" 
+          name="tipoEmpaque" 
+          placeholder="Buscar empaque por código o descripción..."
+          (input)="buscarEmpaques()"
+          (focus)="showMenuEmpaque = true"
+        />
+        <div class="search-icon" *ngIf="buscandoEmpaques">⟳</div>
+        <button 
+          type="button" 
+          class="clear-btn" 
+          *ngIf="empaqueSeleccionado" 
+          (click)="limpiarEmpaque()"
+        >
+          ✕
+        </button>
+        
+        <div class="empaque-options" *ngIf="showMenuEmpaque && empaques.length > 0">
+          <div
+            class="empaque-option"
+            *ngFor="let empaque of empaques"
+            (click)="seleccionarEmpaque(empaque)"
+          >
+            <span class="empaque-completo">{{ empaque.codigo }} - {{ empaque.descripcion }}</span>
+          </div>
+        </div>
+        
+        <div class="no-results" *ngIf="showMenuEmpaque && empaques.length === 0 && !buscandoEmpaques && tipoEmpaque.length >= 2">
+          No se encontraron empaques
+        </div>
+      </div>
     </div>
 
+    <div>
+      <label class="field-label">Tipo de producto</label>
+      <div class="producto-search-container">
+        <input 
+          type="text" 
+          class="full-input" 
+          [(ngModel)]="tipoProducto" 
+          name="tipoProducto" 
+          placeholder="Buscar producto por código o descripción..."
+          (input)="buscarProductos()"
+          (focus)="showMenuProducto = true"
+        />
+        <div class="search-icon" *ngIf="buscandoProductos">⟳</div>
+        <button 
+          type="button" 
+          class="clear-btn" 
+          *ngIf="productoSeleccionado" 
+          (click)="limpiarProducto()"
+        >
+          ✕
+        </button>
+        
+        <div class="producto-options" *ngIf="showMenuProducto && productos.length > 0">
+          <div
+            class="producto-option"
+            *ngFor="let producto of productos"
+            (click)="seleccionarProducto(producto)"
+          >
+            <span class="producto-completo">{{ producto.descripcion }}</span>
+          </div>
+        </div>
+        
+        <div class="no-results" *ngIf="showMenuProducto && productos.length === 0 && !buscandoProductos && tipoProducto.length >= 2">
+          No se encontraron productos
+        </div>
+      </div>
+    </div>
 
     <div>
 

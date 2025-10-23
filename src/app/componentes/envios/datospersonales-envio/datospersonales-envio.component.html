@@ -7,9 +7,32 @@
 
           <div class="row justify-content-center">
             <!-- Remitente -->
-            <div class="col-lg-5 mb-46" style="margin-right: 3.5rem;">
+            <div class="remitente col-lg-5 mb-46" style="margin-right: 3.5rem;">
               <div formGroupName="remitente" class="card p-4 h-100">
-                <h5>Remitente</h5>
+
+                <div class="row g-2 mb-3">
+                  <div class="col-5">
+                    <h5>Remitente</h5>
+                  </div>
+
+                 
+                  <div class="col-3 d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="limpiarRemitente()" title="Limpiar campos">
+                      Limpiar Campos
+                    </button>
+                  </div>
+
+                  
+                  <div class="col-4">
+                    <select class="form-select" (change)="cargarRemitenteGuardado($event)">
+                      <option value="">-- Seleccioná un remitente --</option>
+                      <option *ngFor="let r of remitentesGuardados" [value]="r.id">{{ r.nombre }} - {{ r.empresa }}</option>
+                    </select>
+                  </div>
+                </div>
+
+
+               
 
                 <div style="display: grid; gap: 15px;">
 
@@ -82,7 +105,7 @@
                     </div>
                   </div>
         
-                  <div class="form-check">
+                  <div class="form-check" *ngIf="mostrarGuardarRemitente">
                     <input class="form-check-input" type="checkbox" id="guardarRemitente" formControlName="guardar">
                     <label class="form-check-label" for="guardarRemitente">
                       Guardar remitente
@@ -96,9 +119,29 @@
             </div>
       
             <!-- Destinatario -->
-            <div class="col-lg-5 mb-46" style="margin-left: 3.5rem;">
+            <div class="destinatario col-lg-5 mb-46" style="margin-left: 3.5rem;">
               <div formGroupName="destinatario" class="card p-4 h-100">
-                <h5>Destinatario</h5>
+
+                <div class="row g-2 mb-3">
+
+                  <div class="col-5">
+                    <h5>Destinatario</h5>
+                  </div>
+
+                 
+                  <div class="col-3 d-flex align-items-center">
+                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="limpiarDestinatario()" title="Limpiar campos">
+                      Limpiar Campos
+                    </button>
+                  </div>
+
+                  <div class="col-4">
+                    <select class="form-select" (change)="cargarDestinatarioGuardado($event)">
+                      <option value="">-- Seleccioná un destinatario --</option>
+                      <option *ngFor="let d of destinatariosGuardados" [value]="d.id">{{ d.nombre }} - {{ d.empresa }}</option>
+                    </select>
+                  </div>
+                </div>
 
                   <div style="display: grid; gap: 15px;">
             
@@ -171,7 +214,7 @@
                         </div>
                       </div>
               
-                      <div class="form-check">
+                      <div class="form-check" *ngIf="mostrarGuardarDestinatario">
                           <input class="form-check-input" type="checkbox" id="guardarDestinatario" formControlName="guardar">
                           <label class="form-check-label" for="guardarDestinatario">
                           Guardar destinatario
@@ -183,7 +226,7 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-center" style="padding-top: 3%;"> 
+          <div class="d-flex justify-content-center" style="padding-top: 3%; padding-bottom: 1%;"> 
             <button type="submit" class="btn btn-cta">Siguiente</button>
           </div>
 

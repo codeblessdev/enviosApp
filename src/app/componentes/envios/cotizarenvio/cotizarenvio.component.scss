@@ -178,4 +178,156 @@
     color: #333;
     strong { color: #0b0a61; }
   }
+
+  // Estilos para el campo de búsqueda de empaques
+  .empaque-search-container {
+    position: relative;
+    width: 100%;
+  }
+
+  // Estilos para el campo de búsqueda de productos
+  .producto-search-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 8px;
+    top: 13%;
+    transform: translateY(-50%);
+    color: #666;
+    animation: spin 1s linear infinite;
+    font-size: 16px;
+    pointer-events: none;
+  }
+
+  .clear-btn {
+    position: absolute;
+    right: 8px;
+    top: 36%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  .empaque-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #a1c4fd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .empaque-option {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .empaque-completo {
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.4;
+    }
+  }
+
+  .producto-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #a1c4fd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .producto-option {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .producto-completo {
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.4;
+    }
+  }
+
+  .codigo {
+    font-weight: 600;
+    color: #0b0a61;
+    font-size: 14px;
+  }
+
+  .descripcion {
+    color: #666;
+    font-size: 13px;
+  }
+
+  .no-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #a1c4fd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 12px;
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    z-index: 1000;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 }

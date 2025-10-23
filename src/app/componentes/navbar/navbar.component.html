@@ -3,9 +3,15 @@
 
 <div class="container-fluid">
 
-    <img class = "ms-2" src="assets/logo.png" width="250" height="70">
+    <img class = "ms-2" src="assets/logo.png" width="250" height="70" aria-current="page" (click)="home()" style="cursor: pointer;"> 
+
+    <button class="btn-hamburguesa" (click)="abrirModal()"  aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   
-    <ul class="nav">
+    <ul class="nav desktop-menu">
 
         <div 
         *ngIf="user$ | async as currentUser"
@@ -26,8 +32,7 @@
       
           <button
           class="btn btn-sm"
-          data-bs-toggle="modal"
-          data-bs-target="#depositoModal"
+          (click)="abrirModalDeposito()"
           style="background-color: transparent;"
         >
           +
@@ -38,14 +43,36 @@
 
 
         <li class="nav-item" style="text-align: center;">
-        <a class="nav-link active text-black" aria-current="page" href="#">Inicio</a>
+        <a class="nav-link active text-black" aria-current="page" style="cursor: pointer;" (click)="home()" >Inicio</a>
         </li>
 
-        <li class="nav-item">
-        <a class="nav-link text-black" href="/envios">Envios</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-black" href="/rastreo">Rastreo</a>
+        <li class="nav-item position-relative" (click)="toggleCardEnvios()">
+          <a
+            class="nav-link active text-black"
+            style="cursor: pointer;"
+          >
+            Envíos
+            <span class="flecha"></span>
+          </a>
+
+          <div *ngIf="mostrarCardEnvios" class="envios-card position-absolute start-0">
+            <div class="card">
+              <div class="card-body p-0">
+                <a class="btn btn-link w-100 text-start d-flex align-items-center" (click)="navigateTo('/envios')" style="gap: 10px;">
+                  <img src="assets/icono-envios.png" alt="icono envios" style="width: 24px; height: 24px; margin-right: 8px;">
+                  Crear envío
+                </a>
+                <!-- <a class="btn btn-link w-100 text-start d-flex align-items-center" (click)="navigateTo('/seguimiento')" style="gap: 10px;">
+                  <img src="assets/icono-seguimiento.png" alt="icono seguimiento" style="width: 24px; height: 24px; margin-right: 8px;">
+                  Seguimiento
+                </a> -->
+                <a class="btn btn-link w-100 text-start d-flex align-items-center" (click)="navigateTo('/misenvios')" style="gap: 10px;">
+                  <img src="assets/icono-misenvios.png" alt="icono mis envios" style="width: 24px; height: 24px; margin-right: 8px;">
+                  Mis envíos
+                </a>
+              </div>
+            </div>
+          </div>
         </li>
 
         <ng-container *ngIf="user$ | async as currentUser; else mostrarLogin">
@@ -65,10 +92,17 @@
               
                 
                 <div *ngIf="mostrarCard" class="perfil-card position-absolute start-0">
+
                   <div class="card">
+
+
                     <div class="card-body">
                       <button class="btn btn-danger w-100 mb-2" (click)="logOut()">Cerrar Sesión</button>
                     </div>
+
+                    <!-- <div class="card-body">
+                      <button class="btn btn-success w-100 mb-2" (click)="verMovimientos()">Ver Movimientos</button>
+                    </div> -->
                   </div>
                 </div>
               </li>
@@ -86,86 +120,142 @@
 </div>
 </nav>
 
-  <div class="modal fade" id="depositoModal" tabindex="-1"
-      aria-labelledby="depositoModalLabel" aria-hidden="true" style="padding-top: 5%;">
-      <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-          
-          <div class="modal-header d-grid" style="gap: 10px;">
+  <div class="modal-menu" *ngIf="modalAbierto">
+    <div class="modal-backdrop" (click)="cerrarModal()"></div>
+    <div class="modal-content">
 
-            <div class = "d-flex align-items-center">
+      <button class="close-btn" (click)="cerrarModal()">&times;</button>
 
-              <h5 class="modal-title" id="depositoModalLabel">
-                Agregar créditos
-                </h5>
+      
+      <div class="seccion-envios">
+        <h6 class="titulo-seccion">ENVÍOS</h6>
+        <div class="grid-envios">
+          <a routerLink="/envios" class="link-envio">
+            <img src="assets/icono-envios.png" alt="icono envios" />
+            Crear envío
+          </a>
+          <a routerLink="/seguimiento" class="link-envio">
+            <img src="assets/icono-seguimiento.png" alt="icono seguimiento" style="width: 24px; height: 24px; margin-right: 8px;">
+            Seguimiento
+          </a>
+          <a routerLink="/misenvios" class="link-envio">
+            <img src="assets/icono-misenvios.png" alt="icono mis envios" style="width: 24px; height: 24px; margin-right: 8px;">
+            Mis envíos
+          </a>
+        </div>
+      </div>
 
-                <button type="button" class="btn-close"
-                data-bs-dismiss="modal" aria-label="Close">
-              </button>
+      <hr class="linea-divisoria" />
+
+      <div class="seccion-perfil-billetera">
+        <ng-container *ngIf="user$ | async as currentUser; else mostrarLogin">
+
+          <a class="perfil-link" routerLink="perfil" (click)="toggleCardPerfil()">
+            <img src="assets/perfil.png" alt="foto-perfil" />
+          </a>
+
+          <div *ngIf="mostrarCardPerfil" class="overlay"></div>
+
+          <div *ngIf="mostrarCardPerfil" class="perfil-card position-absolute start-0">
+
+            <div class="card">
+
+              <div class="card-body">
+                <button class="close-btn" style="top: 0;" (click)="toggleCardPerfil()">&times;</button>
+              </div>
+
               
-            </div>
 
+              <div class="card-body" style="height: 50px;">
+                <button class="btn btn-danger w-100 mb-2" (click)="logOut()">Cerrar Sesión</button>
+              </div>
 
-              <p>Elige el metodo de pago deseado, define el monto y ágregalo a tu cuenta. </p>
-
-          </div>
-          
-          <div class="modal-body">
-            
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4 justify-content-center" style="padding: 5%;">
-              <div class="col d-flex justify-content-center" *ngFor="let m of metodos">
-                <div
-                  class="d-flex align-items-center justify-content-center p-3 rounded"
-                  [ngClass]="{
-                    'border-primary': seleccionado?.id === m.id,
-                    'border': true,
-                    'bg-white': seleccionado?.id !== m.id,
-                    'bg-light': seleccionado?.id === m.id
-                  }"
-                  style="cursor: pointer; width: 80%; min-height: 100%;"
-                  (click)="elegir(m)"
-                >
-                <img [src]="m.img" [alt]="m.label" style="width: 100%;"/>
-                </div>
+              <div class="card-body">
+                <button class="btn btn-success w-100 mb-2" (click)="verMovimientos()">Ver Movimientos</button>
               </div>
             </div>
+          </div>
 
-            <hr />
-          
-        
-            <div *ngIf="seleccionado">
-          
-              <ng-container *ngIf="seleccionado.id === 'spei'; else otroMetodo">
-                <div class="row">
-                  <div class="col text-start">
-                    <p class="mb-1">Monto mínimo: 500.00 MXN</p>
-                  </div>
-                  <div class="col text-end">
-                    <p class="mb-1">Banco: STP</p>
-                    <p class="mb-1">CLABE: 000000000000000000</p>
-                    <p class="mb-1">Razón Social: –</p>
-                    <p class="mb-0">RFC: 000000000000</p>
-                  </div>
+          <div class="billetera">
+            <img src="assets/billetera.png" alt="billetera" />
+            <span>${{ saldo | number:'1.2-2' }} MXN</span>
+            <button class="btn-agregar" (click)="abrirModalDeposito()">+</button>
+          </div>
+
+        </ng-container>
+
+        <ng-template #mostrarLogin>
+          <a href="/login" class="login-link">Iniciar sesión</a>
+        </ng-template>
+      </div>
+
+    </div>
+  </div>
+  <div *ngIf="mostrarModalDeposito" class="modal-backdrop-custom" style="padding-top: 5%; z-index: 3000;">
+    <div class="modal-dialog modal-xl custom-modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header d-grid" style="gap: 10px;">
+                <div class="d-flex align-items-center">
+                    <h5 class="modal-title" id="depositoModalLabel">Agregar créditos</h5>
+                    <button type="button" class="btn-close" (click)="cerrarModalDeposito()"></button>
+                </div>
+                <p>Elige el metodo de pago deseado, define el monto y ágregalo a tu cuenta.</p>
+            </div>
+            <div class="modal-body">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4 justify-content-center" style="padding: 5%;">
+                    <div class="col d-flex justify-content-center" *ngFor="let m of metodos">
+                        <div
+                          class="d-flex align-items-center justify-content-center p-3 rounded"
+                          [ngClass]="{
+                            'border-primary': seleccionado?.id === m.id,
+                            'border': true,
+                            'bg-white': seleccionado?.id !== m.id,
+                            'bg-light': seleccionado?.id === m.id
+                          }"
+                          style="cursor: pointer; width: 80%; min-height: 100%;"
+                          (click)="elegir(m)"
+                        >
+                            <img [src]="m.img" [alt]="m.label" style="width: 100%"/>
+                        </div>
+                    </div>
                 </div>
 
-              </ng-container>
-          
-              <!-- Para cualquier otro método -->
-              <ng-template #otroMetodo>
-                <button
-                  class="btn btn-outline-primary w-100"
-                  (click)="confirmarDeposito()"
-                  data-bs-dismiss="modal"
-                >
-                  Cargar {{ seleccionado.label }}
-                </button>
-              </ng-template>
+                <hr />
+
+                <div *ngIf="seleccionado">
+                    <ng-container *ngIf="seleccionado.id === 'spei'; else otroMetodo">
+                        <div class="row">
+                            <div class="col text-start">
+                                <p class="mb-1">Monto mínimo: 500.00 MXN</p>
+                            </div>
+                            <div class="col text-end">
+                                <p class="mb-1">Banco: STP</p>
+                                <p class="mb-1">CLABE: 000000000000000000</p>
+                                <p class="mb-1">Razón Social: –</p>
+                                <p class="mb-0">RFC: 000000000000</p>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #otroMetodo>
+                      <div class="mb-3">
+                        <label for="montoInput" class="form-label">Monto a cargar</label>
+                        <input type="number" class="form-control" id="montoInput" [(ngModel)]="montoElegido" min="1" required />
+                          <div *ngIf="errorMonto" class="alert alert-danger mt-2 p-2" role="alert">
+                            Ingresá un monto mayor a 0.
+                          </div>
+                      </div>
+
+                      <button class="btn btn-outline-primary w-100" (click)="confirmarDeposito()">
+                          Cargar {{ seleccionado.label }}
+                      </button>
+                    </ng-template>
+                </div>
             </div>
-          </div>
-      
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
+</div>
+
 
 
 

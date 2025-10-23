@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Estilos personalizados para ngx-toastr */
+.toast-container {
+  .toast {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
+    
+    &.toast-success {
+      background-color: #10b981;
+      color: white;
+    }
+    
+    &.toast-error {
+      background-color: #ef4444;
+      color: white;
+    }
+    
+    &.toast-warning {
+      background-color: #f59e0b;
+      color: white;
+    }
+    
+    &.toast-info {
+      background-color: #3b82f6;
+      color: white;
+    }
+  }
+  
+  .toast-title {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .toast-message {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  
+  .toast-progress {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}

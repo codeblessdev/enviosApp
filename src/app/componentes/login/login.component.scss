@@ -47,3 +47,42 @@
     background-color: #013aab;
   }
 
+
+  @media (max-width: 765px){
+
+    .logo{
+      padding-top: 20% !important;
+    }
+
+  }
+
+  @media (max-width: 570px){
+
+    .logo{
+      padding-top: 25% !important;
+    }
+
+  }
+
+  @media (max-width: 470px){
+
+    .logo{
+      padding-top: 30% !important;
+    }
+
+  }
+
+  @media (max-width: 490px){
+
+    .logo{
+      padding-top: 40% !important;
+
+      img{
+        width: 400px;
+      }
+    }
+
+
+  }
+
+

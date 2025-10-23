@@ -1,32 +1,35 @@
 <div class="card servicios-card">
-    <h3>Selección de servicio de paquetería</h3>
-    <table>
-      <thead>
+  <h3>Selección de servicio de paquetería</h3>
+  
+  <!-- Tabla de servicios -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
         <tr>
           <th>Paquetería</th>
           <th>Envío de paquetes</th>
           <th>Entrega estimada</th>
           <th>Precio</th>
+          <th>Origen</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let s of displayServices" 
-        (click)="selectService(s)"
-        [class.selected]="selectedService === s">
+            (click)="selectService(s)"
+            [class.selected]="selectedService === s">
           <td class="paqueteria-cell">
             <img [src]="s.logo" alt="{{s.name}}" class="logo" />
-            <div class="info" style="min-width: 85px; text-align: left;">
+            <div class="info">
               <strong>{{ s.name }}</strong><br />
               <small>{{ s.provider_service_name }}</small>
             </div>
           </td>
-    
-          <td>{{ s.tipoRecoleccion }}</td>
-       
-          <td>{{ s.days }} dias</td>
-         
+          <td> Llevar a sucursal </td>
+          <td>{{ s.days }} días</td>
           <td>{{ s.precio | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td> {{ s.origen }} </td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>

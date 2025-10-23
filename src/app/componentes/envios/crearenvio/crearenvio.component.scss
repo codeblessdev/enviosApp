@@ -13,6 +13,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding-top: 11%;
+    flex-wrap: wrap;
   }
   
   .envios-container > app-cotizarenvio {
@@ -30,3 +31,88 @@
   .envios-container > app-confirmacion-envio {
     flex: 0 0 100%;
   }
+
+  @media (max-width: 1810px) and (min-width: 1500px){
+
+    .envios-container > app-cotizarenvio {
+      flex: 0 0 15%; 
+    }
+
+    .envios-container > app-seleccionenvio {
+      flex: 0 0 45%; 
+    }
+
+    .envios-container > app-detallesenvio {
+      flex: 0 0 20%; 
+    }
+
+  }
+
+  @media (max-width: 1500px) {
+
+    .envios-container {
+      flex-wrap: wrap;
+      gap: 34px;
+      padding-top: 18%;
+      flex-direction: row;
+    }
+
+    .envios-container > app-cotizarenvio {
+      flex: 0 0 20%; 
+    }
+
+    .envios-container > app-seleccionenvio {
+      flex: 0 0 60%; 
+    }
+
+    .envios-container > app-detallesenvio {
+      flex: 0 0 100%; 
+    }
+  }
+
+  @media (max-width: 1100px) {
+  .envios-container {
+    flex-direction: column;
+    padding-top: 20%;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .envios-container > app-cotizarenvio {
+    flex: 0 0 100%; 
+  }
+
+  .envios-container > app-seleccionenvio,
+  .envios-container > app-detallesenvio {
+    flex: 0 0 100%; 
+    width: 100%;
+  }
+
+  .envios-container > * {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 700px){
+
+  .envios-container {
+    padding-top: 30%;
+    gap: 15px;
+  }
+
+  .envios-container > app-cotizarenvio,
+  .envios-container > app-seleccionenvio,
+  .envios-container > app-detallesenvio {
+    flex: 0 0 100%; 
+  }
+
+}
+
+@media (max-width: 480px){
+
+  .envios-container {
+    padding-top: 45%;
+    gap: 10px;  
+  }
+
+}

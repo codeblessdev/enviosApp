@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +12,29 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private router: Router){}
+  user$!: Observable<any | null>;
+  isLogged: boolean = false;
+
+  constructor(private router: Router,  private auth: AuthService){
+    this.user$ = this.auth.getUserObservable();
+
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        this.isLogged = true;
+      }
+
+    });
+  }
 
   prueba(){
-    this.router.navigate(['/login']);
+
+    if(!this.isLogged){
+      this.router.navigate(['/login']);
+    }
+    else{
+      this.router.navigate(['/envios']);
+    }
+    
   }
 
 }

@@ -28,3 +28,14 @@
 .btn:hover{
   background-color: #0039ab;
 }
+
+  @media (max-width: 992px) {
+  .remitente {
+    margin-right: 0 !important;
+  }
+
+  .destinatario{
+    margin-left: 0 !important;
+  }
+}
+

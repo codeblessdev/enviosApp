@@ -1,0 +1,98 @@
+<div class="movimientos-container">
+
+  <!-- IZQUIERDA: Movimientos -->
+  <section class="movimientos-lista">
+
+    <h2>Movimientos</h2>
+
+    <form class="filtros" (ngSubmit)="buscarMovimientos()">
+        <label>
+            Tipo de movimiento
+            <select [(ngModel)]="filtroTipo" name="filtroTipo" (change)="buscarMovimientos()">
+            <option value="">Todos</option>
+            <option value="cargaSaldo">Carga de saldo</option>
+            <option value="gastoEnvio">Gasto de envío</option>
+            <option value="gastoSeguro">Gasto por seguro</option>
+            </select>
+        </label>
+
+        <label>
+            Desde:
+            <input type="date" [(ngModel)]="fechaDesde" name="fechaDesde" required />
+        </label>
+        <label>
+            Hasta:
+            <input type="date" [(ngModel)]="fechaHasta" name="fechaHasta" required />
+        </label>
+
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div class="acciones-superiores">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="todosSeleccionados()"
+          [disabled]="tabSeleccionada !== 'porFacturar'"
+          (change)="toggleSeleccionTodosDesdeEvento($event)"
+        />
+        Seleccionar todos
+      </label>
+      <button (click)="exportarPDF()" [disabled]="!haySeleccion() || tabSeleccionada !== 'porFacturar'">
+        Descargar PDF
+      </button>
+    </div>
+
+    <div class="lista-movimientos" *ngIf="movimientosFiltrados.length > 0; else sinResultados">
+
+      <div class="movimiento" *ngFor="let m of movimientosFiltrados">
+        <label>
+          <input
+            type="checkbox"
+            [(ngModel)]="m.seleccionado"
+            name="sel{{m.id}}"
+          />
+          <span class="descripcion">{{ m.descripcion }}</span>
+          <span class="fecha">{{ m.fecha | date:'dd/MM/yyyy' }}</span>
+          <span class="monto">${{ m.monto | number:'1.2-2' }}</span>
+        </label>
+      </div>
+
+    </div>
+
+    <ng-template #sinResultados>
+      <div class="sin-resultados">
+        <div class="icono">?</div>
+        <p><strong>Sin resultados</strong></p>
+        <p>Puedes buscar por rango de fecha o balance.</p>
+      </div>
+    </ng-template>
+
+  </section>
+
+  <!-- DERECHA: Sidebar resumen, acciones y últimos movimientos -->
+  <aside class="movimientos-sidebar">
+
+    <div class="resumen-financiero">
+      <h3>Resumen Financiero</h3>
+      <p><strong>Ingresos Totales:</strong> ${{ saldoActual | number:'1.2-2' }}</p>
+      <p><strong>Egresos Totales:</strong> ${{ totalFacturado | number:'1.2-2' }}</p>
+    </div>
+
+    <div class="acciones-rapidas">
+      <button (click)="exportarPDF()">Exportar PDF</button>
+    </div>
+
+    <div class="ultimos-movimientos">
+      <h4>Últimos movimientos</h4>
+      <ul>
+        <li *ngFor="let u of ultimosMovimientos">
+          {{ u.descripcion }} - ${{ u.monto | number:'1.2-2' }} - {{ u.fecha | date:'dd/MM/yyyy' }}
+        </li>
+        <li *ngIf="ultimosMovimientos.length === 0">No hay movimientos recientes.</li>
+      </ul>
+    </div>
+
+  </aside>
+
+</div>

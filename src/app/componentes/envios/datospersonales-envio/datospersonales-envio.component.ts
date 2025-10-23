@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { EnviosService } from '../../../services/envios.service';
 
 @Component({
   selector: 'app-datospersonales-envio',
@@ -14,7 +15,24 @@ export class DatospersonalesEnvioComponent {
   @Output() datosCompletados = new EventEmitter<{ remitente: any, destinatario: any }>();
   formulario!: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  remitentesGuardados: any[] = [];
+  destinatariosGuardados: any[] = [];
+  
+  // Variables para controlar la visibilidad de los checkboxes
+  mostrarGuardarRemitente = true;
+  mostrarGuardarDestinatario = true;
+
+  async ngOnInit(): Promise<void> {
+    await this.cargarRemitentes();
+    await this.cargarDestinatarios();
+
+    console.log('remitentesGuardados', this.remitentesGuardados)
+    console.log('destinatariosGuardados', this.destinatariosGuardados)
+  }
+
+
+
+  constructor(private fb: FormBuilder, private enviosService: EnviosService) {
     this.formulario = this.fb.group({
       remitente: this.fb.group({
         nombre: ['', Validators.required],
@@ -29,13 +47,13 @@ export class DatospersonalesEnvioComponent {
         estado: ['', Validators.required],
         direccion1: ['', Validators.required],
         numero: ['', Validators.required],
-        direccion2: ['', Validators.required],
+        direccion2: [''],
         guardar: [false]
       }),
       destinatario: this.fb.group({
         nombre: ['', Validators.required],
         telefono: ['', Validators.required],
-        correo: ['',[Validators.required, Validators.email]],
+        correo: ['', [Validators.required, Validators.email]],
         empresa: ['', Validators.required],
         rfc: [''],
         pais: ['', Validators.required],
@@ -45,18 +63,109 @@ export class DatospersonalesEnvioComponent {
         estado: ['', Validators.required],
         direccion1: ['', Validators.required],
         numero: ['', Validators.required],
-        direccion2: ['', Validators.required],
+        direccion2: [''],
         guardar: [false]
       })
     });
   }
 
+
+
   enviarDatos() {
+    if (this.formulario.invalid) {
+      this.formulario.markAllAsTouched();
+      return;
+    }
+
     const datos = this.formulario.value;
     this.datosCompletados.emit({
       remitente: datos.remitente,
       destinatario: datos.destinatario
     });
+
+    if (datos.remitente.guardar) {
+      this.enviosService.crearRemitente(datos.remitente).subscribe({
+        next: () => console.log('Remitente guardado correctamente.'),
+        error: err => console.error('Error al guardar remitente:', err)
+      });
+    }
+
+    // Guardar destinatario si se marcó el checkbox
+    if (datos.destinatario.guardar) {
+      this.enviosService.crearDestinatario(datos.destinatario).subscribe({
+        next: () => console.log('Destinatario guardado correctamente.'),
+        error: err => console.error('Error al guardar destinatario:', err)
+      });
+    }
+  }
+
+  async cargarRemitentes() {
+    this.enviosService.traerRemitentes().subscribe({
+      next: (res: any) => {
+        console.log('Respuesta remitentes:', res);
+        // La respuesta ya es un array directamente, no tiene .data
+        this.remitentesGuardados = Array.isArray(res) ? res : (res.data || []);
+        console.log('Remitentes cargados:', this.remitentesGuardados);
+      },
+      error: (err) => console.error('Error al cargar remitentes:', err)
+    });
+  }
+
+  async cargarDestinatarios() {
+    this.enviosService.traerDestinatarios().subscribe({
+      next: (res: any) => {
+        console.log('Respuesta destinatarios:', res);
+        // La respuesta ya es un array directamente, no tiene .data
+        this.destinatariosGuardados = Array.isArray(res) ? res : (res.data || []);
+        console.log('Destinatarios cargados:', this.destinatariosGuardados);
+      },
+      error: (err) => console.error('Error al cargar destinatarios:', err)
+    });
+  }
+
+
+  cargarRemitenteGuardado(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const id = selectElement.value;
+
+    const seleccionado = this.remitentesGuardados.find(r => r.id === id);
+    if (seleccionado) {
+      // Cargar los datos del remitente
+      this.formulario.get('remitente')?.patchValue(seleccionado);
+      // Ocultar el checkbox de guardar ya que es un remitente existente
+      this.mostrarGuardarRemitente = false;
+      this.formulario.get('remitente.guardar')?.setValue(false);
+    } else {
+      // Si no se selecciona nada, mostrar el checkbox
+      this.mostrarGuardarRemitente = true;
+    }
+  }
+
+  cargarDestinatarioGuardado(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const id = selectElement.value;
+
+    const seleccionado = this.destinatariosGuardados.find(d => d.id === id);
+    if (seleccionado) {
+      // Cargar los datos del destinatario
+      this.formulario.get('destinatario')?.patchValue(seleccionado);
+      // Ocultar el checkbox de guardar ya que es un destinatario existente
+      this.mostrarGuardarDestinatario = false;
+      this.formulario.get('destinatario.guardar')?.setValue(false);
+    } else {
+      // Si no se selecciona nada, mostrar el checkbox
+      this.mostrarGuardarDestinatario = true;
+    }
+  }
+
+  limpiarRemitente() {
+    this.formulario.get('remitente')?.reset();
+    this.mostrarGuardarRemitente = true;
+  }
+
+  limpiarDestinatario() {
+    this.formulario.get('destinatario')?.reset();
+    this.mostrarGuardarDestinatario = true;
   }
 
 }

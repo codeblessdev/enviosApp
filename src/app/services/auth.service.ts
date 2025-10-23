@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class AuthService {
   userSubject: BehaviorSubject<any | null>;
   public user$: Observable<any | null>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     
     const data = sessionStorage.getItem(this.storageKey);
     const parsedData = data ? JSON.parse(data) : null;
@@ -117,6 +118,7 @@ export class AuthService {
   public logOut(): void {
     sessionStorage.removeItem(this.storageKey);
     this.userSubject.next(null);
+    sessionStorage.clear();
     localStorage.clear();
   }
 
@@ -125,4 +127,16 @@ export class AuthService {
     sessionStorage.setItem(this.storageKey, JSON.stringify(userData));
     this.userSubject.next(userData);
   }
+
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+    return !!token && token.length > 10; // podés ajustar esto según el formato real del token
+  }
+
+  logoutAndRedirect(): void {
+    this.logOut(); // Limpia sessionStorage, localStorage y el subject
+    this.router.navigate(['/login']);
+  }
+
+
 }

@@ -9,10 +9,10 @@
             alt="{{envio?.servicio?.name}}"
             class="logo" />
         <div class="texto">
-          <p><strong>Paqueteria:</strong> {{ envio?.servicio?.name }} - {{ envio?.servicio?.scope }}</p>
+          <p><strong>Paqueteria:</strong> {{ envio?.servicio?.name }} - {{ envio?.servicio?.provider_service_name }}</p>
         </div>
-        <p><strong>Recolección:</strong> {{ envio?.servicio?.tipoRecoleccion }}</p>
-        <p><strong>Entrega estimada:</strong> {{ envio?.servicio?.entrega }}</p>
+        <p><strong>Recolección:</strong> Llevar a sucursal </p>
+        <p><strong>Entrega estimada:</strong> {{ envio?.servicio?.days }} dias</p>
         <p><strong>Precio:</strong>
           {{ envio?.servicio?.precio | currency:'USD':'symbol':'1.2-2' }}
         </p>
@@ -43,7 +43,7 @@
         </p>
       </div>
 
-      <div class="d-flex justify-content-center" style="padding-top: 18%;"> 
+      <div class="d-flex justify-content-center" style="padding-top: 13%;"> 
         <button class="btn btn-cta" (click)="crearEnvio.emit()">Crear Envio</button>
       </div>
     </div>

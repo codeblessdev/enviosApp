@@ -1,0 +1,250 @@
+.movimientos-container {
+  display: flex;
+  gap: 24px;
+  padding: 1rem 6rem 1rem 6rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background: #f8f9fb;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-top: 10%;
+}
+
+.movimientos-lista {
+  flex: 0 0 65%;
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.1);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.movimientos-lista h2 {
+  margin: 0 0 1rem 0;
+  font-weight: 700;
+  color: #5a4def;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.tabs button {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #a0aec0;
+  cursor: pointer;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.tabs button.active {
+  color: #5a4def;
+  border-color: #5a4def;
+}
+
+.filtros {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  align-items: flex-end;
+}
+
+.filtros-fecha {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: flex-end;
+}
+
+.filtros label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.filtros-fecha input[type="date"] {
+  margin-top: 0.3rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #cbd5e0;
+  font-size: 1rem;
+  width: 130px;
+  box-sizing: border-box;
+}
+
+.filtros button {
+  padding: 8px 18px;
+  border: 1.5px solid #5a4def;
+  border-radius: 6px;
+  background: transparent;
+  color: #5a4def;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.filtros-fecha button:hover {
+  background-color: #5a4def;
+  color: white;
+}
+
+.filtros select,
+.filtros input[type="date"] {
+  margin-top: 0.3rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #cbd5e0;
+  font-size: 1rem;
+  min-width: 140px;
+  box-sizing: border-box;
+}
+
+.acciones-superiores {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.acciones-superiores label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.acciones-superiores button {
+  background-color: #5a4def;
+  border: none;
+  padding: 7px 16px;
+  color: white;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.acciones-superiores button:disabled {
+  background-color: #c3c7d6;
+  cursor: not-allowed;
+}
+
+.lista-movimientos {
+  flex-grow: 1;
+  overflow-y: auto;
+  border-top: 1px solid #cbd5e0;
+  border-bottom: 1px solid #cbd5e0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.movimiento {
+  padding: 8px 0;
+  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  align-items: center;
+}
+
+.movimiento label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.movimiento .descripcion {
+  flex-grow: 1;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.movimiento .fecha,
+.movimiento .monto {
+  min-width: 100px;
+  text-align: right;
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.sin-resultados {
+  flex-grow: 1;
+  text-align: center;
+  color: #a0aec0;
+  margin-top: 3rem;
+}
+
+.sin-resultados .icono {
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #cbd5e0;
+}
+
+.movimientos-sidebar {
+  flex: 0 0 35%;
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  color: #333;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.movimientos-sidebar h3,
+.movimientos-sidebar h4 {
+  margin: 0 0 0.6rem 0;
+  font-weight: 700;
+  color: #5a4def;
+}
+
+.resumen-financiero p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.acciones-rapidas button {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 0.7rem;
+  background-color: #5a4def;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.acciones-rapidas button:hover {
+  background-color: #3f37d7;
+}
+
+.ultimos-movimientos ul {
+  padding-left: 1.2rem;
+  margin: 0;
+  list-style-type: disc;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.ultimos-movimientos li {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}

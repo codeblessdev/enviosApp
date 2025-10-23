@@ -1,0 +1,109 @@
+<div class="globalContainer">
+    <div class="seguimientoGlobal">
+        <div class="card seguimiento-card">
+            <!-- Header con degradado -->
+            <div class="seguimiento-header">
+                <h2><i class="fas fa-truck"></i> Seguimiento de envíos</h2>
+            </div>
+            
+            <!-- Cuerpo de la tarjeta -->
+            <div class="seguimiento-body">
+                <div class="seguimiento-search">
+                    <div class="input-group">
+                        <label for="trackingNumber">Número de seguimiento</label>
+                        <input type="text" id="trackingNumber" class="tracking-input" 
+                               placeholder="Número de seguimiento" 
+                               [(ngModel)]="numeroEnvio"/>
+                    </div>
+                    
+                    <button class="btn-consultar" (click)="consultar()" [disabled]="loading">
+                        <i class="fas" [class.fa-search]="!loading" [class.fa-spinner]="loading" [class.fa-spin]="loading"></i> 
+                        {{ loading ? 'Consultando...' : 'Consultar estado' }}
+                    </button>
+                </div>
+
+                <!-- Resultados -->          
+                <div class="servicio-info" *ngIf="servicioInfo">
+                    <p><strong>Número de guía:</strong> {{ servicioInfo.numeroGuia }} | 
+                       <strong>Código de rastreo:</strong> {{ servicioInfo.codigoRastreo }} | 
+                       <strong>Servicio:</strong> {{ servicioInfo.servicio }} | 
+                       <strong>Fecha programada de entrega:</strong> {{ servicioInfo.fechaEntrega }}</p>
+                    
+                    <!-- URL de seguimiento para Skydropx -->
+                    <div class="seguimiento-url" *ngIf="servicioInfo.urlSeguimiento">
+                        <a [href]="servicioInfo.urlSeguimiento" target="_blank" class="btn-seguimiento-externo">
+                            <i class="fas fa-external-link-alt"></i> Ver seguimiento en {{ proveedor?.toUpperCase() }}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Barra de estados - Versión mejorada -->
+                <div class="estado-progreso" *ngIf="servicioInfo">
+                    <div class="estados-container">
+                        <div *ngFor="let estado of estados; let last = last; let i = index" 
+                            class="estado-item"
+                            [class.completed]="estado.completado"
+                            [class.current]="estado.actual"
+                            [class.pending]="!estado.completado && !estado.actual">
+                            
+                            <div class="estado-icono">
+                                <i class="fas" 
+                                [class.fa-check-circle]="estado.completado && !estado.actual"
+                                [class.fa-spinner]="estado.actual"
+                                [class.fa-circle]="!estado.completado && !estado.actual"></i>
+                            </div>
+                            
+                            <div class="estado-info">
+                                <div class="estado-nombre">{{ estado.nombre }}</div>
+                                <div class="estado-detalle" *ngIf="estado.fecha">
+                                    <div class="estado-fecha">{{ estado.fecha }}</div>
+                                    <div class="estado-planta">{{ estado.planta }}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="estado-conector" *ngIf="!last"
+                                [class.completed]="estado.completado"
+                                [class.pending]="!estado.completado"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resultados -->
+                <!-- <div class="seguimiento-resultados" *ngIf="movimientos.length">
+                    <div class="resultado-header">
+                        <h3><i class="fas fa-history"></i> Historial de seguimiento</h3>
+                        <span class="pieza-id">#{{ piezaId }}</span>
+                    </div>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item" *ngFor="let m of movimientos">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">{{ m.fecha | date:'dd/MM/yyyy HH:mm' }}</div>
+                                <div class="timeline-title">{{ m.estado }}</div>
+                                <div class="timeline-desc">{{ m.planta }} - {{ m.historia }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="resultado-footer">
+                        <div class="movimientos-count">
+                            <i class="fas fa-list-ol"></i> Movimientos: <strong>{{ movimientos.length }}</strong>
+                        </div>
+                        <button class="btn-imprimir" (click)="imprimir()">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
+                    </div>
+                </div> -->
+
+                <!-- Mensaje cuando no se encuentra el envío -->
+                <div class="envio-no-encontrado" *ngIf="envioNoEncontrado">
+                    <p><i class="fas fa-exclamation-triangle"></i> No se encontró un envío con el código de seguimiento proporcionado.</p>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

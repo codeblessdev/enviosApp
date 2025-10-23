@@ -35,7 +35,7 @@
   }
 
   .hero-img-wrapper {
-    overflow: hidden;
+    overflow:visible;
     height: 100%;
   }
   
@@ -48,3 +48,32 @@
     color: white;
     width: 150px;
   }
+
+  @media (min-width: 1200px) {
+  .hero-img-wrapper {
+    transform: translateX(-60px); 
+  }
+
+  .col-md-8 {
+    margin-top: 8% !important; 
+  }
+}
+
+@media (max-width: 765px){
+
+  .container{
+    padding-top: 20%;
+  }
+
+}
+
+
+
+@media (max-width: 500px){
+
+  .container{
+    padding-top: 25%;
+  }
+
+
+}

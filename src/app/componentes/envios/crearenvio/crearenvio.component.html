@@ -1,20 +1,27 @@
 <div class = "globalContainer">
 
+    <!-- Loading Component -->
+    <app-loading 
+      [show]="isLoading" 
+      [message]="loadingMessage" 
+      size="medium">
+    </app-loading>
+
     <div class="envios-container">
 
       <ng-container *ngIf="pasoActual === 1">
 
-        <app-cotizarenvio (cotizar)="onCotizarRecibido($event)" ></app-cotizarenvio>
-        <app-seleccionenvio [cotizacion]="cotizacionData" (servicioSeleccionado)="onSelectEnvio($event)"></app-seleccionenvio>
-        <app-detallesenvio [envio]="selectedEnvio" (crearEnvio)="onCrearEnvio()"></app-detallesenvio>
+        <app-cotizarenvio (cotizar)="onCotizarRecibido($event)" (loadingChange)="onLoadingChange($event)" id="cotizarenvio" ></app-cotizarenvio>
+        <app-seleccionenvio [cotizacion]="cotizacionData" (servicioSeleccionado)="onSelectEnvio($event)" id="seleccionenvio"></app-seleccionenvio>
+        <app-detallesenvio [envio]="selectedEnvio" (crearEnvio)="onCrearEnvio()" id="detallesenvio"></app-detallesenvio>
 
-      </ng-container>
-
-      <ng-container *ngIf="pasoActual === 3">
-        <app-datospersonales-envio (datosCompletados)="unificarDatos($event)"></app-datospersonales-envio>
       </ng-container>
 
       <ng-container *ngIf="pasoActual === 2">
+        <app-datospersonales-envio (datosCompletados)="unificarDatos($event)"></app-datospersonales-envio>
+      </ng-container>
+
+      <ng-container *ngIf="pasoActual === 3">
         <app-confirmacion-envio [envio]="selectedEnvio" (pagoEnvio)="onPagoEnvio($event)"></app-confirmacion-envio>
       </ng-container>
 

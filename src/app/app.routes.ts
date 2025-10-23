@@ -28,9 +28,33 @@ export const routes: Routes = [
         loadComponent: () => import('./componentes/envios/confirmacion-envio/confirmacion-envio.component').then((m) => m.ConfirmacionEnvioComponent),
     },
     {
+        path: 'seguimiento',
+        loadComponent: () => import('./componentes/envios/seguimiento-envio/seguimiento-envio.component').then((m) => m.SeguimientoEnvioComponent),
+    },
+    {
+        path: 'misenvios',
+        loadComponent: () => import('./componentes/envios/misenvios/misenvios.component').then((m) => m.MisenviosComponent),
+    },
+    // {
+    //     path: 'movimientos',
+    //     loadComponent: () => import('./componentes/movimientos/movimientos.component').then((m) => m.MovimientosComponent),
+    // },
+    {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
+    },
+    {
+        path: 'mercadopago',
+        loadComponent: () => import('./componentes/mercagopago/mercagopago.component').then((m) => m.MercagopagoComponent),
+    },
+    {
+        path: 'terminos',
+        loadComponent: () => import('./componentes/terminos/terminos.component').then((m) => m.TerminosComponent),
+    },
+    {
+        path: 'privacidad',
+        loadComponent: () => import('./componentes/privacidad/privacidad.component').then((m) => m.PrivacidadComponent),
     },
 
 ];

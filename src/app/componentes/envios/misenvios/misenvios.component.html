@@ -1,0 +1,206 @@
+<div class="globalContainer">
+
+    <div class="panel-izquierda">
+
+        <div>
+
+            <h3>Filtros avanzados</h3>
+
+            <label for="filtroOrden">Nro de orden</label>
+            <input id="filtroOrden" type="text" placeholder="Buscar por nro de orden" [(ngModel)]="filtroOrden" />
+
+            <label for="filtroDestino" class="mt-3">Destino</label>
+            <input id="filtroDestino" type="text" placeholder="Buscar por destino" [(ngModel)]="filtroDestino" />
+
+            <label for="filtroEstado" class="mt-3">Estado</label>
+            <select id="filtroEstado" [(ngModel)]="filtroEstado">
+            <option value="">Todos</option>
+            <option *ngFor="let estado of getEstadosUnicos()" [value]="estado">
+                {{ traducirEstado(estado) }}
+            </option>
+            </select>
+
+            <button class="btn-filtrar" (click)="aplicarFiltros()">Aplicar filtros</button>
+
+        </div>
+
+    </div>
+
+    <div class="misenvios">
+
+        <h1>MIS ENVIOS</h1>
+        <hr />
+
+        <div class="filtros">
+        <label>
+            Desde
+            <input type="date" [(ngModel)]="fromDate" />
+        </label>
+        <label>
+            Hasta
+            <input type="date" [(ngModel)]="toDate" />
+        </label>
+        <button (click)="applyFilter()">Filtrar</button>
+        </div>
+
+        <hr />
+
+        <!-- Indicador de carga -->
+        <div *ngIf="loading" class="loading-container">
+            <p>Cargando envíos...</p>
+        </div>
+
+        <div class="tabla-scroll" *ngIf="!loading">
+
+            <table class="tabla-envios">
+                <thead>
+                    <tr>
+                    <th>Integración</th>
+                    <th>Fecha</th>
+                    <th>Seguimiento</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Provincia</th>
+                    <th>Dirección</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mensaje cuando no hay envíos -->
+                    <tr *ngIf="enviosFiltrados.length === 0" class="no-envios-row">
+                        <td colspan="9" class="no-envios-cell">
+                            <div class="no-envios-content">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No hay envíos disponibles</h3>
+                                <p>No se encontraron envíos que coincidan con los filtros aplicados.</p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Envíos existentes -->
+                    <ng-container *ngFor="let e of enviosFiltrados">
+                    <tr>
+                        <td>{{ e.proveedor }}</td>
+                        <td>{{ e.fechaEnvio | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td class="seguimiento">
+                        {{ e.trackingCode }}
+                        <button class="copy-btn" title="Ver seguimiento" (click)="irASeguimiento(e)">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                        </td>
+                        <td>{{ e.origenSucursal || e.remitenteCiudad }}</td>
+                        <td>{{ e.destinatarioCiudad }}</td>
+                        <td>{{ e.destinatarioEstado }}</td>
+                        <td>{{ e.destinatarioCalle }} {{ e.destinatarioNumero }}</td>
+                        <td>{{ traducirEstado(e.estado) }}</td>
+                        <td class="acciones-cell">
+                            <div class="acciones-buttons">
+                                <button 
+                                    (click)="toggleExpand(e)" 
+                                    class="btn-accion btn-ver" 
+                                    title="Ver detalles">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button 
+                                    (click)="confirmarCancelacion(e)" 
+                                    class="btn-accion btn-cancelar" 
+                                    title="Cancelar envío"
+                                    [disabled]="!puedeCancelar(e)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="expandedId === e.id" class="detalle-expandido">
+                        <td colspan="9">
+                        <div class="detalle-grid">
+                            <div><strong>CP Origen:</strong> {{ e.destinatarioCodigoPostal }}</div>
+                            <div><strong>CP Destino:</strong> {{ e.remitenteCodigoPostal }}</div>
+                            <div><strong>Costo:</strong> ${{ e.costo }}</div>
+                            <div><strong>Destinatario:</strong> {{ e.destinatarioNombre }}</div>
+                        </div>
+                        </td>
+                    </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Controles de paginación -->
+        <div class="pagination-controls" *ngIf="!loading && totalPages > 1">
+            <div class="pagination-info">
+                <span>Mostrando {{ (currentPage - 1) * pageSize + 1 }} - {{ getMathMin(currentPage * pageSize, totalItems) }} de {{ totalItems }} envíos</span>
+            </div>
+            
+            <div class="pagination-buttons">
+                <button 
+                    (click)="cambiarPagina(currentPage - 1)" 
+                    [disabled]="currentPage <= 1"
+                    class="btn-pagination">
+                    Anterior
+                </button>
+                
+                <button 
+                    *ngFor="let pagina of paginasVisibles" 
+                    (click)="cambiarPagina(pagina)"
+                    [class.active]="pagina === currentPage"
+                    class="btn-pagination">
+                    {{ pagina }}
+                </button>
+                
+                <button 
+                    (click)="cambiarPagina(currentPage + 1)" 
+                    [disabled]="currentPage >= totalPages"
+                    class="btn-pagination">
+                    Siguiente
+                </button>
+            </div>
+            
+            <div class="page-size-selector">
+                <label for="pageSize">Elementos por página:</label>
+                <select 
+                    id="pageSize" 
+                    [(ngModel)]="pageSize" 
+                    (change)="cambiarTamanoPagina(pageSize)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación de cancelación -->
+        <div class="modal-overlay" *ngIf="mostrarModalCancelacion" (click)="cerrarModalCancelacion()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <div class="modal-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Confirmar Cancelación</h3>
+                    <button class="btn-cerrar" (click)="cerrarModalCancelacion()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas cancelar este envío?</p>
+                    <div class="envio-info">
+                        <strong>ID:</strong> {{ envioACancelar?.id }}<br>
+                        <strong>Destinatario:</strong> {{ envioACancelar?.destinatarioNombre }}<br>
+                        <strong>Estado actual:</strong> {{ traducirEstado(envioACancelar?.estado) }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-cancelar-modal" (click)="cerrarModalCancelacion()">
+                        Cancelar
+                    </button>
+                    <button class="btn-confirmar" (click)="cancelarEnvio()">
+                        <i class="fas fa-trash"></i> Confirmar Cancelación
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

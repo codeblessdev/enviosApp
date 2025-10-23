@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  "apiUrl": "https://paqueteriabackend-production.up.railway.app"
+  "apiUrl": "https://paqueteriabackend-production.up.railway.app/api"
 };
 
 /*
