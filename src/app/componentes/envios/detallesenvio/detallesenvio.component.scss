@@ -1,34 +1,326 @@
+@import '../../../../styles/globals/index';
+
 .detalle-card {
+  @extend .card;
+  @extend .card-elevated;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  position: sticky;
+  top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  
+  h3 {
+    @extend .heading-4;
+    margin-bottom: var(--space-6);
+    text-align: center;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--primary-200);
+    padding-bottom: var(--space-3);
+  }
+}
+
+.detalle-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    background: var(--background-primary);
+    padding: var(--space-2);
+  }
+}
+
+.section {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--background-secondary);
+  border: 1px solid var(--border-light);
+  
+  &.servicio-info {
+    background: linear-gradient(135deg, var(--primary-50) 0%, var(--background-primary) 100%);
+    border: 1px solid var(--primary-200);
+    
+    .texto {
+      margin: var(--space-3) 0;
+      
+      p {
+        margin-bottom: var(--space-2);
+        font-size: var(--text-sm);
+        color: var(--text-secondary);
+        
+        strong {
+          color: var(--text-primary);
+          font-weight: var(--font-semibold);
+        }
+      }
+    }
+    
+    p {
+      margin-bottom: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      
+      strong {
+        color: var(--text-primary);
+        font-weight: var(--font-semibold);
+      }
+    }
+  }
+  
+  &.cotizacion-info {
+    background: var(--background-primary);
+    
+    p {
+      margin-bottom: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      strong {
+        color: var(--text-primary);
+        font-weight: var(--font-semibold);
+        min-width: 120px;
+      }
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border-medium) 50%, transparent 100%);
+  margin: var(--space-4) 0;
+}
+
+// Espacio para el botón flotante
+.floating-button-spacer {
+  height: 80px; // Espacio para que el botón no tape el contenido
+  margin-top: var(--space-4);
+}
+
+// Botón flotante
+.floating-button-container {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-fixed);
+  padding: var(--space-4);
+  background: linear-gradient(180deg, transparent 0%, var(--background-primary) 20%, var(--background-primary) 100%);
+  border-top: 1px solid var(--border-light);
+  backdrop-filter: blur(10px);
+}
+
+.btn-floating {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-lg;
+  width: 100%;
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: var(--shadow-xl);
+  border: none;
+  border-radius: var(--radius-lg); // Exactamente igual que el botón de cotizar
+  position: relative;
+  overflow: hidden;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
     width: 100%;
-    padding: 16px;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,1.1);
-
-    h3 {
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-  }
-  .detalle-box {
     height: 100%;
-    border-radius: 8px;
-
-    .logo{
-      width: 80px;
-      height: 80px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    
+    &::before {
+      left: 100%;
     }
   }
-
-  .btn{
-    background-color: #002a80;
-    color: white;
-    width: 150px;
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-lg);
   }
+}
 
-  .btn:hover{
-    background-color: #0039ab;
+.btn-icon {
+  font-size: var(--text-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-text {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+}
+
+// Animación de entrada del botón flotante
+.floating-button-container {
+  animation: slideUpFade 0.3s ease-out;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive para botón flotante
+@media (max-width: 768px) {
+  .floating-button-container {
+    padding: var(--space-3);
+  }
+  
+  .btn-floating {
+    font-size: var(--text-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .btn-icon {
+    font-size: var(--text-base);
+  }
+  
+  .btn-text {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-button-container {
+    padding: var(--space-2);
+  }
+  
+  .btn-floating {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+// Grid de información
+.info-grid {
+  display: grid;
+  gap: var(--space-2);
+  
+  p {
+    margin-bottom: 0;
+    padding: var(--space-2);
+    background: var(--background-primary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary-500);
+    transition: all var(--transition-fast);
+    
+    &:hover {
+      background: var(--primary-50);
+      transform: translateX(2px);
+    }
+  }
+}
+
+// Títulos de sección
+h4 {
+  @extend .heading-5;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  
+  &::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+    border-radius: var(--radius-full);
+  }
+}
+
+// Estado sin envío
+.sin-envio {
+  text-align: center;
+  padding: var(--space-8);
+  color: var(--text-muted);
+  
+  p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .detalle-card {
+    max-height: 500px;
+    position: static;
+    margin-bottom: var(--space-4);
+  }
+  
+  .section {
+    padding: var(--space-3);
+    
+    &.servicio-info,
+    &.cotizacion-info {
+      p {
+        font-size: var(--text-xs);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-1);
+        
+        strong {
+          min-width: auto;
+        }
+      }
+    }
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .detalle-card {
+    max-height: 400px;
+  }
+  
+  .section {
+    padding: var(--space-2);
+  }
+}
 
   

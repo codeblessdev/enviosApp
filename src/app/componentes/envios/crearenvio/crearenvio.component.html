@@ -12,7 +12,7 @@
       <ng-container *ngIf="pasoActual === 1">
 
         <app-cotizarenvio (cotizar)="onCotizarRecibido($event)" (loadingChange)="onLoadingChange($event)" id="cotizarenvio" ></app-cotizarenvio>
-        <app-seleccionenvio [cotizacion]="cotizacionData" (servicioSeleccionado)="onSelectEnvio($event)" id="seleccionenvio"></app-seleccionenvio>
+        <app-seleccionenvio [cotizacion]="cotizacionData" [isLoading]="isLoading" (servicioSeleccionado)="onSelectEnvio($event)" id="seleccionenvio"></app-seleccionenvio>
         <app-detallesenvio [envio]="selectedEnvio" (crearEnvio)="onCrearEnvio()" id="detallesenvio"></app-detallesenvio>
 
       </ng-container>

@@ -1,44 +1,304 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos globales modernos para la aplicación de envíos */
+@import 'styles/globals/index';
 
-/* Estilos personalizados para ngx-toastr */
+/* Reset y estilos base */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-primary);
+  font-size: var(--text-base);
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--background-secondary);
+  min-height: 100vh;
+}
+
+/* Estilos para ngx-toastr modernizados */
 .toast-container {
   .toast {
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
     border: none;
+    font-family: var(--font-family-primary);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-4);
     
     &.toast-success {
-      background-color: #10b981;
-      color: white;
+      background: linear-gradient(135deg, var(--success-500) 0%, var(--success-600) 100%);
+      color: var(--text-inverse);
     }
     
     &.toast-error {
-      background-color: #ef4444;
-      color: white;
+      background: linear-gradient(135deg, var(--error-500) 0%, var(--error-600) 100%);
+      color: var(--text-inverse);
     }
     
     &.toast-warning {
-      background-color: #f59e0b;
-      color: white;
+      background: linear-gradient(135deg, var(--warning-500) 0%, var(--warning-600) 100%);
+      color: var(--text-inverse);
     }
     
     &.toast-info {
-      background-color: #3b82f6;
-      color: white;
+      background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+      color: var(--text-inverse);
     }
   }
   
   .toast-title {
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-1);
   }
   
   .toast-message {
-    font-size: 13px;
-    opacity: 0.9;
+    font-size: var(--text-sm);
+    opacity: 0.95;
+    line-height: var(--leading-normal);
   }
   
   .toast-progress {
     background-color: rgba(255, 255, 255, 0.3);
+    height: 3px;
+    border-radius: var(--radius-full);
+  }
+}
+
+/* Estilos para scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+/* Estilos para selección de texto */
+::selection {
+  background-color: var(--primary-100);
+  color: var(--primary-800);
+}
+
+::-moz-selection {
+  background-color: var(--primary-100);
+  color: var(--primary-800);
+}
+
+/* Estilos para focus visible */
+:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Estilos para elementos interactivos */
+button, 
+input, 
+select, 
+textarea, 
+a {
+  &:focus-visible {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Estilos para imágenes responsivas */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+/* Estilos para tablas */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+/* Estilos para listas */
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Estilos para enlaces */
+a {
+  color: var(--primary-600);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  
+  &:hover {
+    color: var(--primary-700);
+    text-decoration: underline;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Estilos para contenedores */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 var(--space-4);
+}
+
+/* Estilos para secciones */
+.section {
+  padding: var(--space-16) 0;
+}
+
+.section-sm {
+  padding: var(--space-12) 0;
+}
+
+.section-lg {
+  padding: var(--space-20) 0;
+}
+
+/* Estilos para animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Estilos para estados de carga */
+.loading {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: loading 1.5s infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Estilos para responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-3);
+  }
+  
+  .container-fluid {
+    padding: 0 var(--space-3);
+  }
+  
+  .section {
+    padding: var(--space-12) 0;
+  }
+  
+  .section-sm {
+    padding: var(--space-8) 0;
+  }
+  
+  .section-lg {
+    padding: var(--space-16) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--space-2);
+  }
+  
+  .container-fluid {
+    padding: 0 var(--space-2);
   }
 }

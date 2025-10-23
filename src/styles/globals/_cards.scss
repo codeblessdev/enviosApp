@@ -1,0 +1,404 @@
+// Sistema de tarjetas moderno para la aplicación de envíos
+// Tarjeta base
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: var(--background-primary);
+  background-clip: border-box;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  
+  &:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+}
+
+// Variantes de tarjeta
+.card-elevated {
+  box-shadow: var(--shadow-lg);
+  
+  &:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-4px);
+  }
+}
+
+.card-flat {
+  box-shadow: none;
+  border: 1px solid var(--border-light);
+  
+  &:hover {
+    box-shadow: var(--shadow-sm);
+    transform: none;
+  }
+}
+
+.card-outlined {
+  background-color: transparent;
+  border: 2px solid var(--border-medium);
+  box-shadow: none;
+  
+  &:hover {
+    border-color: var(--primary-500);
+    box-shadow: var(--shadow-sm);
+    transform: none;
+  }
+}
+
+// Partes de la tarjeta
+.card-header {
+  padding: var(--space-6);
+  background-color: var(--background-secondary);
+  border-bottom: 1px solid var(--border-light);
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  
+  &:first-child {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: var(--space-6);
+  color: var(--text-primary);
+}
+
+.card-footer {
+  padding: var(--space-6);
+  background-color: var(--background-secondary);
+  border-top: 1px solid var(--border-light);
+  border-bottom-left-radius: var(--radius-xl);
+  border-bottom-right-radius: var(--radius-xl);
+  
+  &:last-child {
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  }
+}
+
+// Títulos de tarjeta
+.card-title {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+}
+
+.card-subtitle {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.card-text {
+  margin-bottom: var(--space-4);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Enlaces en tarjetas
+.card-link {
+  color: var(--primary-600);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: color var(--transition-fast);
+  
+  &:hover {
+    color: var(--primary-700);
+    text-decoration: underline;
+  }
+  
+  + .card-link {
+    margin-left: var(--space-4);
+  }
+}
+
+// Imágenes en tarjetas
+.card-img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+}
+
+.card-img-bottom {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom-left-radius: var(--radius-xl);
+  border-bottom-right-radius: var(--radius-xl);
+}
+
+.card-img-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+  color: var(--text-inverse);
+}
+
+// Tarjetas con colores
+.card-primary {
+  border-color: var(--primary-500);
+  
+  .card-header {
+    background-color: var(--primary-50);
+    border-bottom-color: var(--primary-200);
+  }
+  
+  .card-footer {
+    background-color: var(--primary-50);
+    border-top-color: var(--primary-200);
+  }
+}
+
+.card-success {
+  border-color: var(--success-500);
+  
+  .card-header {
+    background-color: var(--success-50);
+    border-bottom-color: var(--success-200);
+  }
+  
+  .card-footer {
+    background-color: var(--success-50);
+    border-top-color: var(--success-200);
+  }
+}
+
+.card-warning {
+  border-color: var(--warning-500);
+  
+  .card-header {
+    background-color: var(--warning-50);
+    border-bottom-color: var(--warning-200);
+  }
+  
+  .card-footer {
+    background-color: var(--warning-50);
+    border-top-color: var(--warning-200);
+  }
+}
+
+.card-error {
+  border-color: var(--error-500);
+  
+  .card-header {
+    background-color: var(--error-50);
+    border-bottom-color: var(--error-200);
+  }
+  
+  .card-footer {
+    background-color: var(--error-50);
+    border-top-color: var(--error-200);
+  }
+}
+
+// Tarjetas de estadísticas
+.card-stat {
+  text-align: center;
+  padding: var(--space-8);
+  
+  .card-stat-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+    color: var(--text-inverse);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-xl);
+  }
+  
+  .card-stat-value {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+  
+  .card-stat-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// Tarjetas de producto/servicio
+.card-product {
+  overflow: hidden;
+  
+  .card-product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+  }
+  
+  &:hover .card-product-image {
+    transform: scale(1.05);
+  }
+  
+  .card-product-badge {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    background: var(--error-500);
+    color: var(--text-inverse);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .card-product-price {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--primary-600);
+    margin-bottom: var(--space-2);
+  }
+  
+  .card-product-rating {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+    
+    .stars {
+      color: var(--warning-500);
+    }
+    
+    .rating-text {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+  }
+}
+
+// Tarjetas de envío
+.card-shipment {
+  border-left: 4px solid var(--primary-500);
+  
+  .shipment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--primary-50);
+    color: var(--primary-700);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .shipment-tracking {
+    font-family: $font-family-mono;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    background-color: var(--gray-100);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-3);
+  }
+}
+
+// Grid de tarjetas
+.card-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .card {
+    margin-bottom: var(--space-4);
+  }
+  
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: var(--space-4);
+  }
+  
+  .card-title {
+    font-size: var(--text-lg);
+  }
+  
+  .card-stat {
+    padding: var(--space-6);
+  }
+  
+  .card-stat-value {
+    font-size: var(--text-2xl);
+  }
+}

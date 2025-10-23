@@ -4,10 +4,90 @@
 
       <form [formGroup]="formulario" (ngSubmit)="enviarDatos()">
 
-
           <div class="row justify-content-center">
+            <!-- Información del Envío -->
+            <div class="col-lg-2">
+              <div class="card p-4 h-100">
+                <h5 class="mb-3">📦 Información del Envío</h5>
+                
+                <div class="mb-3">
+                  <label class="form-label">Tipo de Empaque</label>
+                  <div class="empaque-search-container position-relative">
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="tipoEmpaque" 
+                      placeholder="Buscar empaque..."
+                      (input)="buscarEmpaques()"
+                      (focus)="showMenuEmpaque = true"
+                    />
+                    <div class="search-icon" *ngIf="buscandoEmpaques">⟳</div>
+                    <button 
+                      type="button" 
+                      class="clear-btn" 
+                      *ngIf="empaqueSeleccionado" 
+                      (click)="limpiarEmpaque()"
+                    >
+                      ✕
+                    </button>
+                    
+                    <div class="empaque-options" *ngIf="showMenuEmpaque && empaques.length > 0">
+                      <div
+                        class="empaque-option"
+                        *ngFor="let empaque of empaques"
+                        (click)="seleccionarEmpaque(empaque)"
+                      >
+                        <span class="empaque-completo">{{ empaque.codigo }} - {{ empaque.descripcion }}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="no-results" *ngIf="showMenuEmpaque && empaques.length === 0 && !buscandoEmpaques && formulario.get('tipoEmpaque')?.value?.length >= 2">
+                      No se encontraron empaques
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label class="form-label">Tipo de Producto</label>
+                  <div class="producto-search-container position-relative">
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      formControlName="tipoProducto" 
+                      placeholder="Buscar producto..."
+                      (input)="buscarProductos()"
+                      (focus)="showMenuProducto = true"
+                    />
+                    <div class="search-icon" *ngIf="buscandoProductos">⟳</div>
+                    <button 
+                      type="button" 
+                      class="clear-btn" 
+                      *ngIf="productoSeleccionado" 
+                      (click)="limpiarProducto()"
+                    >
+                      ✕
+                    </button>
+                    
+                    <div class="producto-options" *ngIf="showMenuProducto && productos.length > 0">
+                      <div
+                        class="producto-option"
+                        *ngFor="let producto of productos"
+                        (click)="seleccionarProducto(producto)"
+                      >
+                        <span class="producto-completo">{{ producto.descripcion }}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="no-results" *ngIf="showMenuProducto && productos.length === 0 && !buscandoProductos && formulario.get('tipoProducto')?.value?.length >= 2">
+                      No se encontraron productos
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Remitente -->
-            <div class="remitente col-lg-5 mb-46" style="margin-right: 3.5rem;">
+            <div class="remitente col-lg-4 mb-46" style="margin-right: 1rem;">
               <div formGroupName="remitente" class="card p-4 h-100">
 
                 <div class="row g-2 mb-3">
@@ -119,7 +199,7 @@
             </div>
       
             <!-- Destinatario -->
-            <div class="destinatario col-lg-5 mb-46" style="margin-left: 3.5rem;">
+            <div class="destinatario col-lg-4 mb-46" style="margin-left: 1rem;">
               <div formGroupName="destinatario" class="card p-4 h-100">
 
                 <div class="row g-2 mb-3">

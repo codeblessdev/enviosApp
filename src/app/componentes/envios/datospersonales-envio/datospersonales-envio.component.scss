@@ -39,3 +39,144 @@
   }
 }
 
+// Estilos para el layout de 3 columnas
+.row.justify-content-center {
+  gap: 1rem;
+}
+
+// Ajustes para la columna de información del envío
+.col-lg-3 {
+  .card {
+    min-height: 550px;
+  }
+  
+  .form-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+// Ajustes para las columnas de remitente y destinatario
+.col-lg-4 {
+  .card {
+    min-height: 550px;
+  }
+}
+
+// Responsive para el layout de 3 columnas
+@media (max-width: 1200px) {
+  .col-lg-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  
+  .col-lg-4 {
+    flex: 0 0 37.5%;
+    max-width: 37.5%;
+  }
+}
+
+@media (max-width: 992px) {
+  .col-lg-3,
+  .col-lg-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .remitente,
+  .destinatario {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+// Estilos para búsqueda de empaques y productos
+.empaque-search-container,
+.producto-search-container {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.empaque-options,
+.producto-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.empaque-option,
+.producto-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.empaque-option:hover,
+.producto-option:hover {
+  background-color: #f8f9fa;
+}
+
+.empaque-option:last-child,
+.producto-option:last-child {
+  border-bottom: none;
+}
+
+.no-results {
+  padding: 15px;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  background: #f8f9fa;
+  border-top: 1px solid #ddd;
+}
+

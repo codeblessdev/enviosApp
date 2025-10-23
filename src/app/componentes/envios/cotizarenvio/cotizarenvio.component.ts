@@ -44,6 +44,8 @@ export class CotizarenvioComponent {
 
   @Output() cotizar = new EventEmitter<any>();
   @Output() loadingChange = new EventEmitter<boolean>();
+  
+  isLoading = false;
 
   constructor(private elRef: ElementRef, private enviosService: EnviosService) {}
 
@@ -168,6 +170,7 @@ export class CotizarenvioComponent {
 
   async onCotizar() {
     // Activar loading al inicio
+    this.isLoading = true;
     this.loadingChange.emit(true);
 
     // const data = {
@@ -418,10 +421,12 @@ export class CotizarenvioComponent {
       });
 
       // Desactivar loading después de emitir la cotización
+      this.isLoading = false;
       this.loadingChange.emit(false);
     } catch (err) {
       console.error('Error al cotizar:', err);
       // Desactivar loading también en caso de error
+      this.isLoading = false;
       this.loadingChange.emit(false);
     }
 

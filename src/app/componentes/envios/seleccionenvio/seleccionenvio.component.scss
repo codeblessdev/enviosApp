@@ -1,56 +1,106 @@
+@import '../../../../styles/globals/index';
+
 .servicios-card {
+  @extend .card;
+  @extend .card-elevated;
   width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  padding: var(--space-6);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  
+  h3 {
+    @extend .heading-4;
+    margin-bottom: var(--space-6);
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--primary-200);
+    padding-bottom: var(--space-3);
+  }
 }
 
 
 .table-responsive {
   width: 100%;
-  max-height: 580px; 
-  overflow-y: auto;  
+  flex: 1;
+  overflow-y: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
 }
 
 .table {
   width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  background: var(--background-primary);
 }
 
+.table thead {
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  color: var(--text-inverse);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table thead th {
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+  font-weight: var(--font-semibold);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: none;
+}
 
 .table tbody {
-  overflow-y: auto;  
-  width: 100%; 
-  cursor: pointer;
-}
-
-.table tbody tr.selected {
-  background: #98ffa9 !important;
+  width: 100%;
   cursor: pointer;
 }
 
 .table tbody tr {
   width: 100%;
   table-layout: fixed;
+  border-bottom: 1px solid var(--border-light);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    background-color: var(--primary-50);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  &.selected {
+    background: linear-gradient(135deg, var(--success-100) 0%, var(--success-50) 100%) !important;
+    border: 2px solid var(--success-500);
+    box-shadow: var(--shadow-md);
+  }
 }
 
-.table{
+.table tbody td {
+  padding: var(--space-3);
   text-align: center;
-  align-items: center;
+  vertical-align: middle;
+  font-size: var(--text-sm);
 }
 
 .paqueteria-cell {
   display: flex;
   justify-content: flex-start;
-  gap: 10px;
+  gap: var(--space-3);
   width: 100%;
   align-items: center;
 }
 
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  background: var(--background-primary);
+  padding: var(--space-1);
 }
 
 .info {
@@ -59,6 +109,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
+  
+  strong {
+    color: var(--text-primary);
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+  }
+  
+  small {
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+  }
 }
 
 
@@ -165,5 +226,113 @@
     display: block;
     padding: 10px;
     text-align: left;
+  }
+}
+
+// Skeleton Loading para Selección de Envío
+.skeleton-seleccion {
+  width: 100%;
+  padding: var(--space-4);
+  min-height: 400px; // Asegurar altura mínima
+  display: block !important; // Forzar display
+}
+
+.skeleton-table {
+  background: var(--background-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.skeleton-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.skeleton-header-cell {
+  height: 20px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-rows {
+  padding: var(--space-4);
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-light);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.skeleton-cell {
+  height: 16px;
+  background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+  
+  // Variaciones de ancho para simular contenido real
+  &:nth-child(1) { 
+    width: 100%; 
+    height: 24px; // Más alto para la celda de paquetería
+    background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
+  } // Paquetería (más ancho)
+  &:nth-child(2) { width: 80%; } // Envío de paquetes
+  &:nth-child(3) { width: 70%; } // Entrega estimada
+  &:nth-child(4) { width: 60%; } // Precio
+  &:nth-child(5) { width: 75%; } // Origen
+}
+
+// Animación de skeleton
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Efectos adicionales para hacer más realista
+.skeleton-row {
+  &:nth-child(odd) .skeleton-cell {
+    animation-delay: 0.1s;
+  }
+  
+  &:nth-child(even) .skeleton-cell {
+    animation-delay: 0.2s;
+  }
+}
+
+// Responsive para skeleton
+@media (max-width: 768px) {
+  .skeleton-header,
+  .skeleton-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+  
+  .skeleton-header-cell,
+  .skeleton-cell {
+    height: 14px;
+  }
+  
+  .skeleton-row {
+    margin-bottom: var(--space-2);
+    padding: var(--space-2) 0;
   }
 }
