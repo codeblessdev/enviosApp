@@ -29,7 +29,6 @@
     <div class="misenvios">
 
         <h1>MIS ENVIOS</h1>
-        <hr />
 
         <div class="filtros">
         <label>
@@ -43,11 +42,18 @@
         <button (click)="applyFilter()">Filtrar</button>
         </div>
 
-        <hr />
-
-        <!-- Indicador de carga -->
-        <div *ngIf="loading" class="loading-container">
-            <p>Cargando envíos...</p>
+        <!-- Skeleton Loading -->
+        <div *ngIf="loading" class="skeleton-container">
+            <div class="skeleton-table">
+                <div class="skeleton-header">
+                    <div class="skeleton-header-cell" *ngFor="let i of [1,2,3,4,5,6,7,8,9]"></div>
+                </div>
+                <div class="skeleton-rows">
+                    <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+                        <div class="skeleton-cell" *ngFor="let j of [1,2,3,4,5,6,7,8,9]"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="tabla-scroll" *ngIf="!loading">

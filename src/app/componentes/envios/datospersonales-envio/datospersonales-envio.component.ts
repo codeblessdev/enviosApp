@@ -22,6 +22,17 @@ export class DatospersonalesEnvioComponent {
   mostrarGuardarRemitente = true;
   mostrarGuardarDestinatario = true;
 
+  // Variables para búsqueda de empaques y productos
+  empaques: any[] = [];
+  empaqueSeleccionado: any = null;
+  buscandoEmpaques = false;
+  showMenuEmpaque = false;
+
+  productos: any[] = [];
+  productoSeleccionado: any = null;
+  buscandoProductos = false;
+  showMenuProducto = false;
+
   async ngOnInit(): Promise<void> {
     await this.cargarRemitentes();
     await this.cargarDestinatarios();
@@ -34,6 +45,10 @@ export class DatospersonalesEnvioComponent {
 
   constructor(private fb: FormBuilder, private enviosService: EnviosService) {
     this.formulario = this.fb.group({
+      // Campos de empaque y producto
+      tipoEmpaque: [''],
+      tipoProducto: [''],
+      
       remitente: this.fb.group({
         nombre: ['', Validators.required],
         telefono: ['', Validators.required],
@@ -166,6 +181,77 @@ export class DatospersonalesEnvioComponent {
   limpiarDestinatario() {
     this.formulario.get('destinatario')?.reset();
     this.mostrarGuardarDestinatario = true;
+  }
+
+  // Métodos para búsqueda de empaques y productos
+  async buscarEmpaques() {
+    const tipoEmpaque = this.formulario.get('tipoEmpaque')?.value;
+    if (!tipoEmpaque || tipoEmpaque.length < 2) {
+      this.empaques = [];
+      this.showMenuEmpaque = false;
+      return;
+    }
+
+    this.buscandoEmpaques = true;
+    try {
+      const response = await this.enviosService.buscarPackageTypes(tipoEmpaque).toPromise();
+      this.empaques = (response as any[]) || [];
+      this.showMenuEmpaque = this.empaques.length > 0;
+    } catch (error) {
+      console.error('Error al buscar empaques:', error);
+      this.empaques = [];
+      this.showMenuEmpaque = false;
+    } finally {
+      this.buscandoEmpaques = false;
+    }
+  }
+
+  seleccionarEmpaque(empaque: any) {
+    this.empaqueSeleccionado = empaque;
+    this.formulario.get('tipoEmpaque')?.setValue(`${empaque.codigo} - ${empaque.descripcion}`);
+    this.showMenuEmpaque = false;
+  }
+
+  limpiarEmpaque() {
+    this.empaqueSeleccionado = null;
+    this.formulario.get('tipoEmpaque')?.setValue('');
+    this.empaques = [];
+    this.showMenuEmpaque = false;
+  }
+
+  async buscarProductos() {
+    const tipoProducto = this.formulario.get('tipoProducto')?.value;
+    if (!tipoProducto || tipoProducto.length < 2) {
+      this.productos = [];
+      this.showMenuProducto = false;
+      return;
+    }
+
+    this.buscandoProductos = true;
+    try {
+      const response = await this.enviosService.buscarConsignmentNotes(tipoProducto).toPromise();
+      this.productos = (response as any[]) || [];
+      this.showMenuProducto = this.productos.length > 0;
+    } catch (error) {
+      console.error('Error al buscar productos:', error);
+      this.productos = [];
+      this.showMenuProducto = false;
+    } finally {
+      this.buscandoProductos = false;
+    }
+  }
+
+  seleccionarProducto(producto: any) {
+    this.productoSeleccionado = producto;
+    this.formulario.get('tipoProducto')?.setValue(producto.descripcion);
+    this.showMenuProducto = false;
+  }
+
+  limpiarProducto() {
+    this.productoSeleccionado = null;
+    this.formulario.get('tipoProducto')?.setValue('');
+    this.productos = [];
+    this.showMenuProducto = false;
   }
 
 }

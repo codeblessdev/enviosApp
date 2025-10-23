@@ -166,8 +166,8 @@ export class CrearenvioComponent {
 
       try {
         // Determinar si es Skydropx o Manuable basado en el prefijo del origen
-        const esSkydropx = this.selectedEnvio.servicio.origen?.startsWith('sk-');
-        const esManuable = this.selectedEnvio.servicio.origen?.startsWith('mb-');
+        const esSkydropx = this.selectedEnvio.servicio.origen?.startsWith('se-');
+        const esManuable = this.selectedEnvio.servicio.origen?.startsWith('mh-');
 
         console.log("esSkydropx", esSkydropx);
         

@@ -1,118 +1,154 @@
-.globalContainer{
-    background-color: rgb(220, 220, 220);
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    background-size: cover;
-    overflow-y: auto; 
-  }
+@import '../../../../styles/globals/index';
 
-  .envios-container {
-    display: flex;
-    gap: 5%;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding-top: 11%;
-    flex-wrap: wrap;
-  }
+.globalContainer {
+  background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-tertiary) 100%);
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-size: cover;
+  overflow-y: auto;
+}
+
+.envios-container {
+  display: flex;
+  gap: var(--space-8);
+  justify-content: flex-start;
+  align-items: stretch; // Cambiado de flex-start a stretch
+  padding-top: 9%;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+  height: 96vh; // Altura fija
+  min-height: 600px; // Altura mínima
+  max-height: 920px; // Altura máxima
+}
   
   .envios-container > app-cotizarenvio {
-    flex: 0 0 20%;
+    flex: 0 0 21%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   
   .envios-container > app-seleccionenvio {
     flex: 0 0 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   
   .envios-container > app-detallesenvio {
-    flex: 0 0 20%;
+    flex: 0 0 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .envios-container > app-confirmacion-envio {
     flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   @media (max-width: 1810px) and (min-width: 1500px){
+    .envios-container {
+      height: 75vh;
+    }
 
     .envios-container > app-cotizarenvio {
-      flex: 0 0 15%; 
+      flex: 0 0 15%;
+      height: 100%;
     }
 
     .envios-container > app-seleccionenvio {
-      flex: 0 0 45%; 
+      flex: 0 0 45%;
+      height: 100%;
     }
 
     .envios-container > app-detallesenvio {
-      flex: 0 0 20%; 
+      flex: 0 0 20%;
+      height: 100%;
     }
-
   }
 
   @media (max-width: 1500px) {
-
     .envios-container {
       flex-wrap: wrap;
-      gap: 34px;
+      gap: var(--space-6);
       padding-top: 18%;
       flex-direction: row;
+      height: 70vh;
+      min-height: 500px;
     }
 
     .envios-container > app-cotizarenvio {
-      flex: 0 0 20%; 
+      flex: 0 0 20%;
+      height: 100%;
     }
 
     .envios-container > app-seleccionenvio {
-      flex: 0 0 60%; 
+      flex: 0 0 60%;
+      height: 100%;
     }
 
     .envios-container > app-detallesenvio {
-      flex: 0 0 100%; 
+      flex: 0 0 100%;
+      height: auto;
+      min-height: 300px;
     }
   }
 
   @media (max-width: 1100px) {
-  .envios-container {
-    flex-direction: column;
-    padding-top: 20%;
-    gap: 20px;
-    align-items: center;
+    .envios-container {
+      flex-direction: column;
+      padding-top: 20%;
+      gap: var(--space-5);
+      align-items: stretch;
+      height: auto;
+      min-height: auto;
+    }
+
+    .envios-container > app-cotizarenvio {
+      flex: 0 0 auto;
+      height: auto;
+      min-height: 400px;
+    }
+
+    .envios-container > app-seleccionenvio,
+    .envios-container > app-detallesenvio {
+      flex: 0 0 auto;
+      width: 100%;
+      height: auto;
+      min-height: 300px;
+    }
+
+    .envios-container > * {
+      margin-bottom: var(--space-4);
+    }
   }
 
-  .envios-container > app-cotizarenvio {
-    flex: 0 0 100%; 
-  }
-
-  .envios-container > app-seleccionenvio,
-  .envios-container > app-detallesenvio {
-    flex: 0 0 100%; 
-    width: 100%;
-  }
-
-  .envios-container > * {
-    margin-bottom: 20px;
-  }
-}
-
-@media (max-width: 700px){
-
+@media (max-width: 700px) {
   .envios-container {
     padding-top: 30%;
-    gap: 15px;
+    gap: var(--space-4);
+    height: auto;
   }
 
   .envios-container > app-cotizarenvio,
   .envios-container > app-seleccionenvio,
   .envios-container > app-detallesenvio {
-    flex: 0 0 100%; 
+    flex: 0 0 auto;
+    height: auto;
+    min-height: 250px;
   }
-
 }
 
-@media (max-width: 480px){
-
+@media (max-width: 480px) {
   .envios-container {
     padding-top: 45%;
-    gap: 10px;  
+    gap: var(--space-3);
+    height: auto;
   }
-
 }

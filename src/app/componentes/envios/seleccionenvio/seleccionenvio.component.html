@@ -1,8 +1,22 @@
 <div class="card servicios-card">
   <h3>Selección de servicio de paquetería</h3>
   
-  <!-- Tabla de servicios -->
-  <div class="table-responsive">
+  <!-- Skeleton Loading -->
+  <div *ngIf="isLoading" class="skeleton-seleccion">
+    <div class="skeleton-table">
+      <div class="skeleton-header">
+        <div class="skeleton-header-cell" *ngFor="let i of [1,2,3,4,5]"></div>
+      </div>
+      <div class="skeleton-rows">
+        <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5,6]">
+          <div class="skeleton-cell" *ngFor="let j of [1,2,3,4,5]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Tabla de servicios real -->
+  <div *ngIf="!isLoading" class="table-responsive">
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
         <tr>

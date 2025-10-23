@@ -15,6 +15,7 @@ import { LoadingComponent } from '../../loading/loading.component';
 export class SeleccionenvioComponent {
 
   @Input() cotizacion?: any;
+  @Input() isLoading = false;
   @Output() servicioSeleccionado = new EventEmitter<any>();
   auxRates: any[] = [];
   private pollingQuoteIds: string[] = [];
@@ -70,8 +71,6 @@ export class SeleccionenvioComponent {
 
     // Filtrar los resultados y mostrarlos
     this.filterAndAdd(this.auxRates);
-
-    // NO hay loading que desactivar
 
     // Iniciar polling si hay mainQuoteId (sólo para empresas que lo usen)
     // if (this.mainQuoteId) {
@@ -164,9 +163,9 @@ export class SeleccionenvioComponent {
   private generateOriginCode(provider: string): string {
     const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     if (provider === 'manuable') {
-      return `mb-${randomNum}`;
+      return `mh-${randomNum}`;
     } else if (provider === 'skydropx') {
-      return `sk-${randomNum}`;
+      return `se-${randomNum}`;
     }
     return provider; // fallback para otros proveedores
   }

@@ -1,61 +1,56 @@
-<div class="card detalle-card">
-  <h3>Detalles del servicio</h3>
+<div class="detalle-card">
+  <h3>📦 Detalles del Servicio</h3>
 
   <ng-container *ngIf="envio; else sinEnvio">
-
     <div class="detalle-box">
+      <!-- Información del Servicio -->
       <div class="section servicio-info">
-        <img [src]="envio?.servicio?.logo"
-            alt="{{envio?.servicio?.name}}"
-            class="logo" />
-        <div class="texto">
-          <p><strong>Paqueteria:</strong> {{ envio?.servicio?.name }} - {{ envio?.servicio?.provider_service_name }}</p>
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img [src]="envio?.servicio?.logo"
+               [alt]="envio?.servicio?.name"
+               class="logo" />
+          <div class="texto">
+            <p><strong>Paquetería:</strong> {{ envio?.servicio?.name }} - {{ envio?.servicio?.provider_service_name }}</p>
+          </div>
         </div>
-        <p><strong>Recolección:</strong> Llevar a sucursal </p>
-        <p><strong>Entrega estimada:</strong> {{ envio?.servicio?.days }} dias</p>
-        <p><strong>Precio:</strong>
-          {{ envio?.servicio?.precio | currency:'USD':'symbol':'1.2-2' }}
-        </p>
+        
+        <div class="info-grid">
+          <p><strong>Recolección:</strong> Llevar a sucursal</p>
+          <p><strong>Entrega estimada:</strong> {{ envio?.servicio?.days }} días</p>
+          <p><strong>Precio:</strong> {{ envio?.servicio?.precio | currency:'USD':'symbol':'1.2-2' }}</p>
+        </div>
       </div>
-      <hr />
 
-    
+      <!-- Información de Cotización -->
       <div class="section cotizacion-info">
-        <p><strong>Origen:</strong>
-          {{ envio?.cotizacion?.paisOrigen }}, {{ envio?.cotizacion?.cpOrigen }}
-        </p>
-        <p><strong>Destino:</strong>
-          {{ envio?.cotizacion?.paisDestino }}, {{ envio?.cotizacion?.cpDestino }}
-        </p>
-        <p><strong>Dimensiones (LxAxH):</strong>
-          {{ envio?.cotizacion?.largo }} x
-          {{ envio?.cotizacion?.ancho }} x
-          {{ envio?.cotizacion?.alto }} cm
-        </p>
-        <p><strong>Peso real:</strong>
-          {{ envio?.cotizacion?.pesoReal }} kg
-        </p>
-        <p><strong>Peso volumétrico:</strong>
-          {{ envio?.cotizacion?.pesoVolumetrico | number:'1.2-2' }} kg
-        </p>
-        <p><strong>Empaque:</strong>
-          {{ envio?.cotizacion?.tipoEmpaque }}
-        </p>
+        <h4 class="mb-3">📍 Información del Envío</h4>
+        
+        <div class="info-grid">
+          <p><strong>Origen:</strong> {{ envio?.cotizacion?.paisOrigen }}, {{ envio?.cotizacion?.cpOrigen }}</p>
+          <p><strong>Destino:</strong> {{ envio?.cotizacion?.paisDestino }}, {{ envio?.cotizacion?.cpDestino }}</p>
+          <p><strong>Dimensiones (L×A×H):</strong> {{ envio?.cotizacion?.largo }} × {{ envio?.cotizacion?.ancho }} × {{ envio?.cotizacion?.alto }} cm</p>
+          <p><strong>Peso real:</strong> {{ envio?.cotizacion?.pesoReal }} kg</p>
+          <p><strong>Peso volumétrico:</strong> {{ envio?.cotizacion?.pesoVolumetrico | number:'1.2-2' }} kg</p>
+          <p><strong>Empaque:</strong> {{ envio?.cotizacion?.tipoEmpaque }}</p>
+        </div>
       </div>
 
-      <div class="d-flex justify-content-center" style="padding-top: 13%;"> 
-        <button class="btn btn-cta" (click)="crearEnvio.emit()">Crear Envio</button>
-      </div>
+      <!-- Espacio para el botón flotante -->
+      <div class="floating-button-spacer"></div>
     </div>
 
+    <!-- Botón Flotante -->
+    <div class="floating-button-container">
+      <button class="btn-floating" (click)="crearEnvio.emit()">
+        <span class="btn-icon">🚀</span>
+        <span class="btn-text">Crear Envío</span>
+      </button>
+    </div>
   </ng-container>
-  
 
   <ng-template #sinEnvio>
-    <p style="padding: 16px; text-align: center; color: #666;">
-      Selecciona un envío para ver sus detalles.
-    </p>
+    <div class="sin-envio">
+      <p>Selecciona un envío para ver sus detalles</p>
+    </div>
   </ng-template>
-
-
 </div>
