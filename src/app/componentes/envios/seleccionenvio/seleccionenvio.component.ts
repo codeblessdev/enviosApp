@@ -45,27 +45,40 @@ export class SeleccionenvioComponent {
 
     const response = this.cotizacion.response;
 
-    // Recorrer cada empresa (manuable, skydropx...)
+    // Recorrer cada empresa (manuable, skydropx, enkrgo...)
     for (const empresa in response) {
       const resultado = response[empresa];
 
-      // --- si es manuable: tiene `.data`
-      if (resultado.data) {
-        this.auxRates.push(...resultado.data);
+      // --- si es enkrgo: tiene success y data como objeto único
+      if (empresa === 'enkrgo' && resultado.success && resultado.data) {
+        // Enkrgo devuelve un solo objeto, no un array
+        this.auxRates.push({
+          ...resultado.data,
+          _origenEmpresa: empresa
+        });
       }
+      // --- si tiene `.data` como array (manuable)
+      else if (resultado.data && Array.isArray(resultado.data)) {
+        // Marcar cada rate con su empresa de origen
+        const ratesConOrigen = resultado.data.map((rate: any) => ({
+          ...rate,
+          _origenEmpresa: empresa
+        }));
+        this.auxRates.push(...ratesConOrigen);
+      }
+      // --- si tiene `.rates` (skydropx)
+      else if (resultado.rates) {
+        // Marcar cada rate con su empresa de origen
+        const ratesConOrigen = resultado.rates.map((rate: any) => ({
+          ...rate,
+          _origenEmpresa: empresa
+        }));
+        this.auxRates.push(...ratesConOrigen);
 
-      // --- si es skydropx: tiene `.rates`
-      if (resultado.rates) {
-        this.auxRates.push(...resultado.rates);
-
-        // Guardar mainQuoteId si querés hacer polling de esta empresa
-        // if (!this.mainQuoteId && resultado.id) {
-        //   this.mainQuoteId = resultado.id;
-        // }
+        // Guardar ID para polling
         if (resultado.id) {
           this.pollingQuoteIds.push(resultado.id); 
         }
-
       }
     }
 
@@ -155,7 +168,8 @@ export class SeleccionenvioComponent {
       'fedex': 'FedEx',
       'quiken': 'Quiken',
       'paquetexpress': 'Paquetexpress',
-      'jtexpress': 'J&T Express'
+      'jtexpress': 'J&T Express',
+      'enkrgo': 'Enkrgo'
     };
     return map[provider] ?? provider; // si no está en el map, devolvemos el original
   }
@@ -166,13 +180,18 @@ export class SeleccionenvioComponent {
       return `mh-${randomNum}`;
     } else if (provider === 'skydropx') {
       return `se-${randomNum}`;
+    } else if (provider === 'enkrgo') {
+      return `ek-${randomNum}`;
     }
     return provider; // fallback para otros proveedores
   }
 
   private filterAndAdd(rates: any[]) {
     for (const r of rates) {
-      const isManuable = r.uuid !== undefined;     // clave única de los de manuable
+      // Usar _origenEmpresa para determinar si es enkrgo
+      const origenEmpresa = r._origenEmpresa || '';
+      const isEnkrgo = origenEmpresa === 'enkrgo';
+      const isManuable = r.uuid !== undefined && !isEnkrgo;     // clave única de los de manuable
       const isSkydropx = r.id !== undefined && r.provider_name; // skydropx
 
       let id: string;
@@ -182,8 +201,19 @@ export class SeleccionenvioComponent {
       let precio: number;
       let providerServiceName: string;
       let origen: string;
+      let isDestacado = false;
 
-      if (isManuable) {
+      if (isEnkrgo) {
+        // Estructura específica para enkrgo
+        id = r.id || r.service_level?.token || `enkrgo-${Date.now()}`;
+        provider = r.provider || 'enkrgo';
+        logo = `assets/logo.png`; // Logo de enkrgo
+        days = r.days || 5;
+        precio = parseFloat(r.total_pricing || 0);
+        providerServiceName = r.service_level?.name || 'Enkrgo Estándar';
+        origen = this.generateOriginCode('enkrgo');
+        isDestacado = true; // Marcar como destacado
+      } else if (isManuable) {
         id = r.uuid;
         provider = r.carrier;
         logo = `assets/${r.carrier.toLowerCase()}.jpg`;
@@ -217,11 +247,19 @@ export class SeleccionenvioComponent {
           precio,
           raw: r,
           provider_service_name: providerServiceName,
-          origen: origen
+          origen: origen,
+          isDestacado: isDestacado
         });
       }
       
     }
+
+    // Ordenar: servicios destacados (enkrgo) primero
+    this.displayServices.sort((a, b) => {
+      if (a.isDestacado && !b.isDestacado) return -1;
+      if (!a.isDestacado && b.isDestacado) return 1;
+      return 0;
+    });
 
     console.log("displayService", this.displayServices);
   }
