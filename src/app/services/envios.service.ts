@@ -191,5 +191,21 @@ export class EnviosService {
       })
       .toPromise();
   }
+
+  // Obtener configuración de Enkrgo
+  getEnkrgoConfig(): Promise<any> {
+    const headers = this.buildHeaders();
+    return this.http
+      .get(`${environment.apiUrl}/enkrgo/config`, { headers })
+      .toPromise();
+  }
+
+  // Actualizar configuración de Enkrgo
+  updateEnkrgoConfig(config: any): Promise<any> {
+    const headers = this.buildHeaders();
+    return this.http
+      .put(`${environment.apiUrl}/enkrgo/config`, config, { headers })
+      .toPromise();
+  }
   
 }

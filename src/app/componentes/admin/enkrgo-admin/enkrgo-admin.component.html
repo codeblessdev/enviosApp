@@ -1,0 +1,417 @@
+<div class="enkrgo-admin-container">
+  <div class="admin-header">
+    <h1>Administración Motor de Cotización Enkrgo</h1>
+    <p class="subtitle">Gestiona la configuración del motor de cotización y testea cotizaciones en tiempo real</p>
+  </div>
+
+  <!-- Mensaje de retroalimentación -->
+  <div *ngIf="message" class="message" [ngClass]="messageType">
+    {{ message }}
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando configuración...</p>
+  </div>
+
+  <!-- Configuración -->
+  <div *ngIf="!isLoading" class="config-section">
+    <div class="section-header">
+      <h2>Configuración Actual</h2>
+      <div class="action-buttons">
+        <button *ngIf="!isEditing" class="btn btn-primary" (click)="enableEditing()">
+          <span class="icon">✏️</span> Editar Configuración
+        </button>
+        <button *ngIf="isEditing" class="btn btn-success" (click)="saveConfig()" [disabled]="isSaving">
+          <span class="icon">💾</span> {{ isSaving ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+        <button *ngIf="isEditing" class="btn btn-secondary" (click)="cancelEditing()" [disabled]="isSaving">
+          <span class="icon">❌</span> Cancelar
+        </button>
+        <button class="btn btn-refresh" (click)="loadConfig()" [disabled]="isEditing">
+          <span class="icon">🔄</span> Recargar
+        </button>
+      </div>
+    </div>
+
+    <div class="config-grid">
+      <!-- Precio Base -->
+      <div class="config-item">
+        <label>Precio Base (MXN)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.precioBase" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.precioBase | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Precio base de cada envío</small>
+      </div>
+
+      <!-- Tarifa por Km -->
+      <div class="config-item">
+        <label>Tarifa por Km (MXN/km)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.tarifaPorKm" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.tarifaPorKm | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Costo por kilómetro recorrido</small>
+      </div>
+
+      <!-- Recargo Lejanía -->
+      <div class="config-item">
+        <label>Recargo Lejanía (MXN)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.recargoLejania" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.recargoLejania | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Recargo para envíos lejanos</small>
+      </div>
+
+      <!-- Recargo Zona Roja -->
+      <div class="config-item">
+        <label>Recargo Zona Roja (MXN)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.recargoZonaRoja" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.recargoZonaRoja | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Recargo para zonas de alto riesgo</small>
+      </div>
+
+      <!-- Tarifa Peso -->
+      <div class="config-item">
+        <label>Tarifa Peso (MXN/kg)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.tarifaPeso" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.tarifaPeso | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Costo adicional por kilogramo</small>
+      </div>
+
+      <!-- Recargo Urgencia -->
+      <div class="config-item">
+        <label>Recargo Urgencia (MXN)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.recargoUrgencia" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.recargoUrgencia | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Recargo para envíos urgentes</small>
+      </div>
+
+      <!-- Recargo Combustible -->
+      <div class="config-item">
+        <label>Recargo Combustible (MXN)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.recargoCombustible" 
+          step="0.01"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          ${{ config.recargoCombustible | number:'1.2-2' }}
+        </div>
+        <small class="help-text">Recargo por combustible</small>
+      </div>
+
+      <!-- Porcentaje Seguro -->
+      <div class="config-item">
+        <label>Porcentaje Seguro (%)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.porcentajeSeguro" 
+          step="0.001"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          {{ (config.porcentajeSeguro * 100) | number:'1.2-2' }}%
+        </div>
+        <small class="help-text">Porcentaje para seguro del envío</small>
+      </div>
+
+      <!-- Distancia Mínima Lejanía -->
+      <div class="config-item">
+        <label>Distancia Mín. Lejanía (km)</label>
+        <input 
+          *ngIf="isEditing" 
+          type="number" 
+          [(ngModel)]="editableConfig.distanciaMinLejania" 
+          step="1"
+          class="form-control"
+        >
+        <div *ngIf="!isEditing" class="config-value">
+          {{ config.distanciaMinLejania | number:'1.0-0' }} km
+        </div>
+        <small class="help-text">Distancia a partir de la cual aplica recargo de lejanía</small>
+      </div>
+    </div>
+
+    <!-- Metadata -->
+    <div *ngIf="config.createdAt" class="config-metadata">
+      <div class="metadata-item">
+        <span class="label">Estado:</span>
+        <span class="value" [class.active]="config.activo">{{ config.activo ? 'Activo' : 'Inactivo' }}</span>
+      </div>
+      <div class="metadata-item">
+        <span class="label">Creado:</span>
+        <span class="value">{{ config.createdAt | date:'medium' }}</span>
+      </div>
+      <div class="metadata-item">
+        <span class="label">Última actualización:</span>
+        <span class="value">{{ config.updatedAt | date:'medium' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Test de Cotización -->
+  <div class="test-section">
+    <div class="section-header">
+      <h2>Testear Cotización en Tiempo Real</h2>
+      <p class="section-description">Prueba el motor de cotización con parámetros personalizados</p>
+    </div>
+
+    <div class="test-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Largo (cm)</label>
+          <input type="number" [(ngModel)]="testPayload.largo" class="form-control" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Ancho (cm)</label>
+          <input type="number" [(ngModel)]="testPayload.ancho" class="form-control" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Alto (cm)</label>
+          <input type="number" [(ngModel)]="testPayload.alto" class="form-control" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Peso Real (kg)</label>
+          <input type="number" [(ngModel)]="testPayload.pesoReal" class="form-control" step="0.1">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>CP Origen</label>
+          <input type="text" [(ngModel)]="testPayload.cpOrigen" class="form-control" maxlength="5">
+        </div>
+        <div class="form-group">
+          <label>CP Destino</label>
+          <input type="text" [(ngModel)]="testPayload.cpDestino" class="form-control" maxlength="5">
+        </div>
+        <div class="form-group calculated">
+          <label>Peso Volumétrico (kg)</label>
+          <div class="calculated-value">{{ pesoVolumetrico | number:'1.2-2' }}</div>
+        </div>
+        <div class="form-group calculated">
+          <label>Peso a Cobrar (kg)</label>
+          <div class="calculated-value">
+            {{ (testPayload.pesoReal > pesoVolumetrico ? testPayload.pesoReal : pesoVolumetrico) | number:'1.2-2' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="test-actions">
+        <button class="btn btn-test" (click)="testQuotation()" [disabled]="isTesting">
+          <span class="icon">🧪</span> {{ isTesting ? 'Testeando...' : 'Ejecutar Test de Cotización' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Resultado del Test -->
+    <div *ngIf="showTestResult && testResult && testResult.data" class="test-result">
+      <h3>✅ Resultado de la Cotización</h3>
+      
+      <div class="result-summary">
+        <div class="summary-card main-price">
+          <div class="card-icon">💰</div>
+          <div class="card-content">
+            <span class="card-label">Precio Total</span>
+            <span class="card-value">${{ testResult.data.total_pricing | number:'1.2-2' }} {{ testResult.data.currency }}</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">📏</div>
+          <div class="card-content">
+            <span class="card-label">Distancia</span>
+            <span class="card-value">{{ testResult.data.distance_km | number:'1.2-2' }} km</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">⚖️</div>
+          <div class="card-content">
+            <span class="card-label">Peso Cobrado</span>
+            <span class="card-value">{{ testResult.data.peso_facturable | number:'1.2-2' }} kg</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-icon">🕐</div>
+          <div class="card-content">
+            <span class="card-label">Tiempo Estimado</span>
+            <span class="card-value">{{ testResult.data.days }} {{ testResult.data.days === 1 ? 'día' : 'días' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desglose de Costos -->
+      <div class="cost-breakdown">
+        <h4>Desglose de Costos</h4>
+        <div class="breakdown-grid">
+          <div class="breakdown-item">
+            <span class="item-label">💵 Precio Base</span>
+            <span class="item-value">${{ testResult.data.desglose.precio_base | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item">
+            <span class="item-label">🛣️ Costo por Distancia</span>
+            <span class="item-value">${{ testResult.data.desglose.costo_distancia | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item">
+            <span class="item-label">📦 Costo por Peso</span>
+            <span class="item-value">${{ testResult.data.desglose.costo_peso | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item" *ngIf="testResult.data.desglose.recargo_lejania && testResult.data.desglose.recargo_lejania > 0">
+            <span class="item-label">📍 Recargo Lejanía</span>
+            <span class="item-value warning">${{ testResult.data.desglose.recargo_lejania | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item" *ngIf="testResult.data.desglose.recargo_zona_roja && testResult.data.desglose.recargo_zona_roja > 0">
+            <span class="item-label">⚠️ Recargo Zona Roja</span>
+            <span class="item-value warning">${{ testResult.data.desglose.recargo_zona_roja | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item" *ngIf="testResult.data.desglose.recargo_urgencia && testResult.data.desglose.recargo_urgencia > 0">
+            <span class="item-label">⚡ Recargo Urgencia</span>
+            <span class="item-value warning">${{ testResult.data.desglose.recargo_urgencia | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item" *ngIf="testResult.data.desglose.recargo_combustible && testResult.data.desglose.recargo_combustible > 0">
+            <span class="item-label">⛽ Recargo Combustible</span>
+            <span class="item-value">${{ testResult.data.desglose.recargo_combustible | number:'1.2-2' }}</span>
+          </div>
+          
+          <div class="breakdown-item" *ngIf="testResult.data.desglose.seguro && testResult.data.desglose.seguro > 0">
+            <span class="item-label">🛡️ Seguro</span>
+            <span class="item-value">${{ testResult.data.desglose.seguro | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información del Servicio -->
+      <div class="service-info">
+        <h4>🚚 Información del Servicio</h4>
+        <div class="service-details">
+          <div class="service-item">
+            <span class="service-icon">📦</span>
+            <div class="service-content">
+              <span class="service-label">Servicio</span>
+              <span class="service-value">{{ testResult.data.service_level.name }}</span>
+            </div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon">🏢</span>
+            <div class="service-content">
+              <span class="service-label">Proveedor</span>
+              <span class="service-value">{{ testResult.data.provider | uppercase }}</span>
+            </div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon">🔖</span>
+            <div class="service-content">
+              <span class="service-label">ID Cotización</span>
+              <span class="service-value">{{ testResult.data.id }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de Direcciones -->
+      <div class="address-info">
+        <div class="address-card">
+          <h4>📤 Origen</h4>
+          <p><strong>CP:</strong> {{ testPayload.cpOrigen }}</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="address-card">
+          <h4>📥 Destino</h4>
+          <p><strong>CP:</strong> {{ testPayload.cpDestino }}</p>
+        </div>
+      </div>
+
+      <!-- Información del Paquete -->
+      <div class="package-info">
+        <h4>📦 Información del Paquete</h4>
+        <div class="package-details">
+          <div class="detail-item">
+            <span class="detail-label">Dimensiones:</span>
+            <span class="detail-value">{{ testPayload.largo }} x {{ testPayload.ancho }} x {{ testPayload.alto }} cm</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Peso Real:</span>
+            <span class="detail-value">{{ testPayload.pesoReal }} kg</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Peso Volumétrico:</span>
+            <span class="detail-value">{{ testResult.data.peso_volumetrico | number:'1.2-2' }} kg</span>
+          </div>
+          <div class="detail-item highlight">
+            <span class="detail-label">Peso Facturable:</span>
+            <span class="detail-value">{{ testResult.data.peso_facturable | number:'1.2-2' }} kg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón para ver JSON completo -->
+      <div class="json-toggle">
+        <button class="btn-link" (click)="showRawJson = !showRawJson">
+          {{ showRawJson ? '🔼 Ocultar JSON' : '🔽 Ver JSON Completo' }}
+        </button>
+      </div>
+
+      <div *ngIf="showRawJson" class="raw-json">
+        <pre>{{ testResult | json }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
