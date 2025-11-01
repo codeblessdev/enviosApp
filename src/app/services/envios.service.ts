@@ -77,7 +77,7 @@ export class EnviosService {
   }
 
   // Nuevo método unificado para crear envíos con cualquier proveedor
-  crearEnvioUnificado(datosEnvio: any, proveedor: 'skydropx' | 'manuable'): Promise<any> {
+  crearEnvioUnificado(datosEnvio: any, proveedor: 'skydropx' | 'manuable' | 'enkrgo'): Promise<any> {
     const headers = this.buildHeaders();
     
     // Agregar el campo provider al payload
