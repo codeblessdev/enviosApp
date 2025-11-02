@@ -207,5 +207,16 @@ export class EnviosService {
       .put(`${environment.apiUrl}/enkrgo/config`, config, { headers })
       .toPromise();
   }
+
+  // Descargar PDF de envío Enkrgo
+  descargarPDFEnvio(envioId: string): Promise<Blob> {
+    const headers = this.buildHeaders();
+    return this.http
+      .get(`${environment.apiUrl}/shipping/envios/${envioId}/pdf`, { 
+        headers,
+        responseType: 'blob' 
+      })
+      .toPromise() as Promise<Blob>;
+  }
   
 }

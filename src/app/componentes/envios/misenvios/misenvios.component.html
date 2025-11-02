@@ -109,6 +109,13 @@
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <button 
+                                    *ngIf="esEnvioEnkrgo(e)"
+                                    (click)="descargarPDFEnvio(e)" 
+                                    class="btn-accion btn-pdf" 
+                                    title="Descargar PDF">
+                                    <i class="fas fa-file-pdf"></i>
+                                </button>
+                                <button 
                                     (click)="confirmarCancelacion(e)" 
                                     class="btn-accion btn-cancelar" 
                                     title="Cancelar envío"

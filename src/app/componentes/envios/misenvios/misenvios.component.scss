@@ -480,6 +480,16 @@ button i.fas {
   transform: translateY(-1px);
 }
 
+.btn-pdf {
+  background-color: #e67e22;
+  color: white;
+}
+
+.btn-pdf:hover {
+  background-color: #d35400;
+  transform: translateY(-1px);
+}
+
 .btn-cancelar {
   background-color: #e74c3c;
   color: white;
