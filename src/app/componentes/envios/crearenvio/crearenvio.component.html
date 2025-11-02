@@ -18,7 +18,7 @@
       </ng-container>
 
       <ng-container *ngIf="pasoActual === 2">
-        <app-datospersonales-envio (datosCompletados)="unificarDatos($event)"></app-datospersonales-envio>
+        <app-datospersonales-envio [selectedEnvio]="selectedEnvio" (datosCompletados)="unificarDatos($event)"></app-datospersonales-envio>
       </ng-container>
 
       <ng-container *ngIf="pasoActual === 3">

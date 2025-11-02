@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EnviosService } from '../../../services/envios.service';
 
@@ -12,8 +12,12 @@ import { EnviosService } from '../../../services/envios.service';
 })
 export class DatospersonalesEnvioComponent {
 
+  @Input() selectedEnvio?: any;
   @Output() datosCompletados = new EventEmitter<{ remitente: any, destinatario: any }>();
   formulario!: FormGroup;
+  
+  // Variable para detectar si es enkrgo
+  esEnkrgo = false;
 
   remitentesGuardados: any[] = [];
   destinatariosGuardados: any[] = [];
@@ -34,6 +38,12 @@ export class DatospersonalesEnvioComponent {
   showMenuProducto = false;
 
   async ngOnInit(): Promise<void> {
+    // Detectar si el tipo de envío es enkrgo
+    if (this.selectedEnvio?.servicio?.origen) {
+      this.esEnkrgo = this.selectedEnvio.servicio.origen.startsWith('ek-');
+      console.log('Es Enkrgo:', this.esEnkrgo);
+    }
+
     await this.cargarRemitentes();
     await this.cargarDestinatarios();
 

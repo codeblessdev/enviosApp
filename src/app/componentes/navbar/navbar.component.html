@@ -75,6 +75,10 @@
           </div>
         </li>
 
+        <li class="nav-item" style="text-align: center;">
+          <a class="nav-link active text-black" aria-current="page" style="cursor: pointer;" (click)="navigateTo('/admin/enkrgo')">Admin Enkrgo</a>
+        </li>
+
         <ng-container *ngIf="user$ | async as currentUser; else mostrarLogin">
 
             <li class="nav-item position-relative" (click)="toggleCard()">
@@ -141,6 +145,17 @@
           <a routerLink="/misenvios" class="link-envio">
             <img src="assets/icono-misenvios.png" alt="icono mis envios" style="width: 24px; height: 24px; margin-right: 8px;">
             Mis envíos
+          </a>
+        </div>
+      </div>
+
+      <hr class="linea-divisoria" />
+
+      <div class="seccion-envios">
+        <h6 class="titulo-seccion">ADMINISTRACIÓN</h6>
+        <div class="grid-envios">
+          <a routerLink="/admin/enkrgo" class="link-envio" (click)="cerrarModal()">
+            Admin Enkrgo
           </a>
         </div>
       </div>

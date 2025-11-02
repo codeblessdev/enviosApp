@@ -135,6 +135,7 @@ export class EnkrgoAdminComponent implements OnInit {
       console.error('Error al guardar configuración:', error);
     } finally {
       this.isSaving = false;
+      this.showTestResult = false;
     }
   }
 
