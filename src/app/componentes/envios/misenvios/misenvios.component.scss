@@ -146,9 +146,33 @@ hr {
   color: var(--text-secondary);
 }
 
+button i.fas,
+i.fas,
+.fas {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+}
+
 button i.fas {
   font-size: var(--text-lg);
   color: var(--text-secondary);
+}
+
+.btn-accion i.fas {
+  font-size: 14px;
+  color: white;
+  display: inline-block;
+}
+
+.copy-btn i.fas {
+  font-size: 12px;
+  color: white;
+  display: inline-block;
 }
 
 .panel-izquierda,
@@ -548,6 +572,14 @@ button i.fas {
   display: flex;
   align-items: center;
   gap: 8px;
+  
+  i.fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-style: normal;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
 .btn-cerrar {
@@ -556,6 +588,14 @@ button i.fas {
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
+  
+  i.fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-style: normal;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+  }
   padding: 4px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
@@ -646,12 +686,20 @@ button i.fas {
   color: white;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 8px;
+  
+  i.fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-style: normal;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+  }
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .btn-confirmar:hover:not(:disabled) {
@@ -688,9 +736,14 @@ button i.fas {
 }
 
 .no-envios-content i {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-style: normal;
   font-size: 3rem;
   color: #6c757d;
   margin-bottom: 1rem;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
 }
 
 .no-envios-content h3 {
