@@ -47,8 +47,11 @@ export class NavbarComponent {
     this.auth.user$.subscribe(user => {
       if (user) {
         this.isLogged = true;
+        this.cargarSaldoManuable();
+      } else {
+        this.isLogged = false;
+        this.saldoManuable = 0;
       }
-
     });
     
   }
