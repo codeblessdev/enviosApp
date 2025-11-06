@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EnviosService } from '../../../services/envios.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cotizarenvio',
@@ -47,7 +48,11 @@ export class CotizarenvioComponent {
   
   isLoading = false;
 
-  constructor(private elRef: ElementRef, private enviosService: EnviosService) {}
+  constructor(
+    private elRef: ElementRef, 
+    private enviosService: EnviosService,
+    private toastr: ToastrService
+  ) {}
 
   get pesoVolumetrico(): number {
     if (this.largo && this.ancho && this.alto) {
@@ -400,8 +405,6 @@ export class CotizarenvioComponent {
 
       // const response = await this.enviosService.cotizar({ ...cotizacionPayload, shippingCompany: 'manuable' });
 
-      console.log("Cotizaciones:", cotizaciones);
-
       this.cotizar.emit({
         response: cotizaciones,
         data: {
@@ -423,8 +426,16 @@ export class CotizarenvioComponent {
       // Desactivar loading después de emitir la cotización
       this.isLoading = false;
       this.loadingChange.emit(false);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error al cotizar:', err);
+      
+      // Mostrar toast de error con mensaje genérico
+      this.toastr.error('Error al cotizar el envío. Por favor, inténtalo de nuevo.', 'Error al cotizar', {
+        timeOut: 4000,
+        positionClass: 'toast-top-right',
+        progressBar: true
+      });
+      
       // Desactivar loading también en caso de error
       this.isLoading = false;
       this.loadingChange.emit(false);

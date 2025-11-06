@@ -86,6 +86,36 @@
     }
   }
   
+  .botones-accion {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .btn-volver {
+    background-color: transparent;
+    color: #5A3FF1;
+    border: 2px solid #5A3FF1;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: #5A3FF1;
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(90, 63, 241, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
   .btn-crear {
     background-color: #5A3FF1;
     color: white;
@@ -95,4 +125,11 @@
     border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
+    flex: 1;
+  }
+  
+  .btn-crear:hover {
+    background-color: #4a2fd1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(90, 63, 241, 0.2);
   }

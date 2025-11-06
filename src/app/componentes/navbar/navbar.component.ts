@@ -22,6 +22,7 @@ export class NavbarComponent {
   mostrarCardPerfil = false;
   mostrarCardEnvios = false;
   saldo: number = 0;
+  saldoManuable: number = 0;
   menuAbierto = false;
   modalAbierto = false;
   isLogged: boolean = false;
@@ -81,6 +82,18 @@ export class NavbarComponent {
       },
       complete: () => {
         this.loading = false;
+      }
+    });
+
+    // Obtener saldo de Manuable
+    this.walletService.getManuableBalance().subscribe({
+      next: (data) => {
+        console.log("Saldo Manuable:", data);
+        this.saldoManuable = parseFloat(data.total || '0');
+      },
+      error: (error) => {
+        console.error('Error al obtener el saldo de Manuable:', error);
+        // No cerrar sesión si falla Manuable, solo loguear el error
       }
     });
 

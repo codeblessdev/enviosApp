@@ -36,8 +36,6 @@ export class SeleccionenvioComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['cotizacion'] && changes['cotizacion'].currentValue) {
 
-    console.log("cotizacion", this.cotizacion);
-
     // Reiniciar acumuladores
     this.displayServices = [];
     this.auxRates = [];
@@ -130,10 +128,8 @@ export class SeleccionenvioComponent {
       for (let attempt = 1; attempt <= this.MAX_ATTEMPTS; attempt++) {
         try {
           const data = await this.enviosService.getCotizacion(quoteId);
-          console.log(`Polling ${empresa}, intento ${attempt} exitoso`);
           this.filterAndAdd(data.rates);
         } catch (err) {
-          console.error(`Polling ${empresa}, intento ${attempt} fallido:`, err);
         }
         await this.delay(this.RETRY_DELAY_MS);
       }
@@ -223,7 +219,6 @@ export class SeleccionenvioComponent {
       
     }
 
-    console.log("displayService", this.displayServices);
   }
 
   private async startPollingUpdates() {
@@ -235,7 +230,6 @@ export class SeleccionenvioComponent {
       for (let attempt = 1; attempt <= this.MAX_ATTEMPTS; attempt++) {
         try {
           const data = await this.enviosService.getCotizacion(quoteId);
-          console.log(`Polling ID: ${quoteId} | Intento ${attempt} exitoso`);
 
           if (data?.rates?.length) {
             this.filterAndAdd(data.rates);

@@ -1,22 +1,33 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EnviosService } from '../../../services/envios.service';
+import { LoadingComponent } from '../../loading/loading.component';
 
 @Component({
   selector: 'app-datospersonales-envio',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, LoadingComponent],
   templateUrl: './datospersonales-envio.component.html',
   styleUrl: './datospersonales-envio.component.scss'
 })
-export class DatospersonalesEnvioComponent {
+export class DatospersonalesEnvioComponent implements OnChanges {
 
+  @Input() envio: any;
   @Output() datosCompletados = new EventEmitter<{ remitente: any, destinatario: any }>();
+  @Output() volver = new EventEmitter<void>();
   formulario!: FormGroup;
+  
+  // Determinar si requiere empaque y producto
+  requiereEmpaqueYProducto = false;
 
   remitentesGuardados: any[] = [];
   destinatariosGuardados: any[] = [];
+  
+  // Variables para controlar el loading
+  loading = true;
+  remitentesCargados = false;
+  destinatariosCargados = false;
   
   // Variables para controlar la visibilidad de los checkboxes
   mostrarGuardarRemitente = true;
@@ -39,13 +50,59 @@ export class DatospersonalesEnvioComponent {
 
     console.log('remitentesGuardados', this.remitentesGuardados)
     console.log('destinatariosGuardados', this.destinatariosGuardados)
+    
+    // Verificar si requiere empaque y producto al inicializar
+    this.verificarRequerimientos();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['envio']) {
+      this.verificarRequerimientos();
+      // Si el formulario ya está inicializado, actualizar validadores
+      if (this.formulario) {
+        this.actualizarValidadores();
+      }
+    }
+  }
+
+  verificarRequerimientos() {
+    if (!this.envio?.servicio) {
+      this.requiereEmpaqueYProducto = false;
+      return;
+    }
+
+    const origen = this.envio.servicio.origen || this.envio.servicio.raw?.origen || '';
+    const esSkydropx = origen.startsWith('se-');
+    const esManuable = origen.startsWith('mh-');
+    
+    this.requiereEmpaqueYProducto = esSkydropx || esManuable;
+    
+    if (this.formulario) {
+      this.actualizarValidadores();
+    }
+  }
+
+  actualizarValidadores() {
+    const tipoEmpaqueControl = this.formulario.get('tipoEmpaque');
+    const tipoProductoControl = this.formulario.get('tipoProducto');
+    
+    if (this.requiereEmpaqueYProducto) {
+      tipoEmpaqueControl?.setValidators([Validators.required]);
+      tipoProductoControl?.setValidators([Validators.required]);
+    } else {
+      tipoEmpaqueControl?.clearValidators();
+      tipoProductoControl?.clearValidators();
+    }
+    
+    tipoEmpaqueControl?.updateValueAndValidity();
+    tipoProductoControl?.updateValueAndValidity();
   }
 
 
 
   constructor(private fb: FormBuilder, private enviosService: EnviosService) {
     this.formulario = this.fb.group({
-      // Campos de empaque y producto
+      // Campos de empaque y producto - inicialmente sin validadores, se agregarán condicionalmente
       tipoEmpaque: [''],
       tipoProducto: [''],
       
@@ -121,8 +178,14 @@ export class DatospersonalesEnvioComponent {
         // La respuesta ya es un array directamente, no tiene .data
         this.remitentesGuardados = Array.isArray(res) ? res : (res.data || []);
         console.log('Remitentes cargados:', this.remitentesGuardados);
+        this.remitentesCargados = true;
+        this.verificarLoading();
       },
-      error: (err) => console.error('Error al cargar remitentes:', err)
+      error: (err) => {
+        console.error('Error al cargar remitentes:', err);
+        this.remitentesCargados = true;
+        this.verificarLoading();
+      }
     });
   }
 
@@ -133,9 +196,22 @@ export class DatospersonalesEnvioComponent {
         // La respuesta ya es un array directamente, no tiene .data
         this.destinatariosGuardados = Array.isArray(res) ? res : (res.data || []);
         console.log('Destinatarios cargados:', this.destinatariosGuardados);
+        this.destinatariosCargados = true;
+        this.verificarLoading();
       },
-      error: (err) => console.error('Error al cargar destinatarios:', err)
+      error: (err) => {
+        console.error('Error al cargar destinatarios:', err);
+        this.destinatariosCargados = true;
+        this.verificarLoading();
+      }
     });
+  }
+
+  verificarLoading() {
+    // Solo ocultar el loading cuando ambas cargas hayan terminado (exitosas o con error)
+    if (this.remitentesCargados && this.destinatariosCargados) {
+      this.loading = false;
+    }
   }
 
 

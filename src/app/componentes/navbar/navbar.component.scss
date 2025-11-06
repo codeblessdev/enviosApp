@@ -59,6 +59,34 @@
   }
 }
 
+.wallet-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.wallet-box,
+.manuable-box {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #000000;
+  border-radius: 6px;
+  background-color: #b6b6b6;
+  gap: var(--space-3);
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    background-color: #c4c4c4;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.manuable-box {
+  opacity: 0.95;
+}
+
 .btn-danger {
   @extend .btn;
   @extend .btn-error;
@@ -358,6 +386,12 @@
     border: 2px solid #666;
   }
 
+  .billeteras-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .billetera {
     display: flex;
     align-items: center;
@@ -376,6 +410,10 @@
   .billetera span {
     color: #000;
     font-weight: 600;
+  }
+
+  .manuable-mobile {
+    opacity: 0.95;
   }
 
   .btn-agregar {

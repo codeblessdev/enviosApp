@@ -29,6 +29,29 @@
   background-color: #0039ab;
 }
 
+.btn-volver {
+  background-color: transparent;
+  color: #002a80;
+  border: 2px solid #002a80;
+  width: 150px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #002a80;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 42, 128, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
   @media (max-width: 992px) {
   .remitente {
     margin-right: 0 !important;
