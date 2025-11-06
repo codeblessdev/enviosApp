@@ -16,24 +16,27 @@
         <div class="col-12 col-md-6 d-flex align-items-center justify-content-center right-side">
             <div class="login-card w-100" style="max-width: 700px;">
             <h2 class="text-center" style="margin-bottom: 2.5rem;">Registro</h2>
-            <form>
+            <form (ngSubmit)="Register()">
                 <div class="mb-3">
-                <input type="email" [(ngModel)] = "userMail" name = "userMail" class="form-control form-control-lg" placeholder="Email">
+                    <input type="text" [(ngModel)] = "nombre" name = "nombre" class="form-control form-control-lg" placeholder="Nombre" required>
                 </div>
                 <div class="mb-3">
-                    <input type="username" [(ngModel)] = "userName" name = "userName" class="form-control form-control-lg" placeholder="username">
-                    </div>
+                    <input type="text" [(ngModel)] = "apellido" name = "apellido" class="form-control form-control-lg" placeholder="Apellido" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" [(ngModel)] = "userMail" name = "userMail" class="form-control form-control-lg" placeholder="Email" required>
+                </div>
                 <div style="margin-bottom: 3.5rem;">
-                <input type="password" [(ngModel)] = "userPass" name = "userPass" class="form-control form-control-lg" placeholder="Contraseña">
+                    <input type="password" [(ngModel)] = "userPass" name = "userPass" class="form-control form-control-lg" placeholder="Contraseña" required>
                 </div>
 
                 <div class = "w-100 d-flex justify-content-center">
-                    <button type="submit" (click)="Register()" class="btn btn-primary btn-lg ">Registrarme</button>
+                    <button type="submit" class="btn btn-primary btn-lg ">Registrarme</button>
                 </div>
 
             </form>
             <p class="text-center mt-3 small">
-                ¿Ya tenés cuenta? <a href="/login">Iniciar Sesion</a>
+                ¿Ya tenés cuenta? <a routerLink="/login">Iniciar Sesion</a>
             </p>
             </div>
         </div>

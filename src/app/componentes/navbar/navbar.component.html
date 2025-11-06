@@ -55,6 +55,15 @@
               Manuable
             </span>
 
+            <button
+              type="button"
+              class="btn-refresh-manuable"
+              (click)="cargarSaldoManuable()"
+              title="Actualizar saldo de Manuable"
+            >
+              ⟳
+            </button>
+
           </div>
       </div>
 
@@ -94,8 +103,8 @@
 
         <ng-container *ngIf="user$ | async as currentUser; else mostrarLogin">
 
-            <li class="nav-item position-relative" (click)="toggleCard()">
-                <a class="botonPerfil nav-link active text-white" routerLink="perfil" routerLinkActive="active-route" style="cursor: pointer;">
+            <li class="nav-item position-relative">
+                <a class="botonPerfil nav-link active text-white" routerLink="perfil" routerLinkActive="active-route" style="cursor: pointer;" (click)="$event.stopPropagation(); toggleCard($event)">
                   <img 
                   src="assets/perfil.png" 
                   alt="foto-perfil"
@@ -105,10 +114,10 @@
                 </a>
               
                
-                <div *ngIf="mostrarCard" class="overlay"></div>
+                <div *ngIf="mostrarCard" class="overlay" (click)="mostrarCard = false"></div>
               
                 
-                <div *ngIf="mostrarCard" class="perfil-card position-absolute start-0">
+                <div *ngIf="mostrarCard" class="perfil-card position-absolute start-0" (click)="$event.stopPropagation()">
 
                   <div class="card">
 
@@ -203,6 +212,14 @@
               <img src="assets/billetera.png" alt="manuable" />
               <span>${{ saldoManuable | number:'1.2-2' }} MXN</span>
               <span style="font-size: 0.75rem; opacity: 0.7;">Manuable</span>
+              <button 
+                type="button"
+                class="btn-refresh-manuable-mobile"
+                (click)="cargarSaldoManuable()"
+                title="Actualizar saldo de Manuable"
+              >
+                ⟳
+              </button>
             </div>
           </div>
 

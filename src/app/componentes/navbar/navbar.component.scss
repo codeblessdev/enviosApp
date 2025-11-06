@@ -87,6 +87,30 @@
   opacity: 0.95;
 }
 
+.btn-refresh-manuable {
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: rotate(180deg);
+  }
+  
+  &:active {
+    transform: rotate(360deg);
+  }
+}
+
 .btn-danger {
   @extend .btn;
   @extend .btn-error;
@@ -414,6 +438,30 @@
 
   .manuable-mobile {
     opacity: 0.95;
+  }
+
+  .btn-refresh-manuable-mobile {
+    background: transparent;
+    border: none;
+    color: #000;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      transform: rotate(180deg);
+    }
+    
+    &:active {
+      transform: rotate(360deg);
+    }
   }
 
   .btn-agregar {

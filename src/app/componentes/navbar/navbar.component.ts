@@ -86,6 +86,10 @@ export class NavbarComponent {
     });
 
     // Obtener saldo de Manuable
+    this.cargarSaldoManuable();
+  }
+
+  cargarSaldoManuable() {
     this.walletService.getManuableBalance().subscribe({
       next: (data) => {
         console.log("Saldo Manuable:", data);
@@ -96,8 +100,6 @@ export class NavbarComponent {
         // No cerrar sesión si falla Manuable, solo loguear el error
       }
     });
-
-    
   }
 
   confirmarDeposito() {
@@ -152,7 +154,10 @@ export class NavbarComponent {
     this.seleccionado = m;
   }
 
-  toggleCard(): void {
+  toggleCard(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     this.mostrarCard = !this.mostrarCard;
     this.mostrarCardEnvios = false;
   }
@@ -168,8 +173,27 @@ export class NavbarComponent {
 
   @HostListener('document:click', ['$event'])
   onClickFuera(event: MouseEvent) {
-    const clickeadoDentro = this.eRef.nativeElement.contains(event.target);
+    const target = event.target as HTMLElement;
+    const clickeadoDentro = this.eRef.nativeElement.contains(target);
+    
+    // Verificar si el click fue en el botón de perfil o en la card de perfil
+    const clickEnPerfil = target.closest('.botonPerfil') || target.closest('.perfil-card');
+    
     if (!clickeadoDentro) {
+      // Si el click está fuera del componente completo, cerrar todo
+      this.mostrarCardEnvios = false;
+      this.mostrarCard = false;
+    } else if (clickEnPerfil && this.mostrarCard) {
+      // Si el click está en el botón de perfil o en la card, no hacer nada (el toggleCard manejará)
+      return;
+    } else if (this.mostrarCard && !clickEnPerfil) {
+      // Si el modal está abierto y el click no fue en el botón ni en la card, cerrar
+      this.mostrarCard = false;
+    }
+    
+    // Cerrar menu de envios si está abierto y el click no fue en él
+    const clickEnEnvios = target.closest('.nav-item')?.querySelector('.envios-card');
+    if (this.mostrarCardEnvios && !clickEnEnvios) {
       this.mostrarCardEnvios = false;
     }
   }

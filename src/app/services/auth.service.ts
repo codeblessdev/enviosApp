@@ -72,42 +72,56 @@ export class AuthService {
     }
   }
 
-  async register(username: string, email: string, password: string): Promise<any> {
-    const body = { username, email, password };
+  async register(nombre: string, apellido: string, email: string, password: string): Promise<any> {
+    const body = { nombre, apellido, email, password };
 
     try {
+      const response: any = await this.http
+        .post(`${environment.apiUrl}/auth/register`, body, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .toPromise();
 
-        const response: any = await this.http
-            .post(`${environment.apiUrl}/auth/register`, body, {
-                headers: { 'Content-Type': 'application/json' },
-            })
-            .toPromise();
+      console.log("response", response);
 
-        console.log("response", response);
+      // Si la respuesta tiene session.access_token, usarlo directamente
+      if (response.session?.access_token) {
+        const token = response.session.access_token.includes('|') 
+          ? response.session.access_token.split('|')[1] 
+          : response.session.access_token;
 
-        // let tokenResponse = response.user.original.access_token;
+        console.log('Token recibido en registro:', response.session.access_token);
+        
+        sessionStorage.setItem(this.tokenKey, response.session.access_token);
 
+        const userData = { ...response.user };
+        delete userData.password;
 
-        // if (tokenResponse) {
+        this.guardarSesion(response.user);
 
-        //     const token = tokenResponse.includes('|') 
-        //         ? tokenResponse.split('|')[1] 
-        //         : tokenResponse;
-       
-        //     sessionStorage.setItem(this.tokenKey, token);
-
-        //     const userData = { ...response.user };
-        //     delete userData.password;
-
-        //     this.guardarSesion(response.user);
-
-        //     return response.user;
-        // } else {
-        //   console.log('No se recibió token en la respuesta.');
-        // }
+        return response.user;
+      } 
+      // Si no hay token, hacer login automático con las credenciales
+      else if (response.user) {
+        console.log('No se recibió token en registro, haciendo login automático...');
+        
+        // Hacer login automático para obtener el token
+        try {
+          const loginResponse = await this.login(email, password);
+          return loginResponse;
+        } catch (loginError) {
+          // Si el login falla, al menos guardar el usuario
+          console.error('Error en login automático después de registro:', loginError);
+          this.guardarSesion(response.user);
+          return response.user;
+        }
+      } else {
+        console.log('No se recibió token ni usuario en la respuesta.');
+        throw new Error('No se pudo completar el registro');
+      }
     } catch (error) {
-        console.error('Error en registro: 1', error);
-        throw error;
+      console.error('Error en registro:', error);
+      throw error;
     }
   }
 
