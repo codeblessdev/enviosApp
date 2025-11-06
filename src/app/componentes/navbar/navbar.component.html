@@ -15,11 +15,11 @@
 
         <div 
         *ngIf="user$ | async as currentUser"
-        class="wallet-container d-flex align-items-center"
+        class="wallet-container d-flex align-items-center gap-3"
         style="margin-right: 15px;"
       >
 
-      <div class="d-flex align-items-center p-0 m-0" style="border: 1px solid #000000; border-radius: 6px; background-color: #b6b6b6;; gap: 15px;">
+      <!-- <div class="d-flex align-items-center p-0 m-0 wallet-box" style="border: 1px solid #000000; border-radius: 6px; background-color: #b6b6b6;; gap: 15px;">
         <img
         src="assets/billetera.png"
         alt="billetera"
@@ -38,7 +38,33 @@
           +
         </button>
 
-        </div>
+        </div> -->
+
+        <div class="d-flex align-items-center p-0 m-0 manuable-box" style="border: 1px solid #000000; border-radius: 6px; background-color: #b6b6b6;; gap: 15px;">
+          <img
+          src="assets/billetera.png"
+          alt="manuable"
+          style="width:24px; height:auto; margin:0 4px;"
+          />
+          
+          <span class="text-black">
+              ${{ saldoManuable | number:'1.2-2' }} MXN
+            </span>
+        
+            <span class="text-black" style="font-size: 0.85rem; opacity: 0.7;">
+              Manuable
+            </span>
+
+            <!-- <button
+              type="button"
+              class="btn-refresh-manuable"
+              (click)="cargarSaldoManuable()"
+              title="Actualizar saldo de Manuable"
+            >
+              ⟳
+            </button> -->
+
+          </div>
       </div>
 
 
@@ -77,8 +103,8 @@
 
         <ng-container *ngIf="user$ | async as currentUser; else mostrarLogin">
 
-            <li class="nav-item position-relative" (click)="toggleCard()">
-                <a class="botonPerfil nav-link active text-white" routerLink="perfil" routerLinkActive="active-route" style="cursor: pointer;">
+            <li class="nav-item position-relative">
+                <a class="botonPerfil nav-link active text-white" routerLink="perfil" routerLinkActive="active-route" style="cursor: pointer;" (click)="$event.stopPropagation(); toggleCard($event)">
                   <img 
                   src="assets/perfil.png" 
                   alt="foto-perfil"
@@ -88,10 +114,10 @@
                 </a>
               
                
-                <div *ngIf="mostrarCard" class="overlay"></div>
+                <div *ngIf="mostrarCard" class="overlay" (click)="mostrarCard = false"></div>
               
                 
-                <div *ngIf="mostrarCard" class="perfil-card position-absolute start-0">
+                <div *ngIf="mostrarCard" class="perfil-card position-absolute start-0" (click)="$event.stopPropagation()">
 
                   <div class="card">
 
@@ -176,10 +202,25 @@
             </div>
           </div>
 
-          <div class="billetera">
-            <img src="assets/billetera.png" alt="billetera" />
-            <span>${{ saldo | number:'1.2-2' }} MXN</span>
-            <button class="btn-agregar" (click)="abrirModalDeposito()">+</button>
+          <div class="billeteras-mobile">
+            <div class="billetera">
+              <img src="assets/billetera.png" alt="billetera" />
+              <span>${{ saldo | number:'1.2-2' }} MXN</span>
+              <button class="btn-agregar" (click)="abrirModalDeposito()">+</button>
+            </div>
+            <div class="billetera manuable-mobile">
+              <img src="assets/billetera.png" alt="manuable" />
+              <span>${{ saldoManuable | number:'1.2-2' }} MXN</span>
+              <span style="font-size: 0.75rem; opacity: 0.7;">Manuable</span>
+              <button 
+                type="button"
+                class="btn-refresh-manuable-mobile"
+                (click)="cargarSaldoManuable()"
+                title="Actualizar saldo de Manuable"
+              >
+                ⟳
+              </button>
+            </div>
           </div>
 
         </ng-container>

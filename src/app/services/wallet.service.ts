@@ -27,6 +27,12 @@ export class WalletService {
     return this.http.get<any>(`${environment.apiUrl}/wallet/balance`, { headers });
   }
 
+  getManuableBalance(): Observable<any> {
+    const token = this.getAuthService().getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${environment.apiUrl}/accounts/balance`, { headers });
+  }
+
   setMontoDeposito(monto: number) {
     this.montoDeposito = monto;
   }

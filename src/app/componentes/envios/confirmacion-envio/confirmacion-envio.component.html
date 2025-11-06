@@ -40,7 +40,10 @@
             <a href="#">términos</a> y <a href="#">políticas</a>.
           </div>
       
-          <button class="btn-crear" (click)="confirmarEnvio()">Pagar Envio</button>
+          <div class="botones-accion">
+            <button class="btn-volver" (click)="volver.emit()">← Volver</button>
+            <button class="btn-crear" (click)="confirmarEnvio()">Pagar Envio</button>
+          </div>
         </div>
     
     </div>

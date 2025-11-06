@@ -18,11 +18,19 @@
       </ng-container>
 
       <ng-container *ngIf="pasoActual === 2">
-        <app-datospersonales-envio (datosCompletados)="unificarDatos($event)"></app-datospersonales-envio>
+        <app-datospersonales-envio 
+          [envio]="selectedEnvio"
+          (datosCompletados)="unificarDatos($event)"
+          (volver)="volverPasoAnterior()">
+        </app-datospersonales-envio>
       </ng-container>
 
       <ng-container *ngIf="pasoActual === 3">
-        <app-confirmacion-envio [envio]="selectedEnvio" (pagoEnvio)="onPagoEnvio($event)"></app-confirmacion-envio>
+        <app-confirmacion-envio 
+          [envio]="selectedEnvio" 
+          (pagoEnvio)="onPagoEnvio($event)"
+          (volver)="volverPasoAnterior()">
+        </app-confirmacion-envio>
       </ng-container>
 
 

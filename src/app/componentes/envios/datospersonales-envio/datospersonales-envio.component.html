@@ -1,6 +1,13 @@
 <div class="globalContainer">
 
-    <div class="" style="padding: 0 30px 0px 30px;">
+    <!-- Loading Component -->
+    <app-loading 
+      [show]="loading" 
+      message="Cargando remitentes y destinatarios..." 
+      size="medium">
+    </app-loading>
+
+    <div class="" style="padding: 0 30px 0px 30px;" *ngIf="!loading">
 
       <form [formGroup]="formulario" (ngSubmit)="enviarDatos()">
 
@@ -11,11 +18,15 @@
                 <h5 class="mb-3">📦 Información del Envío</h5>
                 
                 <div class="mb-3">
-                  <label class="form-label">Tipo de Empaque</label>
+                  <label class="form-label">
+                    Tipo de Empaque
+                    <span *ngIf="requiereEmpaqueYProducto" class="text-danger">*</span>
+                  </label>
                   <div class="empaque-search-container position-relative">
                     <input 
                       type="text" 
                       class="form-control" 
+                      [class.is-invalid]="formulario.get('tipoEmpaque')?.invalid && formulario.get('tipoEmpaque')?.touched"
                       formControlName="tipoEmpaque" 
                       placeholder="Buscar empaque..."
                       (input)="buscarEmpaques()"
@@ -45,14 +56,21 @@
                       No se encontraron empaques
                     </div>
                   </div>
+                  <div class="text-danger small mt-1" *ngIf="formulario.get('tipoEmpaque')?.touched && formulario.get('tipoEmpaque')?.errors?.['required']">
+                    El tipo de empaque es obligatorio para {{ requiereEmpaqueYProducto ? 'este tipo de envío' : '' }}
+                  </div>
                 </div>
                 
                 <div class="mb-3">
-                  <label class="form-label">Tipo de Producto</label>
+                  <label class="form-label">
+                    Tipo de Producto
+                    <span *ngIf="requiereEmpaqueYProducto" class="text-danger">*</span>
+                  </label>
                   <div class="producto-search-container position-relative">
                     <input 
                       type="text" 
                       class="form-control" 
+                      [class.is-invalid]="formulario.get('tipoProducto')?.invalid && formulario.get('tipoProducto')?.touched"
                       formControlName="tipoProducto" 
                       placeholder="Buscar producto..."
                       (input)="buscarProductos()"
@@ -81,6 +99,9 @@
                     <div class="no-results" *ngIf="showMenuProducto && productos.length === 0 && !buscandoProductos && formulario.get('tipoProducto')?.value?.length >= 2">
                       No se encontraron productos
                     </div>
+                  </div>
+                  <div class="text-danger small mt-1" *ngIf="formulario.get('tipoProducto')?.touched && formulario.get('tipoProducto')?.errors?.['required']">
+                    El tipo de producto es obligatorio para {{ requiereEmpaqueYProducto ? 'este tipo de envío' : '' }}
                   </div>
                 </div>
               </div>
@@ -306,7 +327,8 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-center" style="padding-top: 3%; padding-bottom: 1%;"> 
+          <div class="d-flex justify-content-center gap-3" style="padding-top: 3%; padding-bottom: 1%;"> 
+            <button type="button" class="btn btn-volver" (click)="volver.emit()">← Volver</button>
             <button type="submit" class="btn btn-cta">Siguiente</button>
           </div>
 

@@ -22,6 +22,7 @@ export class NavbarComponent {
   mostrarCardPerfil = false;
   mostrarCardEnvios = false;
   saldo: number = 0;
+  saldoManuable: number = 0;
   menuAbierto = false;
   modalAbierto = false;
   isLogged: boolean = false;
@@ -46,8 +47,11 @@ export class NavbarComponent {
     this.auth.user$.subscribe(user => {
       if (user) {
         this.isLogged = true;
+        this.cargarSaldoManuable();
+      } else {
+        this.isLogged = false;
+        this.saldoManuable = 0;
       }
-
     });
     
   }
@@ -84,7 +88,21 @@ export class NavbarComponent {
       }
     });
 
-    
+    // Obtener saldo de Manuable
+    this.cargarSaldoManuable();
+  }
+
+  cargarSaldoManuable() {
+    this.walletService.getManuableBalance().subscribe({
+      next: (data) => {
+        console.log("Saldo Manuable:", data);
+        this.saldoManuable = parseFloat(data.total || '0');
+      },
+      error: (error) => {
+        console.error('Error al obtener el saldo de Manuable:', error);
+        // No cerrar sesión si falla Manuable, solo loguear el error
+      }
+    });
   }
 
   confirmarDeposito() {
@@ -139,7 +157,10 @@ export class NavbarComponent {
     this.seleccionado = m;
   }
 
-  toggleCard(): void {
+  toggleCard(event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
     this.mostrarCard = !this.mostrarCard;
     this.mostrarCardEnvios = false;
   }
@@ -155,8 +176,27 @@ export class NavbarComponent {
 
   @HostListener('document:click', ['$event'])
   onClickFuera(event: MouseEvent) {
-    const clickeadoDentro = this.eRef.nativeElement.contains(event.target);
+    const target = event.target as HTMLElement;
+    const clickeadoDentro = this.eRef.nativeElement.contains(target);
+    
+    // Verificar si el click fue en el botón de perfil o en la card de perfil
+    const clickEnPerfil = target.closest('.botonPerfil') || target.closest('.perfil-card');
+    
     if (!clickeadoDentro) {
+      // Si el click está fuera del componente completo, cerrar todo
+      this.mostrarCardEnvios = false;
+      this.mostrarCard = false;
+    } else if (clickEnPerfil && this.mostrarCard) {
+      // Si el click está en el botón de perfil o en la card, no hacer nada (el toggleCard manejará)
+      return;
+    } else if (this.mostrarCard && !clickEnPerfil) {
+      // Si el modal está abierto y el click no fue en el botón ni en la card, cerrar
+      this.mostrarCard = false;
+    }
+    
+    // Cerrar menu de envios si está abierto y el click no fue en él
+    const clickEnEnvios = target.closest('.nav-item')?.querySelector('.envios-card');
+    if (this.mostrarCardEnvios && !clickEnEnvios) {
       this.mostrarCardEnvios = false;
     }
   }

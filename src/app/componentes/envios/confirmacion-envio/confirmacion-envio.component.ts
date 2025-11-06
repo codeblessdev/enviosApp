@@ -12,6 +12,7 @@ export class ConfirmacionEnvioComponent {
   @Input() envio: any; 
 
   @Output() pagoEnvio = new EventEmitter<boolean>();
+  @Output() volver = new EventEmitter<void>();
 
   ngOnInit(){
     console.log("envio", this.envio);

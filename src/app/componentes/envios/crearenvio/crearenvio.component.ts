@@ -52,7 +52,6 @@ export class CrearenvioComponent {
 
   onCotizarRecibido(data: any) {
     this.cotizacionData = data;
-    console.log("cotizacion data", this.cotizacionData);
   }
 
   onLoadingChange(loading: boolean) {
@@ -66,11 +65,16 @@ export class CrearenvioComponent {
       consignmentNote: data.consignmentNote,
       packageType: data.packageType
     };
-    console.log("SelectedEnvio", this.selectedEnvio);
   }
 
   onCrearEnvio() {
     this.pasoActual = 2;
+  }
+
+  volverPasoAnterior() {
+    if (this.pasoActual > 1) {
+      this.pasoActual--;
+    }
   }
 
   private async crearEnvioSkydropx() {
@@ -117,11 +121,9 @@ export class CrearenvioComponent {
       ]
     };
 
-    console.log('Payload para Skydropx:', payload);
     
     // Usar el nuevo endpoint unificado
     const response = await this.enviosService.crearEnvioUnificado(payload, 'skydropx');
-    console.log('Envío creado exitosamente:', response);
     
     // Avanzar al siguiente paso
     this.pasoActual = 2;
@@ -135,7 +137,6 @@ export class CrearenvioComponent {
     };
     this.pasoActual = 3;
 
-    console.log("SelectedEnvio", this.selectedEnvio);
   }
 
   scrollToNextComponent(componentId: string) {
@@ -161,15 +162,12 @@ export class CrearenvioComponent {
     if (pagado) {
       this.isLoading = true;
       this.loadingMessage = 'Generando envío...';
-      
-      console.log("selectedEnvio", this.selectedEnvio);
 
       try {
         // Determinar si es Skydropx o Manuable basado en el prefijo del origen
         const esSkydropx = this.selectedEnvio.servicio.origen?.startsWith('se-');
         const esManuable = this.selectedEnvio.servicio.origen?.startsWith('mh-');
 
-        console.log("esSkydropx", esSkydropx);
         
         if (esSkydropx) {
           await this.crearEnvioSkydropx();
@@ -248,10 +246,8 @@ export class CrearenvioComponent {
       rate_token: servicio.id || servicio.raw?.uuid || "c72f4bc8-0706-4686-9e4f-ab385218fa86"
     };
 
-    console.log("Payload para Manuable:", payload);
     
     // Usar el nuevo endpoint unificado
     const response = await this.enviosService.crearEnvioUnificado(payload, 'manuable');
-    console.log('Envío Manuable creado exitosamente:', response);
   }
 }
