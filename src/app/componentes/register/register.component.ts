@@ -17,6 +17,10 @@ export class RegisterComponent {
   userMail: any;
   userPass: any;
 
+  ngOnInit(): void {
+    this.router.navigate(['/login']);
+  }
+
   constructor(private auth: AuthService, private router: Router){}
 
   async Register(event?: Event) {
