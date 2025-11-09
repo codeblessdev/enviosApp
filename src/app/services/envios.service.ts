@@ -218,5 +218,31 @@ export class EnviosService {
       })
       .toPromise() as Promise<Blob>;
   }
+
+  // Obtener detalle del envío por código de tracking (sin autenticación)
+  getEnvioByTrackingCode(trackingCode: string): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/shipping/envios/codigo/${trackingCode}`)
+      .toPromise();
+  }
+
+  // Actualizar estado del envío (sin autenticación)
+  actualizarEstadoEnvio(envioId: string, nuevoEstado: string, comentario?: string): Promise<any> {
+    const payload: any = {
+      nuevoEstado: nuevoEstado
+    };
+    
+    if (comentario) {
+      payload.comentario = comentario;
+    }
+
+    return this.http
+      .patch(
+        `${environment.apiUrl}/shipping/envios/${envioId}/estado`,
+        payload,
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .toPromise();
+  }
   
 }

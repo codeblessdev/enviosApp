@@ -62,6 +62,10 @@
                   <img src="assets/icono-envios.png" alt="icono envios" style="width: 24px; height: 24px; margin-right: 8px;">
                   Crear envío
                 </a>
+                <a class="btn btn-link w-100 text-start d-flex align-items-center" (click)="navigateTo('/escaneo-qr')" style="gap: 10px;">
+                  <i class="bi bi-qr-code-scan" style="width: 24px; height: 24px; margin-right: 8px; font-size: 24px;"></i>
+                  Escanear envío
+                </a>
                 <!-- <a class="btn btn-link w-100 text-start d-flex align-items-center" (click)="navigateTo('/seguimiento')" style="gap: 10px;">
                   <img src="assets/icono-seguimiento.png" alt="icono seguimiento" style="width: 24px; height: 24px; margin-right: 8px;">
                   Seguimiento
@@ -137,6 +141,10 @@
           <a routerLink="/envios" class="link-envio">
             <img src="assets/icono-envios.png" alt="icono envios" />
             Crear envío
+          </a>
+          <a routerLink="/escaneo-qr" class="link-envio" (click)="cerrarModal()">
+            <i class="bi bi-qr-code-scan" style="font-size: 24px; margin-right: 8px;"></i>
+            Escanear envío
           </a>
           <a routerLink="/seguimiento" class="link-envio">
             <img src="assets/icono-seguimiento.png" alt="icono seguimiento" style="width: 24px; height: 24px; margin-right: 8px;">

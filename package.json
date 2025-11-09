@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@zxing/ngx-scanner": "^20.0.0",
     "bootstrap": "^5.3.5",
     "mercadopago": "^2.8.0",
     "ngx-toastr": "^19.1.0",
