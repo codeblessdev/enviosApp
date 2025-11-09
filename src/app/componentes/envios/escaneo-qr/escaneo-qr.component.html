@@ -78,12 +78,6 @@
           <i class="bi" [ngClass]="modoManual ? 'bi-camera-video' : 'bi-pencil-square'"></i>
           {{ modoManual ? 'Usar Cámara' : 'Ingresar Manualmente' }}
         </button>
-        <button 
-          *ngIf="!modoManual && permisosCamara && camarasDisponibles.length > 1" 
-          class="btn btn-outline-light" 
-          (click)="cambiarCamara()">
-          <i class="bi bi-arrow-repeat"></i> Cambiar Cámara
-        </button>
       </div>
 
       <!-- Instrucciones -->
