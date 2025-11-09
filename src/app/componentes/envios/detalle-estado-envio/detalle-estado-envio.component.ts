@@ -12,35 +12,34 @@ interface HistorialEstado {
   fechaCambio: string;
 }
 
-interface Direccion {
+interface Persona {
+  nombre: string;
+  correo: string;
+  telefono: string;
   calle: string;
+  calle2?: string | null;
   numero: string;
   colonia: string;
   ciudad: string;
   estado: string;
   codigoPostal: string;
-}
-
-interface Persona {
-  nombre: string;
-  apellidos: string;
-  email: string;
-  telefono: string;
-  direccion: Direccion;
+  pais: string;
 }
 
 interface DetalleEnvio {
   id: string;
   trackingCode: string;
+  provider: string;
   estadoActual: string;
   posiblesEstadosSiguientes: string[];
   costo: number;
   fechaEnvio: string;
-  fechaEntregaEstimada?: string;
-  fechaEntregado?: string;
+  fechaEntregaEstimada?: string | null;
+  fechaEntregado?: string | null;
   remitente: Persona;
   destinatario: Persona;
   historialEstados: HistorialEstado[];
+  createdAt: string;
 }
 
 @Component({
@@ -159,18 +158,22 @@ export class DetalleEstadoEnvioComponent implements OnInit {
   }
 
   get direccionCompletaRemitente(): string {
-    if (!this.envio?.remitente?.direccion) return '';
-    const d = this.envio.remitente.direccion;
-    return `${d.calle} ${d.numero}, ${d.colonia}, ${d.ciudad}, ${d.estado}, CP ${d.codigoPostal}`;
+    if (!this.envio?.remitente) return '';
+    const d = this.envio.remitente;
+    const calle2 = d.calle2 ? `, ${d.calle2}` : '';
+    const numero = d.numero ? ` ${d.numero}` : '';
+    return `${d.calle}${numero}${calle2}, ${d.colonia}, ${d.ciudad}, ${d.estado}, CP ${d.codigoPostal}`;
   }
 
   get direccionCompletaDestinatario(): string {
-    if (!this.envio?.destinatario?.direccion) return '';
-    const d = this.envio.destinatario.direccion;
-    return `${d.calle} ${d.numero}, ${d.colonia}, ${d.ciudad}, ${d.estado}, CP ${d.codigoPostal}`;
+    if (!this.envio?.destinatario) return '';
+    const d = this.envio.destinatario;
+    const calle2 = d.calle2 ? `, ${d.calle2}` : '';
+    const numero = d.numero ? ` ${d.numero}` : '';
+    return `${d.calle}${numero}${calle2}, ${d.colonia}, ${d.ciudad}, ${d.estado}, CP ${d.codigoPostal}`;
   }
 
-  formatearFecha(fecha: string | undefined): string {
+  formatearFecha(fecha: string | null | undefined): string {
     if (!fecha) return 'No disponible';
     
     const date = new Date(fecha);

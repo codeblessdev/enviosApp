@@ -1,7 +1,7 @@
 .detalle-envio-container {
   min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
-  padding: 2rem 1rem;
+  padding: 8rem 1rem 2rem 1rem; // Padding superior aumentado para evitar que el navbar tape el contenido
 }
 
 .loading-container,
@@ -211,7 +211,7 @@ form {
 // Responsive
 @media (max-width: 768px) {
   .detalle-envio-container {
-    padding: 1rem 0.5rem;
+    padding: 8rem 0.5rem 1rem 0.5rem; // Padding superior para móvil
   }
 
   .card {

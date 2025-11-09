@@ -27,12 +27,7 @@
   <!-- Contenido principal -->
   <div *ngIf="envio && !loading && !error" class="row">
     <div class="col-12">
-      <!-- Header con botón de volver -->
-      <div class="header-section">
-        <button class="btn btn-link text-primary" (click)="volver()">
-          <i class="bi bi-arrow-left"></i> Volver
-        </button>
-      </div>
+
 
       <!-- Encabezado del envío -->
       <div class="card mb-4 shadow-sm">
@@ -64,12 +59,12 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label class="form-label fw-bold">Nombre completo</label>
-                  <p class="mb-0">{{ envio.remitente.nombre }} {{ envio.remitente.apellidos }}</p>
+                  <label class="form-label fw-bold">Nombre</label>
+                  <p class="mb-0">{{ envio.remitente.nombre }}</p>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Correo electrónico</label>
-                  <p class="mb-0">{{ envio.remitente.email }}</p>
+                  <p class="mb-0">{{ envio.remitente.correo }}</p>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Teléfono</label>
@@ -91,12 +86,12 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label class="form-label fw-bold">Nombre completo</label>
-                  <p class="mb-0">{{ envio.destinatario.nombre }} {{ envio.destinatario.apellidos }}</p>
+                  <label class="form-label fw-bold">Nombre</label>
+                  <p class="mb-0">{{ envio.destinatario.nombre }}</p>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Correo electrónico</label>
-                  <p class="mb-0">{{ envio.destinatario.email }}</p>
+                  <p class="mb-0">{{ envio.destinatario.correo }}</p>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label fw-bold">Teléfono</label>

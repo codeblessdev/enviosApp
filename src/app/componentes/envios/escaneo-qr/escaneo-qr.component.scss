@@ -1,7 +1,7 @@
 .escaneo-qr-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem 0;
+  padding: 6rem 0 2rem 0; // Padding superior aumentado para evitar que el navbar tape el contenido
 }
 
 .header-section {
@@ -236,7 +236,7 @@
 // Responsive
 @media (max-width: 768px) {
   .escaneo-qr-container {
-    padding: 1rem 0;
+    padding: 5rem 0 1rem 0; // Padding superior para móvil
   }
   
   .header-section {
