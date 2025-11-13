@@ -1,0 +1,244 @@
+<div class="container-fluid detalle-envio-container">
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-3">Cargando información del envío...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !loading" class="error-container">
+    <div class="alert alert-danger text-center">
+      <i class="bi bi-exclamation-triangle-fill"></i>
+      <h4>Error</h4>
+      <p>{{ mensajeError }}</p>
+      <div class="mt-3">
+        <button class="btn btn-primary me-2" (click)="volverEscaneo()">
+          <i class="bi bi-qr-code-scan"></i> Escanear otro código
+        </button>
+        <button class="btn btn-secondary" (click)="volver()">
+          <i class="bi bi-house"></i> Ir al inicio
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="envio && !loading && !error" class="row">
+    <div class="col-12">
+
+
+      <!-- Encabezado del envío -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h3 class="mb-2">
+                <i class="bi bi-box-seam"></i> {{ envio.trackingCode }}
+              </h3>
+              <p class="text-muted mb-0">Código de seguimiento</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+              <span class="badge bg-{{ getEstadoColor(envio.estadoActual) }} px-4 py-2 fs-6">
+                {{ envio.estadoActual }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Columna izquierda: Información -->
+        <div class="col-lg-8">
+          <!-- Información del Remitente -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0"><i class="bi bi-person-circle"></i> Remitente</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Nombre</label>
+                  <p class="mb-0">{{ envio.remitente.nombre }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Correo electrónico</label>
+                  <p class="mb-0">{{ envio.remitente.correo }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Teléfono</label>
+                  <p class="mb-0">{{ envio.remitente.telefono }}</p>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-bold">Dirección</label>
+                  <p class="mb-0">{{ direccionCompletaRemitente }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Información del Destinatario -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-success text-white">
+              <h5 class="mb-0"><i class="bi bi-geo-alt-fill"></i> Destinatario</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Nombre</label>
+                  <p class="mb-0">{{ envio.destinatario.nombre }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Correo electrónico</label>
+                  <p class="mb-0">{{ envio.destinatario.correo }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Teléfono</label>
+                  <p class="mb-0">{{ envio.destinatario.telefono }}</p>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-bold">Dirección</label>
+                  <p class="mb-0">{{ direccionCompletaDestinatario }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detalles del Envío -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0"><i class="bi bi-info-circle"></i> Detalles del Envío</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Costo del envío</label>
+                  <p class="mb-0 fs-5 text-primary">{{ formatearCosto(envio.costo) }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Fecha de envío</label>
+                  <p class="mb-0">{{ formatearFecha(envio.fechaEnvio) }}</p>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label fw-bold">Fecha de entrega estimada</label>
+                  <p class="mb-0">{{ formatearFecha(envio.fechaEntregaEstimada) }}</p>
+                </div>
+                <div class="col-md-6 mb-3" *ngIf="envio.fechaEntregado">
+                  <label class="form-label fw-bold">Fecha de entrega real</label>
+                  <p class="mb-0 text-success fw-bold">{{ formatearFecha(envio.fechaEntregado) }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Historial de Estados -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-warning">
+              <h5 class="mb-0"><i class="bi bi-clock-history"></i> Historial de Estados</h5>
+            </div>
+            <div class="card-body">
+              <div *ngIf="envio.historialEstados && envio.historialEstados.length > 0" class="timeline">
+                <div *ngFor="let historial of envio.historialEstados; let last = last" class="timeline-item">
+                  <div class="timeline-marker"></div>
+                  <div class="timeline-content">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <span class="badge bg-secondary me-2">{{ historial.estadoAnterior }}</span>
+                        <i class="bi bi-arrow-right"></i>
+                        <span class="badge bg-primary ms-2">{{ historial.estadoNuevo }}</span>
+                      </div>
+                      <small class="text-muted">{{ formatearFecha(historial.fechaCambio) }}</small>
+                    </div>
+                    <p *ngIf="historial.comentario" class="mt-2 mb-0 text-muted">
+                      <i class="bi bi-chat-quote"></i> {{ historial.comentario }}
+                    </p>
+                  </div>
+                  <div *ngIf="!last" class="timeline-line"></div>
+                </div>
+              </div>
+              <div *ngIf="!envio.historialEstados || envio.historialEstados.length === 0" class="text-center text-muted">
+                <i class="bi bi-inbox"></i>
+                <p>No hay cambios de estado registrados aún</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Formulario de actualización -->
+        <div class="col-lg-4">
+          <div class="sticky-top" style="top: 20px;">
+            <!-- Formulario de actualización -->
+            <div *ngIf="!esEstadoFinal" class="card mb-4 shadow-sm border-primary">
+              <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-arrow-repeat"></i> Actualizar Estado</h5>
+              </div>
+              <div class="card-body">
+                <form (ngSubmit)="actualizarEstado()">
+                  <div class="mb-3">
+                    <label for="estadoSelect" class="form-label fw-bold">Nuevo estado</label>
+                    <select 
+                      id="estadoSelect" 
+                      class="form-select" 
+                      [(ngModel)]="estadoSeleccionado" 
+                      name="estadoSelect"
+                      [disabled]="actualizando"
+                      required>
+                      <option value="">Selecciona un estado</option>
+                      <option *ngFor="let estado of envio.posiblesEstadosSiguientes" [value]="estado">
+                        {{ estado }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="comentario" class="form-label fw-bold">Comentario <small class="text-muted">(opcional)</small></label>
+                    <textarea 
+                      id="comentario" 
+                      class="form-control" 
+                      rows="3" 
+                      [(ngModel)]="comentario" 
+                      name="comentario"
+                      [disabled]="actualizando"
+                      placeholder="Agrega observaciones sobre el cambio de estado..."></textarea>
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    class="btn btn-primary w-100"
+                    [disabled]="!estadoSeleccionado || actualizando">
+                    <span *ngIf="!actualizando">
+                      <i class="bi bi-check-circle"></i> Actualizar Estado
+                    </span>
+                    <span *ngIf="actualizando">
+                      <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                      Actualizando...
+                    </span>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Estado final -->
+            <div *ngIf="esEstadoFinal" class="card mb-4 shadow-sm border-secondary">
+              <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="bi bi-flag-fill"></i> Estado Final</h5>
+              </div>
+              <div class="card-body text-center">
+                <i class="bi bi-lock-fill text-secondary" style="font-size: 3rem;"></i>
+                <p class="mt-3 mb-0">
+                  Este envío ha alcanzado un estado final y no puede ser modificado.
+                </p>
+              </div>
+            </div>
+
+            <!-- Botón para escanear otro -->
+            <button class="btn btn-outline-primary w-100" (click)="volverEscaneo()">
+              <i class="bi bi-qr-code-scan"></i> Escanear otro código
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

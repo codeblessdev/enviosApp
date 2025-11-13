@@ -26,6 +26,7 @@
   overflow-y: auto;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-light);
+  padding-top: 16px; // Espacio para la etiqueta "RECOMENDADO"
 }
 
 .table {
@@ -57,6 +58,9 @@
 .table tbody {
   width: 100%;
   cursor: pointer;
+  
+  // Permitir que elementos posicionados absolute sobresalgan
+  overflow: visible;
 }
 
 .table tbody tr {
@@ -75,6 +79,43 @@
     background: linear-gradient(135deg, var(--success-100) 0%, var(--success-50) 100%) !important;
     border: 2px solid var(--success-500);
     box-shadow: var(--shadow-md);
+  }
+
+  &.destacado {
+    background: linear-gradient(135deg, #fff9e6 0%, #fffcf0 100%);
+    border: 3px solid #FFD700;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    position: relative;
+    margin-top: 16px; // Espacio adicional para la etiqueta
+    
+    &::before {
+      content: '⭐ RECOMENDADO';
+      position: absolute;
+      top: -14px;
+      right: 10px;
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #333;
+      padding: 5px 14px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+      z-index: 10;
+      white-space: nowrap;
+    }
+    
+    &:hover {
+      background: linear-gradient(135deg, #fff5d6 0%, #fff9e6 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    }
+    
+    &.selected {
+      background: linear-gradient(135deg, #fff3cc 0%, #fff8e1 100%) !important;
+      border: 3px solid #FFD700;
+      box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+    }
   }
 }
 
@@ -182,6 +223,20 @@
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     height: 100%;
+    
+    &.destacado {
+      background: linear-gradient(135deg, #fff9e6 0%, #fffcf0 100%);
+      border: 3px solid #FFD700;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      margin-top: 18px; // Espacio adicional en tablets
+      
+      &::before {
+        top: -16px;
+        right: 5px;
+        font-size: 10px; // Tamaño ajustado para tablets
+        padding: 4px 10px;
+      }
+    }
   }
 
   .table tbody td {
@@ -220,6 +275,20 @@
     background-color: #f8f8f8;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    &.destacado {
+      background: linear-gradient(135deg, #fff9e6 0%, #fffcf0 100%);
+      border: 3px solid #FFD700;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      margin-top: 18px; // Espacio adicional en móviles
+      
+      &::before {
+        top: -16px;
+        right: 5px;
+        font-size: 10px; // Tamaño de fuente más pequeño en móvil
+        padding: 4px 10px;
+      }
+    }
   }
 
   .table tbody td {

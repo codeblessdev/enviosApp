@@ -56,5 +56,17 @@ export const routes: Routes = [
         path: 'privacidad',
         loadComponent: () => import('./componentes/privacidad/privacidad.component').then((m) => m.PrivacidadComponent),
     },
+    {
+        path: 'admin/enkrgo',
+        loadComponent: () => import('./componentes/admin/enkrgo-admin/enkrgo-admin.component').then((m) => m.EnkrgoAdminComponent),
+    },
+    {
+        path: 'escaneo-qr',
+        loadComponent: () => import('./componentes/envios/escaneo-qr/escaneo-qr.component').then((m) => m.EscaneoQrComponent),
+    },
+    {
+        path: 'detalle-estado-envio/:trackingCode',
+        loadComponent: () => import('./componentes/envios/detalle-estado-envio/detalle-estado-envio.component').then((m) => m.DetalleEstadoEnvioComponent),
+    },
 
 ];

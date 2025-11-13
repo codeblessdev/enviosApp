@@ -14,12 +14,15 @@ import { LoadingComponent } from '../../loading/loading.component';
 export class DatospersonalesEnvioComponent implements OnChanges {
 
   @Input() envio: any;
+  @Input() selectedEnvio?: any;
   @Output() datosCompletados = new EventEmitter<{ remitente: any, destinatario: any }>();
   @Output() volver = new EventEmitter<void>();
   formulario!: FormGroup;
   
   // Determinar si requiere empaque y producto
   requiereEmpaqueYProducto = false;
+  // Variable para detectar si es enkrgo
+  esEnkrgo = false;
 
   remitentesGuardados: any[] = [];
   destinatariosGuardados: any[] = [];
@@ -45,6 +48,12 @@ export class DatospersonalesEnvioComponent implements OnChanges {
   showMenuProducto = false;
 
   async ngOnInit(): Promise<void> {
+    // Detectar si el tipo de envío es enkrgo
+    if (this.selectedEnvio?.servicio?.origen) {
+      this.esEnkrgo = this.selectedEnvio.servicio.origen.startsWith('ek-');
+      console.log('Es Enkrgo:', this.esEnkrgo);
+    }
+
     await this.cargarRemitentes();
     await this.cargarDestinatarios();
 

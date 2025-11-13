@@ -393,14 +393,16 @@ export class CotizarenvioComponent {
 
     try {
 
-      const [resManuable, resSkydropx] = await Promise.all([
+      const [resManuable, resSkydropx, resEnkrgo] = await Promise.all([
         this.enviosService.cotizar({ ...cotizacionPayload, shippingCompany: 'manuable' }),
-        this.enviosService.cotizar({ ...cotizacionPayload, shippingCompany: 'skydropx' })
+        this.enviosService.cotizar({ ...cotizacionPayload, shippingCompany: 'skydropx' }),
+        this.enviosService.cotizar({ ...cotizacionPayload, shippingCompany: 'enkrgo' })
       ]);
 
       const cotizaciones = {
         manuable: resManuable,
-        skydropx: resSkydropx
+        skydropx: resSkydropx,
+        enkrgo: resEnkrgo
       };
 
       // const response = await this.enviosService.cotizar({ ...cotizacionPayload, shippingCompany: 'manuable' });

@@ -1,0 +1,103 @@
+<div class="container-fluid escaneo-qr-container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <!-- Header -->
+      <div class="header-section">
+        <button class="btn btn-link text-white" (click)="volver()">
+          <i class="bi bi-arrow-left"></i> Volver
+        </button>
+        <h2 class="text-center text-white mb-4">
+          <i class="bi bi-qr-code-scan"></i> {{ modoManual ? 'Ingresar Código Manualmente' : 'Escanear Código QR' }}
+        </h2>
+        <p class="text-center text-white-50">
+          {{ modoManual ? 'Ingresa el código de tracking del paquete' : 'Apunta la cámara al código QR del paquete para ver su información' }}
+        </p>
+      </div>
+
+      <!-- Scanner o Entrada Manual -->
+      <div class="scanner-wrapper">
+        <!-- Modo Cámara -->
+        <div *ngIf="!modoManual">
+          <div class="scanner-container" *ngIf="permisosCamara">
+            <zxing-scanner
+              *ngIf="scanActivo"
+              [device]="camaraSeleccionada"
+              (camerasFound)="onCamerasFound($event)"
+              (permissionResponse)="onPermissionResponse($event)"
+              (scanSuccess)="onCodeScanned($event)"
+              [formats]="formatos"
+              class="qr-scanner">
+            </zxing-scanner>
+
+            <!-- Overlay con marco de escaneo -->
+            <div class="scanner-overlay">
+              <div class="scan-frame"></div>
+            </div>
+          </div>
+
+          <!-- Mensaje de error de permisos -->
+          <div *ngIf="!permisosCamara" class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-triangle"></i>
+            <p class="mb-0">No se pudo acceder a la cámara. Por favor, permite el acceso a la cámara en la configuración de tu navegador.</p>
+          </div>
+        </div>
+
+        <!-- Modo Manual -->
+        <div *ngIf="modoManual" class="manual-input-container">
+          <div class="manual-input-card">
+            <div class="icon-container">
+              <i class="bi bi-pencil-square"></i>
+            </div>
+            <h5 class="mb-4">Ingresa el código de tracking</h5>
+            <form (ngSubmit)="buscarPorCodigo()">
+              <div class="mb-3">
+                <input 
+                  type="text" 
+                  class="form-control form-control-lg text-center" 
+                  [(ngModel)]="codigoManual"
+                  name="codigoManual"
+                  placeholder="Ej: ENK-LIXJ0YZ-AB12"
+                  autocomplete="off"
+                  [style.text-transform]="'uppercase'"
+                  required>
+              </div>
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg w-100"
+                [disabled]="!codigoManual.trim()">
+                <i class="bi bi-search"></i> Buscar Envío
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles -->
+      <div class="controls-section">
+        <button class="btn btn-outline-light me-2" (click)="toggleModo()">
+          <i class="bi" [ngClass]="modoManual ? 'bi-camera-video' : 'bi-pencil-square'"></i>
+          {{ modoManual ? 'Usar Cámara' : 'Ingresar Manualmente' }}
+        </button>
+      </div>
+
+      <!-- Instrucciones -->
+      <div class="instructions-card">
+        <h5><i class="bi bi-info-circle"></i> Instrucciones</h5>
+        <ul *ngIf="!modoManual">
+          <li>Centra el código QR dentro del marco de escaneo</li>
+          <li>Mantén el dispositivo estable</li>
+          <li>Asegúrate de tener buena iluminación</li>
+          <li>El código QR se escaneará automáticamente</li>
+          <li>Si no tienes acceso a la cámara, usa el modo manual</li>
+        </ul>
+        <ul *ngIf="modoManual">
+          <li>Ingresa el código de tracking del envío exactamente como aparece</li>
+          <li>El formato típico es: ENK-XXXXXXX-XXXX</li>
+          <li>Asegúrate de escribir el código correctamente</li>
+          <li>No es necesario distinguir entre mayúsculas y minúsculas</li>
+          <li>Puedes encontrar el código en tu guía de envío</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

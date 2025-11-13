@@ -164,18 +164,20 @@ export class CrearenvioComponent {
       this.loadingMessage = 'Generando envío...';
 
       try {
-        // Determinar si es Skydropx o Manuable basado en el prefijo del origen
+        // Determinar el proveedor basado en el prefijo del origen
         const esSkydropx = this.selectedEnvio.servicio.origen?.startsWith('se-');
         const esManuable = this.selectedEnvio.servicio.origen?.startsWith('mh-');
+        const esEnkrgo = this.selectedEnvio.servicio.origen?.startsWith('ek-');
 
         
         if (esSkydropx) {
           await this.crearEnvioSkydropx();
         } else if (esManuable) {
-          // Lógica original para Manuable
           await this.crearEnvioManuable();
+        } else if (esEnkrgo) {
+          await this.crearEnvioEnkrgo();
         } else {
-          console.error('No se pudo determinar la paquetería. Origen:', this.selectedEnvio.origen);
+          console.error('No se pudo determinar la paquetería. Origen:', this.selectedEnvio.servicio.origen);
           throw new Error('Paquetería no reconocida');
         }
         
@@ -249,5 +251,53 @@ export class CrearenvioComponent {
     
     // Usar el nuevo endpoint unificado
     const response = await this.enviosService.crearEnvioUnificado(payload, 'manuable');
+  }
+
+  private async crearEnvioEnkrgo() {
+    const { remitente, destinatario } = this.selectedEnvio;
+
+    // Estructura para el endpoint de Enkrgo
+    const payload = {
+      provider: "enkrgo",
+      address_from: {
+        street1: remitente.direccion || remitente.direccion1 || "Calle Example 123",
+        name: remitente.nombre || "Remitente Example",
+        company: remitente.empresa || "",
+        phone: remitente.telefono || "0000000000",
+        email: remitente.email || remitente.correo || "remitente@example.com",
+        reference: remitente.referencia || "",
+        country_code: this.cotizacionData?.data?.paisOrigen === 'México' ? 'MX' : 'AR',
+        postal_code: remitente.codigoPostal || this.cotizacionData?.data?.cpOrigen || "00000",
+        area_level1: remitente.estado || "Estado",
+        area_level2: remitente.municipio || remitente.ciudad || "Ciudad",
+        area_level3: remitente.colonia || "Colonia"
+      },
+      address_to: {
+        street1: destinatario.direccion || destinatario.direccion1 || "Calle Example 456",
+        name: destinatario.nombre || "Destinatario Example",
+        company: destinatario.empresa || "",
+        phone: destinatario.telefono || "0000000000",
+        email: destinatario.email || destinatario.correo || "destinatario@example.com",
+        reference: destinatario.referencia || "",
+        country_code: this.cotizacionData?.data?.paisDestino === 'México' ? 'MX' : 'AR',
+        postal_code: destinatario.codigoPostal || this.cotizacionData?.data?.cpDestino || "00000",
+        area_level1: destinatario.estado || "Estado",
+        area_level2: destinatario.municipio || destinatario.ciudad || "Ciudad",
+        area_level3: destinatario.colonia || "Colonia"
+      },
+      parcel: {
+        weight: this.cotizacionData?.data?.peso || 1,
+        length: this.cotizacionData?.data?.largo || 10,
+        width: this.cotizacionData?.data?.ancho || 10,
+        height: this.cotizacionData?.data?.alto || 10,
+        insured_amount: this.selectedEnvio.servicio?.precio || 0
+      }
+    };
+
+    console.log("Payload para Enkrgo:", payload);
+    
+    // Usar el nuevo endpoint unificado
+    const response = await this.enviosService.crearEnvioUnificado(payload, 'enkrgo');
+    console.log('Envío Enkrgo creado exitosamente:', response);
   }
 }

@@ -30,7 +30,8 @@
       <tbody>
         <tr *ngFor="let s of displayServices" 
             (click)="selectService(s)"
-            [class.selected]="selectedService === s">
+            [class.selected]="selectedService === s"
+            [class.destacado]="s.isDestacado">
           <td class="paqueteria-cell">
             <img [src]="s.logo" alt="{{s.name}}" class="logo" />
             <div class="info">

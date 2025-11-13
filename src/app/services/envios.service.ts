@@ -77,7 +77,7 @@ export class EnviosService {
   }
 
   // Nuevo método unificado para crear envíos con cualquier proveedor
-  crearEnvioUnificado(datosEnvio: any, proveedor: 'skydropx' | 'manuable'): Promise<any> {
+  crearEnvioUnificado(datosEnvio: any, proveedor: 'skydropx' | 'manuable' | 'enkrgo'): Promise<any> {
     const headers = this.buildHeaders();
     
     // Agregar el campo provider al payload
@@ -189,6 +189,59 @@ export class EnviosService {
         headers,
         body: payload 
       })
+      .toPromise();
+  }
+
+  // Obtener configuración de Enkrgo
+  getEnkrgoConfig(): Promise<any> {
+    const headers = this.buildHeaders();
+    return this.http
+      .get(`${environment.apiUrl}/enkrgo/config`, { headers })
+      .toPromise();
+  }
+
+  // Actualizar configuración de Enkrgo
+  updateEnkrgoConfig(config: any): Promise<any> {
+    const headers = this.buildHeaders();
+    return this.http
+      .put(`${environment.apiUrl}/enkrgo/config`, config, { headers })
+      .toPromise();
+  }
+
+  // Descargar PDF de envío Enkrgo
+  descargarPDFEnvio(envioId: string): Promise<Blob> {
+    const headers = this.buildHeaders();
+    return this.http
+      .get(`${environment.apiUrl}/shipping/envios/${envioId}/pdf`, { 
+        headers,
+        responseType: 'blob' 
+      })
+      .toPromise() as Promise<Blob>;
+  }
+
+  // Obtener detalle del envío por código de tracking (sin autenticación)
+  getEnvioByTrackingCode(trackingCode: string): Promise<any> {
+    return this.http
+      .get(`${environment.apiUrl}/shipping/envios/codigo/${trackingCode}`)
+      .toPromise();
+  }
+
+  // Actualizar estado del envío (sin autenticación)
+  actualizarEstadoEnvio(envioId: string, nuevoEstado: string, comentario?: string): Promise<any> {
+    const payload: any = {
+      nuevoEstado: nuevoEstado
+    };
+    
+    if (comentario) {
+      payload.comentario = comentario;
+    }
+
+    return this.http
+      .patch(
+        `${environment.apiUrl}/shipping/envios/${envioId}/estado`,
+        payload,
+        { headers: { 'Content-Type': 'application/json' } }
+      )
       .toPromise();
   }
   

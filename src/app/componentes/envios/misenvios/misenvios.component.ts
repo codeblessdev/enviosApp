@@ -259,6 +259,63 @@ export class MisenviosComponent {
     }
   }
 
+  // Verificar si el envío es de Enkrgo
+  esEnvioEnkrgo(envio: any): boolean {
+    return envio.proveedor?.toLowerCase() === 'enkrgo' || 
+           envio.origen?.startsWith('ek-');
+  }
+
+  // Descargar PDF del envío de Enkrgo
+  async descargarPDFEnvio(envio: any) {
+    try {
+      this.loading = true;
+      const blob = await this.enviosService.descargarPDFEnvio(envio.id);
+      
+      // Crear un URL temporal para el blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Crear un elemento <a> temporal para descargar el archivo
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Envio_${envio.trackingCode || envio.id}_Enkrgo.pdf`;
+      
+      // Agregar el link al DOM, hacer click y removerlo
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Liberar el URL temporal
+      window.URL.revokeObjectURL(url);
+      
+      this.toastr.success('PDF descargado exitosamente', '¡Éxito!', {
+        timeOut: 3000,
+        positionClass: 'toast-top-right',
+        progressBar: true
+      });
+    } catch (error: any) {
+      console.error('Error al descargar PDF:', error);
+      
+      // Manejar los diferentes tipos de error según el código de respuesta
+      let mensajeError = 'Error al descargar el PDF. Por favor, inténtalo de nuevo.';
+      
+      if (error.status === 400) {
+        mensajeError = 'Este envío no es de Enkrgo y no tiene PDF disponible.';
+      } else if (error.status === 404) {
+        mensajeError = 'No se encontró el envío o no tienes permiso para acceder a él.';
+      } else if (error.status === 401) {
+        mensajeError = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+      }
+      
+      this.toastr.error(mensajeError, 'Error', {
+        timeOut: 4000,
+        positionClass: 'toast-top-right',
+        progressBar: true
+      });
+    } finally {
+      this.loading = false;
+    }
+  }
+
   prueba(){
     console.log(this.isLogged)
     if(!this.isLogged){
